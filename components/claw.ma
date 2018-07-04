@@ -12,7 +12,6 @@ fileInfo "product" "Maya 2016";
 fileInfo "version" "2016";
 fileInfo "cutIdentifier" "201603180400-990260";
 fileInfo "osv" "Microsoft Windows 7 Business Edition, 64-bit Windows 7 Service Pack 1 (Build 7601)\n";
-fileInfo "license" "student";
 createNode transform -s -n "persp";
 	rename -uid "2C1D96AF-4D07-8F84-A92D-0DB5E71B66C8";
 	setAttr ".v" no;
