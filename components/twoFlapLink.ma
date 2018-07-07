@@ -1,6 +1,6 @@
 //Maya ASCII 2016 scene
 //Name: twoFlapLink.ma
-//Last modified: Sun, Jun 17, 2018 11:13:04 AM
+//Last modified: Sat, Jul 07, 2018 03:43:17 PM
 //Codeset: 1252
 requires maya "2016";
 requires -nodeType "decomposeMatrix" -nodeType "composeMatrix" -nodeType "inverseMatrix"
@@ -16,13 +16,13 @@ fileInfo "osv" "Microsoft Windows 7 Business Edition, 64-bit Windows 7 Service P
 createNode transform -s -n "persp";
 	rename -uid "C0EFDD4D-44E1-E52F-9791-1482D903FBCF";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 16.097733187217795 17.603938202732063 -14.825305031570954 ;
-	setAttr ".r" -type "double3" -6.3383527302282925 -269.80000000034852 0 ;
+	setAttr ".t" -type "double3" 8.1784619299573809 19.144322976451374 -11.822164821375246 ;
+	setAttr ".r" -type "double3" -21.338352730226891 -287.0000000003443 5.4392313449367566e-015 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "01094DA5-418A-91BA-AAEA-C29A88918CEB";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999993;
-	setAttr ".coi" 16.251551616085738;
+	setAttr ".coi" 9.2443279910687686;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -76,25 +76,83 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".man" -type "string" "side_mask";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
-createNode transform -n "twoFlapLink_cmpt";
+createNode dagContainer -n "link_cmpt";
+	rename -uid "5E2C3C17-4D44-A76E-B632-079B2CD7138B";
+	addAttr -ci true -h true -sn "aal" -ln "attributeAliasList" -dt "attributeAlias";
+	setAttr ".isc" yes;
+	setAttr -s 2 ".pni";
+	setAttr ".ctor" -type "string" "rporter";
+	setAttr ".cdat" -type "string" "2018/07/07 10:33:06";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".tz";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".rp" -type "double3" 0.3125 16.343941917021727 -15.556647300720215 ;
+	setAttr ".sp" -type "double3" 0.3125 16.343941917021727 -15.556647300720215 ;
+	setAttr ".aal" -type "attributeAlias" {"link_topFlap_ctrl","publishedNodeInfo[0]"
+		,"link_btmFlap_ctrl","publishedNodeInfo[1]"} ;
+createNode transform -n "about" -p "link_cmpt";
 	rename -uid "DCCBACB9-4908-F974-03E7-778FE86D3A77";
-createNode transform -n "input" -p "twoFlapLink_cmpt";
+	addAttr -ci true -sn "componentInfo" -ln "componentInfo" -at "compound" -nc 3;
+	addAttr -ci true -sn "component_part" -ln "component_part" -dt "string" -p "componentInfo";
+	addAttr -ci true -sn "component_type" -ln "component_type" -dt "string" -p "componentInfo";
+	addAttr -ci true -sn "component_version" -ln "component_version" -dt "string" -p "componentInfo";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".tz";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".component_part" -type "string" "link";
+	setAttr ".component_type" -type "string" "mechaCatTailLink";
+	setAttr ".component_version" -type "string" "1.0.0";
+createNode transform -n "input" -p "link_cmpt";
 	rename -uid "4E786DDD-47AE-74AB-C2D6-619D96176BFC";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".tz";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
 createNode transform -n "parent_srt" -p "input";
 	rename -uid "E476642D-4FCC-EB10-F1AE-A8B0822D6F8E";
 	setAttr ".t" -type "double3" 0 16.859928131103516 -11.631267547607422 ;
 createNode transform -n "flap_srtOffset" -p "parent_srt";
 	rename -uid "5B8D6001-460C-4491-E7FE-ADB8BD59B1AF";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "this_srt" -p "input";
 	rename -uid "6440E0C9-4BC8-620D-DBB9-1CA65CD7B2DC";
 	setAttr ".t" -type "double3" 0 16.139192581176758 -15.011674880981445 ;
 createNode transform -n "child_srtOffset" -p "this_srt";
 	rename -uid "1FFEF03A-4544-A977-83CE-32903FB10527";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "child_srt" -p "input";
 	rename -uid "83C6DC3A-4FEF-5AA4-CFA6-549B1263E6B9";
 	setAttr ".t" -type "double3" 0 16.139192581176758 -17.024608612060547 ;
-createNode transform -n "guided" -p "twoFlapLink_cmpt";
+createNode transform -n "guided" -p "link_cmpt";
 	rename -uid "C5262498-412E-94CB-D9A9-9BBD829C42FE";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".tz";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
 createNode transform -n "parent_guided_srt" -p "guided";
 	rename -uid "D7AA42DF-45F0-9523-0DD2-39A9CFC3D38D";
 createNode transform -n "flap_guided_srtOffset" -p "parent_guided_srt";
@@ -116,23 +174,60 @@ createNode aimConstraint -n "flap_guided_srtOffset_aimConstraint1" -p "flap_guid
 	setAttr ".erp" yes;
 	setAttr ".wut" 1;
 	setAttr -k on ".w0";
+createNode pointConstraint -n "flap_guided_srtOffset_pointConstraint1" -p "flap_guided_srtOffset";
+	rename -uid "C51EB9F4-4A21-42D9-A8B6-D28F917801B4";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "link_flapPivot_guide_srtW0" -dv 1 
+		-min 0 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".rst" -type "double3" 0 -0.72073554992675781 -2.4574184417724609 ;
+	setAttr -k on ".w0";
 createNode transform -n "this_guided_srt" -p "guided";
 	rename -uid "4D285BF2-467D-B411-38A7-C3AABCE4EDEE";
 	setAttr ".ro" 5;
 createNode transform -n "child_guided_srtOffset" -p "this_guided_srt";
 	rename -uid "3FE4B384-4869-B860-1571-B0BAC280F9D9";
-createNode transform -n "guides" -p "twoFlapLink_cmpt";
+createNode pointConstraint -n "child_guided_srtOffset_pointConstraint1" -p "child_guided_srtOffset";
+	rename -uid "C7EF5AE3-4B96-4304-8B82-1494E4494F67";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "link_child_guide_srtW0" -dv 1 -min 
+		0 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".rst" -type "double3" 0 0 -2.0129337310791016 ;
+	setAttr -k on ".w0";
+createNode transform -n "guides" -p "link_cmpt";
 	rename -uid "0C9F872C-485E-9C5E-3034-30BDE05851BA";
-createNode transform -n "flapPivot_guide_srt" -p "guides";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".tz";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+createNode transform -n "link_flapPivot_guide_srt" -p "guides";
 	rename -uid "57B656B8-42F3-CC5E-8398-9A950F900FC6";
-	addAttr -ci true -sn "aimVector" -ln "aimVector" -at "double3" -nc 3;
-	addAttr -ci true -sn "aimVectorX" -ln "aimVectorX" -at "double" -p "aimVector";
-	addAttr -ci true -sn "aimVectorY" -ln "aimVectorY" -at "double" -p "aimVector";
-	addAttr -ci true -sn "aimVectorZ" -ln "aimVectorZ" -at "double" -p "aimVector";
-	addAttr -ci true -sn "upVector" -ln "upVector" -at "double3" -nc 3;
-	addAttr -ci true -sn "upVectorX" -ln "upVectorX" -at "double" -p "upVector";
-	addAttr -ci true -sn "upVectorY" -ln "upVectorY" -at "double" -p "upVector";
-	addAttr -ci true -sn "upVectorZ" -ln "upVectorZ" -at "double" -p "upVector";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 16.139192581176758 -14.088685989379883 ;
 	setAttr -l on -k off ".rx";
@@ -141,17 +236,7 @@ createNode transform -n "flapPivot_guide_srt" -p "guides";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-	setAttr -k on ".aimVector" -type "double3" 0 0 1 ;
-	setAttr -k on ".aimVector";
-	setAttr -k on ".aimVectorX";
-	setAttr -k on ".aimVectorY";
-	setAttr -k on ".aimVectorZ";
-	setAttr -k on ".upVector" -type "double3" 0 1 0 ;
-	setAttr -k on ".upVector";
-	setAttr -k on ".upVectorX";
-	setAttr -k on ".upVectorY";
-	setAttr -k on ".upVectorZ";
-createNode nurbsCurve -n "curveShape2" -p "flapPivot_guide_srt";
+createNode nurbsCurve -n "link_curveShape2" -p "link_flapPivot_guide_srt";
 	rename -uid "10903359-4BEF-9ABE-7776-E6833C666460";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -175,17 +260,17 @@ createNode nurbsCurve -n "curveShape2" -p "flapPivot_guide_srt";
 		0 0.5 2.7755575615628914e-017
 		0 0 0.5
 		;
-createNode transform -n "flapPivot_guide_aim_srt" -p "flapPivot_guide_srt";
+createNode transform -n "link_flapPivot_guide_aim_srt" -p "link_flapPivot_guide_srt";
 	rename -uid "D79DA3B0-4AAE-E2A6-ED0E-78B10CC67F2F";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 0 0 1 ;
+	setAttr ".t" -type "double3" 1 0 0 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "curveShape2" -p "flapPivot_guide_aim_srt";
+createNode nurbsCurve -n "link_curveShape2" -p "link_flapPivot_guide_aim_srt";
 	rename -uid "865ECF75-404F-DA95-324A-328F8CC28679";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -209,7 +294,7 @@ createNode nurbsCurve -n "curveShape2" -p "flapPivot_guide_aim_srt";
 		0 0.125 6.9388939039072284e-018
 		0 0 0.125
 		;
-createNode transform -n "flapPivot_guide_up_srt" -p "flapPivot_guide_srt";
+createNode transform -n "link_flapPivot_guide_up_srt" -p "link_flapPivot_guide_srt";
 	rename -uid "79510E9E-441D-9B86-7E24-86B7E96D2DE9";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 1 0 ;
@@ -219,7 +304,7 @@ createNode transform -n "flapPivot_guide_up_srt" -p "flapPivot_guide_srt";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "curveShape2" -p "flapPivot_guide_up_srt";
+createNode nurbsCurve -n "link_curveShape2" -p "link_flapPivot_guide_up_srt";
 	rename -uid "EFDC6B8E-4B4D-B0AA-9DC4-17B5F03EB09B";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -243,7 +328,7 @@ createNode nurbsCurve -n "curveShape2" -p "flapPivot_guide_up_srt";
 		0 0.125 6.9388939039072284e-018
 		0 0 0.125
 		;
-createNode transform -n "child_guide_srt" -p "guides";
+createNode transform -n "link_child_guide_srt" -p "guides";
 	rename -uid "480ACCFC-42BF-7365-D764-6BA99C63CF1B";
 	addAttr -ci true -sn "aimVector" -ln "aimVector" -at "double3" -nc 3;
 	addAttr -ci true -sn "aimVectorX" -ln "aimVectorX" -at "double" -p "aimVector";
@@ -261,7 +346,7 @@ createNode transform -n "child_guide_srt" -p "guides";
 	setAttr -k on ".aimVectorX";
 	setAttr -k on ".aimVectorY";
 	setAttr -k on ".aimVectorZ";
-createNode nurbsCurve -n "curveShape2" -p "child_guide_srt";
+createNode nurbsCurve -n "link_curveShape2" -p "link_child_guide_srt";
 	rename -uid "842A4AA9-4AC8-82C8-986E-3B8A57625C69";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -285,11 +370,20 @@ createNode nurbsCurve -n "curveShape2" -p "child_guide_srt";
 		0 0.5 2.7755575615628914e-017
 		0 0 0.5
 		;
-createNode transform -n "control" -p "twoFlapLink_cmpt";
+createNode transform -n "control" -p "link_cmpt";
 	rename -uid "1D78A84C-41A7-44AE-EF44-0C88085CD707";
-createNode transform -n "topFlap_ctrl_srtOffset" -p "control";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".tz";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+createNode transform -n "link_topFlap_ctrl_srtOffset" -p "control";
 	rename -uid "F8480346-4D69-6E78-DBB0-62BC202398F1";
-createNode transform -n "topFlap_ctrl" -p "topFlap_ctrl_srtOffset";
+createNode transform -n "link_topFlap_ctrl" -p "link_topFlap_ctrl_srtOffset";
 	rename -uid "A0CF4F20-4912-0450-C827-16A171B8CA92";
 	setAttr -l on -k off ".v";
 	setAttr -l on -k off ".tx";
@@ -300,7 +394,7 @@ createNode transform -n "topFlap_ctrl" -p "topFlap_ctrl_srtOffset";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "curveShape3" -p "topFlap_ctrl";
+createNode nurbsCurve -n "link_curveShape3" -p "link_topFlap_ctrl";
 	rename -uid "714F187F-4E5D-25A9-5DDC-A79CDD6CFC48";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -320,9 +414,9 @@ createNode nurbsCurve -n "curveShape3" -p "topFlap_ctrl";
 		0 0.7155013283100623 -0.27725793268316373
 		0 0.55105506159497109 -0.27277183532714844
 		;
-createNode transform -n "btmFlap_ctrl_srtOffset" -p "control";
+createNode transform -n "link_btmFlap_ctrl_srtOffset" -p "control";
 	rename -uid "61290D50-41BB-5482-0F9B-C09AEF568555";
-createNode transform -n "btmFlap_ctrl" -p "btmFlap_ctrl_srtOffset";
+createNode transform -n "link_btmFlap_ctrl" -p "link_btmFlap_ctrl_srtOffset";
 	rename -uid "4F4D37D6-4607-EB23-8A31-6BB7EBEBEB8D";
 	setAttr -l on -k off ".v";
 	setAttr -l on -k off ".tx";
@@ -333,7 +427,7 @@ createNode transform -n "btmFlap_ctrl" -p "btmFlap_ctrl_srtOffset";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "curveShape2" -p "btmFlap_ctrl";
+createNode nurbsCurve -n "link_curveShape2" -p "link_btmFlap_ctrl";
 	rename -uid "C1F6F0E2-4843-DD05-B734-26BFEBA4D811";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -353,8 +447,17 @@ createNode nurbsCurve -n "curveShape2" -p "btmFlap_ctrl";
 		5.8286708792820718e-016 0.71550132831006275 -0.27725793268316373
 		5.8286708792820718e-016 0.55105506159497109 -0.27277183532714844
 		;
-createNode transform -n "deform" -p "twoFlapLink_cmpt";
+createNode transform -n "deform" -p "link_cmpt";
 	rename -uid "8C75072F-4ADB-4632-A3F0-9CBBD1656F65";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".tz";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
 createNode transform -n "top_flap_srt" -p "deform";
 	rename -uid "628947DD-4049-5C37-95EF-BCACFBFF1C80";
 createNode transform -n "btm_flap_srt" -p "deform";
@@ -366,15 +469,15 @@ createNode transform -n "hinge_srt" -p "deform";
 createNode transform -n "swivel_srt" -p "deform";
 	rename -uid "30D44CBF-42B5-AC9E-DA2D-B099815A032B";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "B4940F8E-4FA0-244D-3D3C-339A29AEE43E";
+	rename -uid "D6537BFA-4460-7329-631C-3AB738401550";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "EBD023A2-43A7-D75D-F397-5B848826CBAA";
+	rename -uid "F10ED686-44AF-716F-22AD-1CA89369670D";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "922BB33E-4724-CD36-A43D-95B0AB693DE9";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "6B0BAC87-41BF-1D81-6E7B-DFB6EFBA3A47";
+	rename -uid "69CDB8C2-4C57-5929-03BC-908A213CEE97";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "F625866E-432D-03ED-624F-BB9757A3F342";
 	setAttr ".g" yes;
@@ -404,12 +507,12 @@ createNode script -n "uiConfigurationScriptNode";
 		+ "\t\t\t$editorName = $panelName;\n            modelEditor -e \n                -camera \"persp\" \n                -useInteractiveMode 0\n                -displayLights \"default\" \n                -displayAppearance \"smoothShaded\" \n                -activeOnly 0\n                -ignorePanZoom 0\n                -wireframeOnShaded 1\n                -headsUpDisplay 1\n                -holdOuts 1\n                -selectionHiliteDisplay 1\n                -useDefaultMaterial 0\n                -bufferMode \"double\" \n                -twoSidedLighting 1\n                -backfaceCulling 0\n                -xray 0\n                -jointXray 0\n                -activeComponentsXray 0\n                -displayTextures 0\n                -smoothWireframe 0\n                -lineWidth 1\n                -textureAnisotropic 0\n                -textureHilight 1\n                -textureSampling 2\n                -textureDisplay \"modulate\" \n                -textureMaxSize 32768\n                -fogging 0\n                -fogSource \"fragment\" \n                -fogMode \"linear\" \n"
 		+ "                -fogStart 0\n                -fogEnd 100\n                -fogDensity 0.1\n                -fogColor 0.5 0.5 0.5 1 \n                -depthOfFieldPreview 1\n                -maxConstantTransparency 1\n                -rendererName \"vp2Renderer\" \n                -objectFilterShowInHUD 1\n                -isFiltered 0\n                -colorResolution 256 256 \n                -bumpResolution 512 512 \n                -textureCompression 0\n                -transparencyAlgorithm \"frontAndBackCull\" \n                -transpInShadows 0\n                -cullingOverride \"none\" \n                -lowQualityLighting 0\n                -maximumNumHardwareLights 1\n                -occlusionCulling 0\n                -shadingModel 0\n                -useBaseRenderer 0\n                -useReducedRenderer 0\n                -smallObjectCulling 0\n                -smallObjectThreshold -1 \n                -interactiveDisableShadows 0\n                -interactiveBackFaceCull 0\n                -sortTransparent 1\n                -nurbsCurves 1\n"
 		+ "                -nurbsSurfaces 1\n                -polymeshes 1\n                -subdivSurfaces 1\n                -planes 1\n                -lights 1\n                -cameras 1\n                -controlVertices 1\n                -hulls 1\n                -grid 1\n                -imagePlane 1\n                -joints 1\n                -ikHandles 1\n                -deformers 1\n                -dynamics 1\n                -particleInstancers 1\n                -fluids 1\n                -hairSystems 1\n                -follicles 1\n                -nCloths 1\n                -nParticles 1\n                -nRigids 1\n                -dynamicConstraints 1\n                -locators 1\n                -manipulators 1\n                -pluginShapes 1\n                -dimensions 1\n                -handles 1\n                -pivots 1\n                -textures 1\n                -strokes 1\n                -motionTrails 1\n                -clipGhosts 1\n                -greasePencils 1\n                -shadows 0\n                -captureSequenceNumber -1\n"
-		+ "                -width 1159\n                -height 841\n                -sceneRenderFilter 0\n                $editorName;\n            modelEditor -e -viewSelected 0 $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tmodelPanel -edit -l (localizedPanelLabel(\"Persp View\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        modelEditor -e \n            -camera \"persp\" \n            -useInteractiveMode 0\n            -displayLights \"default\" \n            -displayAppearance \"smoothShaded\" \n            -activeOnly 0\n            -ignorePanZoom 0\n            -wireframeOnShaded 1\n            -headsUpDisplay 1\n            -holdOuts 1\n            -selectionHiliteDisplay 1\n            -useDefaultMaterial 0\n            -bufferMode \"double\" \n            -twoSidedLighting 1\n            -backfaceCulling 0\n            -xray 0\n            -jointXray 0\n            -activeComponentsXray 0\n            -displayTextures 0\n            -smoothWireframe 0\n            -lineWidth 1\n            -textureAnisotropic 0\n"
+		+ "                -width 981\n                -height 841\n                -sceneRenderFilter 0\n                $editorName;\n            modelEditor -e -viewSelected 0 $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tmodelPanel -edit -l (localizedPanelLabel(\"Persp View\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        modelEditor -e \n            -camera \"persp\" \n            -useInteractiveMode 0\n            -displayLights \"default\" \n            -displayAppearance \"smoothShaded\" \n            -activeOnly 0\n            -ignorePanZoom 0\n            -wireframeOnShaded 1\n            -headsUpDisplay 1\n            -holdOuts 1\n            -selectionHiliteDisplay 1\n            -useDefaultMaterial 0\n            -bufferMode \"double\" \n            -twoSidedLighting 1\n            -backfaceCulling 0\n            -xray 0\n            -jointXray 0\n            -activeComponentsXray 0\n            -displayTextures 0\n            -smoothWireframe 0\n            -lineWidth 1\n            -textureAnisotropic 0\n"
 		+ "            -textureHilight 1\n            -textureSampling 2\n            -textureDisplay \"modulate\" \n            -textureMaxSize 32768\n            -fogging 0\n            -fogSource \"fragment\" \n            -fogMode \"linear\" \n            -fogStart 0\n            -fogEnd 100\n            -fogDensity 0.1\n            -fogColor 0.5 0.5 0.5 1 \n            -depthOfFieldPreview 1\n            -maxConstantTransparency 1\n            -rendererName \"vp2Renderer\" \n            -objectFilterShowInHUD 1\n            -isFiltered 0\n            -colorResolution 256 256 \n            -bumpResolution 512 512 \n            -textureCompression 0\n            -transparencyAlgorithm \"frontAndBackCull\" \n            -transpInShadows 0\n            -cullingOverride \"none\" \n            -lowQualityLighting 0\n            -maximumNumHardwareLights 1\n            -occlusionCulling 0\n            -shadingModel 0\n            -useBaseRenderer 0\n            -useReducedRenderer 0\n            -smallObjectCulling 0\n            -smallObjectThreshold -1 \n            -interactiveDisableShadows 0\n"
-		+ "            -interactiveBackFaceCull 0\n            -sortTransparent 1\n            -nurbsCurves 1\n            -nurbsSurfaces 1\n            -polymeshes 1\n            -subdivSurfaces 1\n            -planes 1\n            -lights 1\n            -cameras 1\n            -controlVertices 1\n            -hulls 1\n            -grid 1\n            -imagePlane 1\n            -joints 1\n            -ikHandles 1\n            -deformers 1\n            -dynamics 1\n            -particleInstancers 1\n            -fluids 1\n            -hairSystems 1\n            -follicles 1\n            -nCloths 1\n            -nParticles 1\n            -nRigids 1\n            -dynamicConstraints 1\n            -locators 1\n            -manipulators 1\n            -pluginShapes 1\n            -dimensions 1\n            -handles 1\n            -pivots 1\n            -textures 1\n            -strokes 1\n            -motionTrails 1\n            -clipGhosts 1\n            -greasePencils 1\n            -shadows 0\n            -captureSequenceNumber -1\n            -width 1159\n            -height 841\n"
-		+ "            -sceneRenderFilter 0\n            $editorName;\n        modelEditor -e -viewSelected 0 $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextPanel \"outlinerPanel\" (localizedPanelLabel(\"Outliner\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels `;\n\t\t\t$editorName = $panelName;\n            outlinerEditor -e \n                -docTag \"isolOutln_fromSeln\" \n                -showShapes 0\n                -showReferenceNodes 1\n                -showReferenceMembers 1\n                -showAttributes 0\n                -showConnected 0\n                -showAnimCurvesOnly 0\n                -showMuteInfo 0\n                -organizeByLayer 1\n                -showAnimLayerWeight 1\n                -autoExpandLayers 1\n                -autoExpand 0\n                -showDagOnly 1\n                -showAssets 1\n                -showContainedOnly 1\n                -showPublishedAsConnected 0\n"
+		+ "            -interactiveBackFaceCull 0\n            -sortTransparent 1\n            -nurbsCurves 1\n            -nurbsSurfaces 1\n            -polymeshes 1\n            -subdivSurfaces 1\n            -planes 1\n            -lights 1\n            -cameras 1\n            -controlVertices 1\n            -hulls 1\n            -grid 1\n            -imagePlane 1\n            -joints 1\n            -ikHandles 1\n            -deformers 1\n            -dynamics 1\n            -particleInstancers 1\n            -fluids 1\n            -hairSystems 1\n            -follicles 1\n            -nCloths 1\n            -nParticles 1\n            -nRigids 1\n            -dynamicConstraints 1\n            -locators 1\n            -manipulators 1\n            -pluginShapes 1\n            -dimensions 1\n            -handles 1\n            -pivots 1\n            -textures 1\n            -strokes 1\n            -motionTrails 1\n            -clipGhosts 1\n            -greasePencils 1\n            -shadows 0\n            -captureSequenceNumber -1\n            -width 981\n            -height 841\n"
+		+ "            -sceneRenderFilter 0\n            $editorName;\n        modelEditor -e -viewSelected 0 $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextPanel \"outlinerPanel\" (localizedPanelLabel(\"Outliner\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels `;\n\t\t\t$editorName = $panelName;\n            outlinerEditor -e \n                -docTag \"isolOutln_fromSeln\" \n                -showShapes 0\n                -showReferenceNodes 1\n                -showReferenceMembers 1\n                -showAttributes 0\n                -showConnected 0\n                -showAnimCurvesOnly 0\n                -showMuteInfo 0\n                -organizeByLayer 1\n                -showAnimLayerWeight 1\n                -autoExpandLayers 1\n                -autoExpand 0\n                -showDagOnly 0\n                -showAssets 1\n                -showContainedOnly 1\n                -showPublishedAsConnected 0\n"
 		+ "                -showContainerContents 1\n                -ignoreDagHierarchy 0\n                -expandConnections 0\n                -showUpstreamCurves 1\n                -showUnitlessCurves 1\n                -showCompounds 1\n                -showLeafs 1\n                -showNumericAttrsOnly 0\n                -highlightActive 1\n                -autoSelectNewObjects 0\n                -doNotSelectNewObjects 0\n                -dropIsParent 1\n                -transmitFilters 0\n                -setFilter \"defaultSetFilter\" \n                -showSetMembers 1\n                -allowMultiSelection 1\n                -alwaysToggleSelect 0\n                -directSelect 0\n                -displayMode \"DAG\" \n                -expandObjects 0\n                -setsIgnoreFilters 1\n                -containersIgnoreFilters 0\n                -editAttrName 0\n                -showAttrValues 0\n                -highlightSecondary 0\n                -showUVAttrsOnly 0\n                -showTextureNodesOnly 0\n                -attrAlphaOrder \"default\" \n"
-		+ "                -animLayerFilterOptions \"allAffecting\" \n                -sortOrder \"none\" \n                -longNames 0\n                -niceNames 1\n                -showNamespace 1\n                -showPinIcons 0\n                -mapMotionTrails 0\n                -ignoreHiddenAttribute 0\n                -ignoreOutlinerColor 0\n                $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\toutlinerPanel -edit -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        outlinerEditor -e \n            -docTag \"isolOutln_fromSeln\" \n            -showShapes 0\n            -showReferenceNodes 1\n            -showReferenceMembers 1\n            -showAttributes 0\n            -showConnected 0\n            -showAnimCurvesOnly 0\n            -showMuteInfo 0\n            -organizeByLayer 1\n            -showAnimLayerWeight 1\n            -autoExpandLayers 1\n            -autoExpand 0\n            -showDagOnly 1\n            -showAssets 1\n            -showContainedOnly 1\n"
+		+ "                -animLayerFilterOptions \"allAffecting\" \n                -sortOrder \"none\" \n                -longNames 0\n                -niceNames 1\n                -showNamespace 1\n                -showPinIcons 0\n                -mapMotionTrails 0\n                -ignoreHiddenAttribute 0\n                -ignoreOutlinerColor 0\n                $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\toutlinerPanel -edit -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        outlinerEditor -e \n            -docTag \"isolOutln_fromSeln\" \n            -showShapes 0\n            -showReferenceNodes 1\n            -showReferenceMembers 1\n            -showAttributes 0\n            -showConnected 0\n            -showAnimCurvesOnly 0\n            -showMuteInfo 0\n            -organizeByLayer 1\n            -showAnimLayerWeight 1\n            -autoExpandLayers 1\n            -autoExpand 0\n            -showDagOnly 0\n            -showAssets 1\n            -showContainedOnly 1\n"
 		+ "            -showPublishedAsConnected 0\n            -showContainerContents 1\n            -ignoreDagHierarchy 0\n            -expandConnections 0\n            -showUpstreamCurves 1\n            -showUnitlessCurves 1\n            -showCompounds 1\n            -showLeafs 1\n            -showNumericAttrsOnly 0\n            -highlightActive 1\n            -autoSelectNewObjects 0\n            -doNotSelectNewObjects 0\n            -dropIsParent 1\n            -transmitFilters 0\n            -setFilter \"defaultSetFilter\" \n            -showSetMembers 1\n            -allowMultiSelection 1\n            -alwaysToggleSelect 0\n            -directSelect 0\n            -displayMode \"DAG\" \n            -expandObjects 0\n            -setsIgnoreFilters 1\n            -containersIgnoreFilters 0\n            -editAttrName 0\n            -showAttrValues 0\n            -highlightSecondary 0\n            -showUVAttrsOnly 0\n            -showTextureNodesOnly 0\n            -attrAlphaOrder \"default\" \n            -animLayerFilterOptions \"allAffecting\" \n            -sortOrder \"none\" \n"
 		+ "            -longNames 0\n            -niceNames 1\n            -showNamespace 1\n            -showPinIcons 0\n            -mapMotionTrails 0\n            -ignoreHiddenAttribute 0\n            -ignoreOutlinerColor 0\n            $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextScriptedPanel \"graphEditor\" (localizedPanelLabel(\"Graph Editor\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `scriptedPanel -unParent  -type \"graphEditor\" -l (localizedPanelLabel(\"Graph Editor\")) -mbv $menusOkayInPanels `;\n\n\t\t\t$editorName = ($panelName+\"OutlineEd\");\n            outlinerEditor -e \n                -showShapes 1\n                -showReferenceNodes 0\n                -showReferenceMembers 0\n                -showAttributes 1\n                -showConnected 1\n                -showAnimCurvesOnly 1\n                -showMuteInfo 0\n                -organizeByLayer 1\n                -showAnimLayerWeight 1\n                -autoExpandLayers 1\n"
 		+ "                -autoExpand 1\n                -showDagOnly 0\n                -showAssets 1\n                -showContainedOnly 0\n                -showPublishedAsConnected 0\n                -showContainerContents 0\n                -ignoreDagHierarchy 0\n                -expandConnections 1\n                -showUpstreamCurves 1\n                -showUnitlessCurves 1\n                -showCompounds 0\n                -showLeafs 1\n                -showNumericAttrsOnly 1\n                -highlightActive 0\n                -autoSelectNewObjects 1\n                -doNotSelectNewObjects 0\n                -dropIsParent 1\n                -transmitFilters 1\n                -setFilter \"0\" \n                -showSetMembers 0\n                -allowMultiSelection 1\n                -alwaysToggleSelect 0\n                -directSelect 0\n                -displayMode \"DAG\" \n                -expandObjects 0\n                -setsIgnoreFilters 1\n                -containersIgnoreFilters 0\n                -editAttrName 0\n                -showAttrValues 0\n"
@@ -444,272 +547,236 @@ createNode script -n "uiConfigurationScriptNode";
 		+ "                -height 0\n                -sceneRenderFilter 0\n                -displayMode \"centerEye\" \n                -viewColor 0 0 0 1 \n                -useCustomBackground 1\n                $editorName;\n            stereoCameraView -e -viewSelected 0 $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextScriptedPanel \"hyperShadePanel\" (localizedPanelLabel(\"Hypershade\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `scriptedPanel -unParent  -type \"hyperShadePanel\" -l (localizedPanelLabel(\"Hypershade\")) -mbv $menusOkayInPanels `;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tscriptedPanel -edit -l (localizedPanelLabel(\"Hypershade\")) -mbv $menusOkayInPanels  $panelName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextScriptedPanel \"nodeEditorPanel\" (localizedPanelLabel(\"Node Editor\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `scriptedPanel -unParent  -type \"nodeEditorPanel\" -l (localizedPanelLabel(\"Node Editor\")) -mbv $menusOkayInPanels `;\n"
 		+ "\t\t\t$editorName = ($panelName+\"NodeEditorEd\");\n            nodeEditor -e \n                -allAttributes 0\n                -allNodes 0\n                -autoSizeNodes 1\n                -consistentNameSize 1\n                -createNodeCommand \"nodeEdCreateNodeCommand\" \n                -defaultPinnedState 0\n                -additiveGraphingMode 1\n                -settingsChangedCallback \"nodeEdSyncControls\" \n                -traversalDepthLimit -1\n                -keyPressCommand \"nodeEdKeyPressCommand\" \n                -nodeTitleMode \"name\" \n                -gridSnap 0\n                -gridVisibility 1\n                -popupMenuScript \"nodeEdBuildPanelMenus\" \n                -showNamespace 1\n                -showShapes 0\n                -showSGShapes 0\n                -showTransforms 1\n                -useAssets 0\n                -syncedSelection 1\n                -extendToShapes 1\n                -activeTab -1\n                -editorMode \"default\" \n                $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n"
 		+ "\t\tscriptedPanel -edit -l (localizedPanelLabel(\"Node Editor\")) -mbv $menusOkayInPanels  $panelName;\n\n\t\t\t$editorName = ($panelName+\"NodeEditorEd\");\n            nodeEditor -e \n                -allAttributes 0\n                -allNodes 0\n                -autoSizeNodes 1\n                -consistentNameSize 1\n                -createNodeCommand \"nodeEdCreateNodeCommand\" \n                -defaultPinnedState 0\n                -additiveGraphingMode 1\n                -settingsChangedCallback \"nodeEdSyncControls\" \n                -traversalDepthLimit -1\n                -keyPressCommand \"nodeEdKeyPressCommand\" \n                -nodeTitleMode \"name\" \n                -gridSnap 0\n                -gridVisibility 1\n                -popupMenuScript \"nodeEdBuildPanelMenus\" \n                -showNamespace 1\n                -showShapes 0\n                -showSGShapes 0\n                -showTransforms 1\n                -useAssets 0\n                -syncedSelection 1\n                -extendToShapes 1\n                -activeTab -1\n                -editorMode \"default\" \n"
-		+ "                $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\tif ($useSceneConfig) {\n        string $configName = `getPanel -cwl (localizedPanelLabel(\"Current Layout\"))`;\n        if (\"\" != $configName) {\n\t\t\tpanelConfiguration -edit -label (localizedPanelLabel(\"Current Layout\")) \n\t\t\t\t-defaultImage \"vacantCell.xP:/\"\n\t\t\t\t-image \"\"\n\t\t\t\t-sc false\n\t\t\t\t-configString \"global string $gMainPane; paneLayout -e -cn \\\"vertical2\\\" -ps 1 20 100 -ps 2 80 100 $gMainPane;\"\n\t\t\t\t-removeAllPanels\n\t\t\t\t-ap false\n\t\t\t\t\t(localizedPanelLabel(\"Outliner\")) \n\t\t\t\t\t\"outlinerPanel\"\n"
-		+ "\t\t\t\t\t\"$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 1\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
-		+ "\t\t\t\t\t\"outlinerPanel -edit -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 1\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
+		+ "                $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\tif ($useSceneConfig) {\n        string $configName = `getPanel -cwl (localizedPanelLabel(\"Current Layout\"))`;\n        if (\"\" != $configName) {\n\t\t\tpanelConfiguration -edit -label (localizedPanelLabel(\"Current Layout\")) \n\t\t\t\t-defaultImage \"vacantCell.xP:/\"\n\t\t\t\t-image \"\"\n\t\t\t\t-sc false\n\t\t\t\t-configString \"global string $gMainPane; paneLayout -e -cn \\\"vertical2\\\" -ps 1 26 100 -ps 2 74 100 $gMainPane;\"\n\t\t\t\t-removeAllPanels\n\t\t\t\t-ap false\n\t\t\t\t\t(localizedPanelLabel(\"Outliner\")) \n\t\t\t\t\t\"outlinerPanel\"\n"
+		+ "\t\t\t\t\t\"$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 0\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
+		+ "\t\t\t\t\t\"outlinerPanel -edit -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 0\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
 		+ "\t\t\t\t-ap false\n\t\t\t\t\t(localizedPanelLabel(\"Persp View\")) \n\t\t\t\t\t\"modelPanel\"\n"
-		+ "\t\t\t\t\t\"$panelName = `modelPanel -unParent -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"smoothShaded\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 1159\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
-		+ "\t\t\t\t\t\"modelPanel -edit -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"smoothShaded\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 1159\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
+		+ "\t\t\t\t\t\"$panelName = `modelPanel -unParent -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"smoothShaded\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 981\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
+		+ "\t\t\t\t\t\"modelPanel -edit -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"smoothShaded\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 981\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
 		+ "\t\t\t\t$configName;\n\n            setNamedPanelLayout (localizedPanelLabel(\"Current Layout\"));\n        }\n\n        panelHistory -e -clear mainPanelHistory;\n        setFocus `paneLayout -q -p1 $gMainPane`;\n        sceneUIReplacement -deleteRemaining;\n        sceneUIReplacement -clear;\n\t}\n\n\ngrid -spacing 5 -size 12 -divisions 5 -displayAxes yes -displayGridLines yes -displayDivisionLines yes -displayPerspectiveLabels no -displayOrthographicLabels no -displayAxesBold yes -perspectiveLabelPosition axis -orthographicLabelPosition edge;\nviewManip -drawCompass 0 -compassAngle 0 -frontParameters \"\" -homeParameters \"\" -selectionLockParameters \"\";\n}\n");
 	setAttr ".st" 3;
 createNode script -n "sceneConfigurationScriptNode";
 	rename -uid "C4026EC1-4BF2-EF2D-C4D6-52BB6BC33DE8";
 	setAttr ".b" -type "string" "playbackOptions -min 0 -max 110 -ast 0 -aet 111 ";
 	setAttr ".st" 6;
-createNode multMatrix -n "matrix_localTo_parent";
+createNode multMatrix -n "link_matrix_localTo_parent";
 	rename -uid "ABB5E3CC-41D4-21A2-B79F-1781E739AA7B";
 	setAttr -s 2 ".i";
-createNode decomposeMatrix -n "srt_localTo_parent";
+createNode decomposeMatrix -n "link_srt_localTo_parent";
 	rename -uid "04B8B629-4D64-2093-E48A-56B3E1677315";
 	setAttr ".ot" -type "double3" 0 -0.72073554992675781 -3.3804073333740234 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
-createNode quatToEuler -n "rotation_localTo_parent";
+createNode quatToEuler -n "link_rotation_localTo_parent";
 	rename -uid "783CC662-4EF1-921D-328E-05A1B34B90C7";
 	setAttr ".iro" 5;
-createNode composeMatrix -n "hinge_srt_localTo_parent";
+createNode composeMatrix -n "link_hinge_srt_localTo_parent";
 	rename -uid "4F93757D-4C90-8EE7-D6FA-758E00D57BC5";
 	setAttr ".omat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 -0.72073554992675781 -3.3804073333740234 1;
-createNode composeMatrix -n "axle_srt_localTo_parent";
+createNode composeMatrix -n "link_axle_srt_localTo_parent";
 	rename -uid "DD3357EB-411A-627F-B667-13B8AEE83740";
 	setAttr ".omat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 -0.72073554992675781 -3.3804073333740234 1;
-createNode composeMatrix -n "swivel_srt_localTo_parent";
+createNode composeMatrix -n "link_swivel_srt_localTo_parent";
 	rename -uid "EF8D1C1C-44EF-2FE9-EFC6-1D984F87B97A";
 	setAttr ".omat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 -0.72073554992675781 -3.3804073333740234 1;
-createNode multMatrix -n "swivel_parentMatrix";
+createNode multMatrix -n "link_swivel_parentMatrix";
 	rename -uid "80899F82-49CB-4CEE-FEB2-22A93D80842D";
 	setAttr -s 2 ".i";
-createNode multMatrix -n "axle_worldMatrix";
+createNode multMatrix -n "link_axle_worldMatrix";
 	rename -uid "4BB7875E-4335-EE8C-98D6-98AE9F9AB485";
 	setAttr -s 2 ".i";
-createNode multMatrix -n "hinge_worldMatrix";
+createNode multMatrix -n "link_hinge_worldMatrix";
 	rename -uid "A397E386-412D-6548-5A5B-1086407ED348";
 	setAttr -s 2 ".i";
-createNode decomposeMatrix -n "axle_srt_inWorld";
+createNode decomposeMatrix -n "link_axle_srt_inWorld";
 	rename -uid "13EDD797-4DE3-F2F2-88B4-3ABE482F73FC";
 	setAttr ".ot" -type "double3" 0 16.139192581176758 -15.011674880981445 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
-createNode decomposeMatrix -n "hinge_srt_inWorld";
+createNode decomposeMatrix -n "link_hinge_srt_inWorld";
 	rename -uid "457788B9-45CC-85E4-DFCF-3599F70A2B12";
 	setAttr ".ot" -type "double3" 0 16.139192581176758 -15.011674880981445 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
-createNode decomposeMatrix -n "swivel_srt_inWorld";
+createNode decomposeMatrix -n "link_swivel_srt_inWorld";
 	rename -uid "59D580EE-43E7-6D4D-B0B9-E38ECA66B6C1";
 	setAttr ".ot" -type "double3" 0 16.139192581176758 -15.011674880981445 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
-createNode decomposeMatrix -n "topFlap_srtOffset_inWorld";
+createNode decomposeMatrix -n "link_topFlap_srtOffset_inWorld";
 	rename -uid "F4B1A602-4B91-0BCD-5524-A09438963D51";
 	setAttr ".ot" -type "double3" 0 16.139192581176758 -14.088685989379883 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
-createNode decomposeMatrix -n "btmFlap_srtOffset_inWorld";
+createNode decomposeMatrix -n "link_btmFlap_srtOffset_inWorld";
 	rename -uid "941D8677-4F83-A067-1A51-5CB0E7217B14";
 	setAttr ".ot" -type "double3" 0 16.139192581176758 -14.088685989379883 ;
 	setAttr ".or" -type "double3" 0 0 180 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 6.123233995736766e-017;
-createNode multMatrix -n "btmFlap_parentMatrix";
+createNode multMatrix -n "link_btmFlap_parentMatrix";
 	rename -uid "243DB338-4615-1590-1953-E29E2447A2B0";
 	setAttr -s 2 ".i";
-createNode decomposeMatrix -n "btmFlap_srt_inWorld";
+createNode decomposeMatrix -n "link_btmFlap_srt_inWorld";
 	rename -uid "E2154758-4F13-2AA8-55C4-2B808B7F7F63";
 	setAttr ".ot" -type "double3" 0 16.139192581176758 -14.088685989379883 ;
 	setAttr ".or" -type "double3" 0 0 180 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
-createNode decomposeMatrix -n "topFlap_srt_inWorld";
+createNode decomposeMatrix -n "link_topFlap_srt_inWorld";
 	rename -uid "7A370157-45C0-7012-AEC5-DB8DFE9B2DFA";
 	setAttr ".ot" -type "double3" 0 16.139192581176758 -14.088685989379883 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
-createNode composeMatrix -n "btmFlap_ctrl_orientation_matrix";
+createNode composeMatrix -n "link_btmFlap_ctrl_orientation_matrix";
 	rename -uid "60E1F463-44DF-CCB1-023A-CDBCDBE02EEC";
 	setAttr ".ir" -type "double3" 0 0 180 ;
 	setAttr ".omat" -type "matrix" -1 1.2246467991473532e-016 0 0 -1.2246467991473532e-016 -1 0 0
 		 0 0 1 0 0 0 0 1;
-createNode multMatrix -n "child_matrix_localTo_swivelParent";
+createNode multMatrix -n "link_child_matrix_localTo_swivelParent";
 	rename -uid "5B5220D4-4CEC-7BA0-C62D-7FBF09959025";
 	setAttr -s 2 ".i";
-createNode decomposeMatrix -n "child_transform_localTo_swivelParent";
+createNode decomposeMatrix -n "link_child_transform_localTo_swivelParent";
 	rename -uid "A53350CC-430E-C1CF-81A3-EDB6CFA4A6A8";
 	setAttr ".ot" -type "double3" 0 0 -2.0129337310791016 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
-createNode composeMatrix -n "swivel_matrix";
+createNode composeMatrix -n "link_swivel_matrix";
 	rename -uid "BE41FA84-4129-0E5F-137B-B6B84936CBEF";
 	setAttr ".omat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -2.0129337310791016 1;
-createNode inverseMatrix -n "swivel_parentInverseMatrix";
+createNode inverseMatrix -n "link_swivel_parentInverseMatrix";
 	rename -uid "8DCFC935-41BB-2EE1-1BC4-2B9447101E16";
 	setAttr ".omat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0 -16.139192581176758 15.011674880981445 1;
-createNode multMatrix -n "swivel_worldMatrix";
+createNode multMatrix -n "link_swivel_worldMatrix";
 	rename -uid "97A0D422-44A4-EEF3-8303-44832AF69B31";
 	setAttr -s 3 ".i";
-createNode multMatrix -n "child_matrix_localTo_this";
-	rename -uid "1FC39F8B-44FA-C0CC-8596-0DABA2E5BBF2";
-	setAttr -s 2 ".i";
-createNode decomposeMatrix -n "child_srt_localTo_this";
-	rename -uid "7CFCC311-4A8F-9915-FEC9-4FA39B7DC309";
-	setAttr ".ot" -type "double3" 0 0 -2.0129337310791016 ;
-createNode vectorProduct -n "flapPivot_guided_position_localTo_parent";
-	rename -uid "48B3F950-4F53-20CB-DB76-84B9D00C0545";
-	setAttr ".op" 4;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "C20227B6-4F75-51A9-F461-99AA8B216E94";
-	setAttr -s 3 ".tgi";
-	setAttr ".tgi[0].tn" -type "string" "guides";
-	setAttr ".tgi[0].vl" -type "double2" -2159.5695112560147 -683.33330618010734 ;
-	setAttr ".tgi[0].vh" -type "double2" 2825.045675288558 666.66664017571441 ;
-	setAttr -s 9 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 184.28572082519531;
-	setAttr ".tgi[0].ni[0].y" -160;
+	rename -uid "94486D19-4188-4D2B-B0CF-21B7C27375F1";
+	setAttr -s 2 ".tgi";
+	setAttr ".tgi[0].tn" -type "string" "linkage";
+	setAttr ".tgi[0].vl" -type "double2" 1135.4107408023399 -1109.8442782430682 ;
+	setAttr ".tgi[0].vh" -type "double2" 5338.7190385688973 1373.8094692192453 ;
+	setAttr -s 25 ".tgi[0].ni";
+	setAttr ".tgi[0].ni[0].x" 3251.428466796875;
+	setAttr ".tgi[0].ni[0].y" 177.14285278320312;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" 441.42855834960937;
-	setAttr ".tgi[0].ni[1].y" -117.14286041259766;
+	setAttr ".tgi[0].ni[1].x" 742.85711669921875;
+	setAttr ".tgi[0].ni[1].y" 52.857143402099609;
 	setAttr ".tgi[0].ni[1].nvs" 18304;
-	setAttr ".tgi[0].ni[2].x" 70.702560424804687;
-	setAttr ".tgi[0].ni[2].y" 227.63282775878906;
+	setAttr ".tgi[0].ni[2].x" 3251.428466796875;
+	setAttr ".tgi[0].ni[2].y" 262.85714721679687;
 	setAttr ".tgi[0].ni[2].nvs" 18304;
-	setAttr ".tgi[0].ni[3].x" 324.35986328125;
-	setAttr ".tgi[0].ni[3].y" 229.52015686035156;
+	setAttr ".tgi[0].ni[3].x" 2994.28564453125;
+	setAttr ".tgi[0].ni[3].y" 177.14285278320312;
 	setAttr ".tgi[0].ni[3].nvs" 18304;
-	setAttr ".tgi[0].ni[4].x" -474.67144775390625;
-	setAttr ".tgi[0].ni[4].y" 170.04171752929687;
+	setAttr ".tgi[0].ni[4].x" 1514.2857666015625;
+	setAttr ".tgi[0].ni[4].y" 352.85714721679687;
 	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 741.4285888671875;
-	setAttr ".tgi[0].ni[5].y" -117.14286041259766;
+	setAttr ".tgi[0].ni[5].x" 1806.0343017578125;
+	setAttr ".tgi[0].ni[5].y" 35.551422119140625;
 	setAttr ".tgi[0].ni[5].nvs" 18304;
-	setAttr ".tgi[0].ni[6].x" -475.33245849609375;
-	setAttr ".tgi[0].ni[6].y" 293.99853515625;
+	setAttr ".tgi[0].ni[6].x" 2378.571533203125;
+	setAttr ".tgi[0].ni[6].y" 108.57142639160156;
 	setAttr ".tgi[0].ni[6].nvs" 18304;
-	setAttr ".tgi[0].ni[7].x" 184.28572082519531;
-	setAttr ".tgi[0].ni[7].y" -74.285713195800781;
+	setAttr ".tgi[0].ni[7].x" 3508.571533203125;
+	setAttr ".tgi[0].ni[7].y" 262.85714721679687;
 	setAttr ".tgi[0].ni[7].nvs" 18304;
-	setAttr ".tgi[0].ni[8].x" -184.60835266113281;
-	setAttr ".tgi[0].ni[8].y" 228.61103820800781;
+	setAttr ".tgi[0].ni[8].x" 2067.754150390625;
+	setAttr ".tgi[0].ni[8].y" 112.00428009033203;
 	setAttr ".tgi[0].ni[8].nvs" 18304;
-	setAttr ".tgi[1].tn" -type "string" "linkage";
-	setAttr ".tgi[1].vl" -type "double2" 1168.4523345222567 -341.66665309005259 ;
-	setAttr ".tgi[1].vh" -type "double2" 5168.4521755765436 741.66663719548353 ;
-	setAttr -s 25 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 53532.85546875;
-	setAttr ".tgi[1].ni[0].y" -3074.28564453125;
+	setAttr ".tgi[0].ni[9].x" 1257.142822265625;
+	setAttr ".tgi[0].ni[9].y" 52.857143402099609;
+	setAttr ".tgi[0].ni[9].nvs" 18304;
+	setAttr ".tgi[0].ni[10].x" -177.14285278320312;
+	setAttr ".tgi[0].ni[10].y" 348.57144165039063;
+	setAttr ".tgi[0].ni[10].nvs" 18304;
+	setAttr ".tgi[0].ni[11].x" 1257.142822265625;
+	setAttr ".tgi[0].ni[11].y" 224.28572082519531;
+	setAttr ".tgi[0].ni[11].nvs" 18304;
+	setAttr ".tgi[0].ni[12].x" 3251.428466796875;
+	setAttr ".tgi[0].ni[12].y" 348.57144165039063;
+	setAttr ".tgi[0].ni[12].nvs" 18304;
+	setAttr ".tgi[0].ni[13].x" 3508.571533203125;
+	setAttr ".tgi[0].ni[13].y" 177.14285278320312;
+	setAttr ".tgi[0].ni[13].nvs" 18304;
+	setAttr ".tgi[0].ni[14].x" 1000;
+	setAttr ".tgi[0].ni[14].y" -32.857143402099609;
+	setAttr ".tgi[0].ni[14].nvs" 18304;
+	setAttr ".tgi[0].ni[15].x" -177.14285278320312;
+	setAttr ".tgi[0].ni[15].y" 48.571430206298828;
+	setAttr ".tgi[0].ni[15].nvs" 18304;
+	setAttr ".tgi[0].ni[16].x" 1778.5714111328125;
+	setAttr ".tgi[0].ni[16].y" 108.57142639160156;
+	setAttr ".tgi[0].ni[16].nvs" 18304;
+	setAttr ".tgi[0].ni[17].x" 1514.2857666015625;
+	setAttr ".tgi[0].ni[17].y" 267.14285278320313;
+	setAttr ".tgi[0].ni[17].nvs" 18304;
+	setAttr ".tgi[0].ni[18].x" 53532.85546875;
+	setAttr ".tgi[0].ni[18].y" -3074.28564453125;
+	setAttr ".tgi[0].ni[18].nvs" 18304;
+	setAttr ".tgi[0].ni[19].x" 2726.10693359375;
+	setAttr ".tgi[0].ni[19].y" 108.57142639160156;
+	setAttr ".tgi[0].ni[19].nvs" 18304;
+	setAttr ".tgi[0].ni[20].x" 1537.142822265625;
+	setAttr ".tgi[0].ni[20].y" 177.14285278320312;
+	setAttr ".tgi[0].ni[20].nvs" 18304;
+	setAttr ".tgi[0].ni[21].x" 1257.142822265625;
+	setAttr ".tgi[0].ni[21].y" 138.57142639160156;
+	setAttr ".tgi[0].ni[21].nvs" 18304;
+	setAttr ".tgi[0].ni[22].x" 442.85714721679687;
+	setAttr ".tgi[0].ni[22].y" 52.857143402099609;
+	setAttr ".tgi[0].ni[22].nvs" 18304;
+	setAttr ".tgi[0].ni[23].x" 3508.571533203125;
+	setAttr ".tgi[0].ni[23].y" 348.57144165039063;
+	setAttr ".tgi[0].ni[23].nvs" 18304;
+	setAttr ".tgi[0].ni[24].x" 2719.17431640625;
+	setAttr ".tgi[0].ni[24].y" 29.722856521606445;
+	setAttr ".tgi[0].ni[24].nvs" 18304;
+	setAttr ".tgi[1].tn" -type "string" "flaps";
+	setAttr ".tgi[1].vl" -type "double2" 3673.1543642604224 -913.09520181209461 ;
+	setAttr ".tgi[1].vh" -type "double2" 6161.369054474535 557.14283500398994 ;
+	setAttr -s 13 ".tgi[1].ni";
+	setAttr ".tgi[1].ni[0].x" 3914.807861328125;
+	setAttr ".tgi[1].ni[0].y" 157.32405090332031;
 	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" 2719.17431640625;
-	setAttr ".tgi[1].ni[1].y" 29.722856521606445;
+	setAttr ".tgi[1].ni[1].x" 4264.59326171875;
+	setAttr ".tgi[1].ni[1].y" 172.18096923828125;
 	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" 1778.5714111328125;
-	setAttr ".tgi[1].ni[2].y" 108.57142639160156;
+	setAttr ".tgi[1].ni[2].x" 5412.85693359375;
+	setAttr ".tgi[1].ni[2].y" 97.142860412597656;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 3251.428466796875;
-	setAttr ".tgi[1].ni[3].y" 262.85714721679687;
+	setAttr ".tgi[1].ni[3].x" 5412.85693359375;
+	setAttr ".tgi[1].ni[3].y" -417.14285278320312;
 	setAttr ".tgi[1].ni[3].nvs" 18304;
-	setAttr ".tgi[1].ni[4].x" 1257.142822265625;
-	setAttr ".tgi[1].ni[4].y" 138.57142639160156;
+	setAttr ".tgi[1].ni[4].x" 4855.71435546875;
+	setAttr ".tgi[1].ni[4].y" -417.14285278320312;
 	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 2726.10693359375;
-	setAttr ".tgi[1].ni[5].y" 108.57142639160156;
+	setAttr ".tgi[1].ni[5].x" 4855.71435546875;
+	setAttr ".tgi[1].ni[5].y" 97.142860412597656;
 	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" 3508.571533203125;
-	setAttr ".tgi[1].ni[6].y" 262.85714721679687;
+	setAttr ".tgi[1].ni[6].x" 4855.71435546875;
+	setAttr ".tgi[1].ni[6].y" -502.85714721679687;
 	setAttr ".tgi[1].ni[6].nvs" 18304;
-	setAttr ".tgi[1].ni[7].x" 1514.2857666015625;
-	setAttr ".tgi[1].ni[7].y" 267.14285278320313;
+	setAttr ".tgi[1].ni[7].x" 5155.71435546875;
+	setAttr ".tgi[1].ni[7].y" 97.142860412597656;
 	setAttr ".tgi[1].ni[7].nvs" 18304;
-	setAttr ".tgi[1].ni[8].x" 1537.142822265625;
-	setAttr ".tgi[1].ni[8].y" 177.14285278320312;
+	setAttr ".tgi[1].ni[8].x" 4855.71435546875;
+	setAttr ".tgi[1].ni[8].y" 182.85714721679687;
 	setAttr ".tgi[1].ni[8].nvs" 18304;
-	setAttr ".tgi[1].ni[9].x" 442.85714721679687;
-	setAttr ".tgi[1].ni[9].y" 52.857143402099609;
+	setAttr ".tgi[1].ni[9].x" 3962.177734375;
+	setAttr ".tgi[1].ni[9].y" -143.04182434082031;
 	setAttr ".tgi[1].ni[9].nvs" 18304;
-	setAttr ".tgi[1].ni[10].x" 1806.0343017578125;
-	setAttr ".tgi[1].ni[10].y" 35.551422119140625;
+	setAttr ".tgi[1].ni[10].x" 5155.71435546875;
+	setAttr ".tgi[1].ni[10].y" -417.14285278320312;
 	setAttr ".tgi[1].ni[10].nvs" 18304;
-	setAttr ".tgi[1].ni[11].x" 1000;
-	setAttr ".tgi[1].ni[11].y" -32.857143402099609;
+	setAttr ".tgi[1].ni[11].x" 4555.71435546875;
+	setAttr ".tgi[1].ni[11].y" -502.85714721679687;
 	setAttr ".tgi[1].ni[11].nvs" 18304;
-	setAttr ".tgi[1].ni[12].x" -177.14285278320312;
-	setAttr ".tgi[1].ni[12].y" 348.57144165039063;
+	setAttr ".tgi[1].ni[12].x" 4555.71435546875;
+	setAttr ".tgi[1].ni[12].y" 182.85714721679687;
 	setAttr ".tgi[1].ni[12].nvs" 18304;
-	setAttr ".tgi[1].ni[13].x" 3508.571533203125;
-	setAttr ".tgi[1].ni[13].y" 177.14285278320312;
-	setAttr ".tgi[1].ni[13].nvs" 18304;
-	setAttr ".tgi[1].ni[14].x" 2067.754150390625;
-	setAttr ".tgi[1].ni[14].y" 112.00428009033203;
-	setAttr ".tgi[1].ni[14].nvs" 18304;
-	setAttr ".tgi[1].ni[15].x" 3251.428466796875;
-	setAttr ".tgi[1].ni[15].y" 177.14285278320312;
-	setAttr ".tgi[1].ni[15].nvs" 18304;
-	setAttr ".tgi[1].ni[16].x" 1257.142822265625;
-	setAttr ".tgi[1].ni[16].y" 224.28572082519531;
-	setAttr ".tgi[1].ni[16].nvs" 18304;
-	setAttr ".tgi[1].ni[17].x" 2994.28564453125;
-	setAttr ".tgi[1].ni[17].y" 177.14285278320312;
-	setAttr ".tgi[1].ni[17].nvs" 18304;
-	setAttr ".tgi[1].ni[18].x" 3251.428466796875;
-	setAttr ".tgi[1].ni[18].y" 348.57144165039063;
-	setAttr ".tgi[1].ni[18].nvs" 18304;
-	setAttr ".tgi[1].ni[19].x" 2378.571533203125;
-	setAttr ".tgi[1].ni[19].y" 108.57142639160156;
-	setAttr ".tgi[1].ni[19].nvs" 18304;
-	setAttr ".tgi[1].ni[20].x" -177.14285278320312;
-	setAttr ".tgi[1].ni[20].y" 48.571430206298828;
-	setAttr ".tgi[1].ni[20].nvs" 18304;
-	setAttr ".tgi[1].ni[21].x" 1514.2857666015625;
-	setAttr ".tgi[1].ni[21].y" 352.85714721679687;
-	setAttr ".tgi[1].ni[21].nvs" 18304;
-	setAttr ".tgi[1].ni[22].x" 1257.142822265625;
-	setAttr ".tgi[1].ni[22].y" 52.857143402099609;
-	setAttr ".tgi[1].ni[22].nvs" 18304;
-	setAttr ".tgi[1].ni[23].x" 3508.571533203125;
-	setAttr ".tgi[1].ni[23].y" 348.57144165039063;
-	setAttr ".tgi[1].ni[23].nvs" 18304;
-	setAttr ".tgi[1].ni[24].x" 742.85711669921875;
-	setAttr ".tgi[1].ni[24].y" 52.857143402099609;
-	setAttr ".tgi[1].ni[24].nvs" 18304;
-	setAttr ".tgi[2].tn" -type "string" "flaps";
-	setAttr ".tgi[2].vl" -type "double2" 3673.6696919355059 -909.52377338258214 ;
-	setAttr ".tgi[2].vh" -type "double2" 6158.4727745131113 555.95235886081912 ;
-	setAttr -s 13 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 4855.71435546875;
-	setAttr ".tgi[2].ni[0].y" 97.142860412597656;
-	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" 4555.71435546875;
-	setAttr ".tgi[2].ni[1].y" -502.85714721679687;
-	setAttr ".tgi[2].ni[1].nvs" 18304;
-	setAttr ".tgi[2].ni[2].x" 4855.71435546875;
-	setAttr ".tgi[2].ni[2].y" 182.85714721679687;
-	setAttr ".tgi[2].ni[2].nvs" 18304;
-	setAttr ".tgi[2].ni[3].x" 5155.71435546875;
-	setAttr ".tgi[2].ni[3].y" 97.142860412597656;
-	setAttr ".tgi[2].ni[3].nvs" 18304;
-	setAttr ".tgi[2].ni[4].x" 3962.177734375;
-	setAttr ".tgi[2].ni[4].y" -143.04182434082031;
-	setAttr ".tgi[2].ni[4].nvs" 18304;
-	setAttr ".tgi[2].ni[5].x" 4855.71435546875;
-	setAttr ".tgi[2].ni[5].y" -417.14285278320312;
-	setAttr ".tgi[2].ni[5].nvs" 18304;
-	setAttr ".tgi[2].ni[6].x" 4555.71435546875;
-	setAttr ".tgi[2].ni[6].y" 182.85714721679687;
-	setAttr ".tgi[2].ni[6].nvs" 18304;
-	setAttr ".tgi[2].ni[7].x" 4855.71435546875;
-	setAttr ".tgi[2].ni[7].y" -502.85714721679687;
-	setAttr ".tgi[2].ni[7].nvs" 18304;
-	setAttr ".tgi[2].ni[8].x" 5155.71435546875;
-	setAttr ".tgi[2].ni[8].y" -417.14285278320312;
-	setAttr ".tgi[2].ni[8].nvs" 18304;
-	setAttr ".tgi[2].ni[9].x" 5412.85693359375;
-	setAttr ".tgi[2].ni[9].y" 97.142860412597656;
-	setAttr ".tgi[2].ni[9].nvs" 18304;
-	setAttr ".tgi[2].ni[10].x" 4264.59326171875;
-	setAttr ".tgi[2].ni[10].y" 172.18096923828125;
-	setAttr ".tgi[2].ni[10].nvs" 18304;
-	setAttr ".tgi[2].ni[11].x" 5412.85693359375;
-	setAttr ".tgi[2].ni[11].y" -417.14285278320312;
-	setAttr ".tgi[2].ni[11].nvs" 18304;
-	setAttr ".tgi[2].ni[12].x" 3914.807861328125;
-	setAttr ".tgi[2].ni[12].y" 157.32405090332031;
-	setAttr ".tgi[2].ni[12].nvs" 18304;
+createNode hyperLayout -n "hyperLayout1";
+	rename -uid "241EA458-49A4-C247-CA73-8FBA9EAB941E";
+	setAttr ".ihi" 0;
+	setAttr -s 60 ".hyp";
 select -ne :time1;
 	setAttr ".o" 0;
 select -ne :hardwareRenderingGlobals;
@@ -726,7 +793,7 @@ select -ne :defaultShaderList1;
 select -ne :postProcessList1;
 	setAttr -s 2 ".p";
 select -ne :defaultRenderUtilityList1;
-	setAttr -s 26 ".u";
+	setAttr -s 23 ".u";
 select -ne :defaultRenderingList1;
 select -ne :initialShadingGroup;
 	setAttr ".ro" yes;
@@ -737,13 +804,35 @@ select -ne :defaultResolution;
 select -ne :hardwareRenderGlobals;
 	setAttr ".ctrs" 256;
 	setAttr ".btrs" 512;
-connectAttr "flap_guided_srtOffset.t" "flap_srtOffset.t";
-connectAttr "flap_guided_srtOffset.r" "flap_srtOffset.r";
-connectAttr "child_guided_srtOffset.t" "child_srtOffset.t";
+connectAttr "hyperLayout1.msg" "link_cmpt.hl";
+connectAttr "link_topFlap_ctrl.msg" "link_cmpt.pni[0].pnod";
+connectAttr "link_btmFlap_ctrl.msg" "link_cmpt.pni[1].pnod";
+connectAttr "flap_guided_srtOffset.tx" "flap_srtOffset.tx";
+connectAttr "flap_guided_srtOffset.ty" "flap_srtOffset.ty";
+connectAttr "flap_guided_srtOffset.tz" "flap_srtOffset.tz";
+connectAttr "flap_guided_srtOffset.rx" "flap_srtOffset.rx";
+connectAttr "flap_guided_srtOffset.ry" "flap_srtOffset.ry";
+connectAttr "flap_guided_srtOffset.rz" "flap_srtOffset.rz";
+connectAttr "flap_guided_srtOffset.ry" "flap_srtOffset.guide_attr[0]";
+connectAttr "flap_guided_srtOffset.rx" "flap_srtOffset.guide_attr[1]";
+connectAttr "flap_guided_srtOffset.rz" "flap_srtOffset.guide_attr[2]";
+connectAttr "flap_guided_srtOffset.tz" "flap_srtOffset.guide_attr[3]";
+connectAttr "flap_guided_srtOffset.ty" "flap_srtOffset.guide_attr[4]";
+connectAttr "flap_guided_srtOffset.tx" "flap_srtOffset.guide_attr[5]";
+connectAttr "child_guided_srtOffset.tx" "child_srtOffset.tx";
+connectAttr "child_guided_srtOffset.ty" "child_srtOffset.ty";
+connectAttr "child_guided_srtOffset.tz" "child_srtOffset.tz";
+connectAttr "child_guided_srtOffset.ty" "child_srtOffset.guide_attr[0]";
+connectAttr "child_guided_srtOffset.tx" "child_srtOffset.guide_attr[1]";
+connectAttr "child_guided_srtOffset.tz" "child_srtOffset.guide_attr[2]";
 connectAttr "parent_srt.t" "parent_guided_srt.t";
 connectAttr "parent_srt.r" "parent_guided_srt.r";
 connectAttr "parent_srt.s" "parent_guided_srt.s";
-connectAttr "flapPivot_guided_position_localTo_parent.o" "flap_guided_srtOffset.t"
+connectAttr "flap_guided_srtOffset_pointConstraint1.ctx" "flap_guided_srtOffset.tx"
+		;
+connectAttr "flap_guided_srtOffset_pointConstraint1.cty" "flap_guided_srtOffset.ty"
+		;
+connectAttr "flap_guided_srtOffset_pointConstraint1.ctz" "flap_guided_srtOffset.tz"
 		;
 connectAttr "flap_guided_srtOffset_aimConstraint1.crx" "flap_guided_srtOffset.rx"
 		;
@@ -760,209 +849,309 @@ connectAttr "flap_guided_srtOffset.rpt" "flap_guided_srtOffset_aimConstraint1.cr
 		;
 connectAttr "flap_guided_srtOffset.ro" "flap_guided_srtOffset_aimConstraint1.cro"
 		;
-connectAttr "flapPivot_guide_aim_srt.t" "flap_guided_srtOffset_aimConstraint1.tg[0].tt"
+connectAttr "link_flapPivot_guide_aim_srt.t" "flap_guided_srtOffset_aimConstraint1.tg[0].tt"
 		;
-connectAttr "flapPivot_guide_aim_srt.rp" "flap_guided_srtOffset_aimConstraint1.tg[0].trp"
+connectAttr "link_flapPivot_guide_aim_srt.rp" "flap_guided_srtOffset_aimConstraint1.tg[0].trp"
 		;
-connectAttr "flapPivot_guide_aim_srt.rpt" "flap_guided_srtOffset_aimConstraint1.tg[0].trt"
+connectAttr "link_flapPivot_guide_aim_srt.rpt" "flap_guided_srtOffset_aimConstraint1.tg[0].trt"
 		;
-connectAttr "flapPivot_guide_aim_srt.pm" "flap_guided_srtOffset_aimConstraint1.tg[0].tpm"
+connectAttr "link_flapPivot_guide_aim_srt.pm" "flap_guided_srtOffset_aimConstraint1.tg[0].tpm"
 		;
 connectAttr "flap_guided_srtOffset_aimConstraint1.w0" "flap_guided_srtOffset_aimConstraint1.tg[0].tw"
 		;
-connectAttr "flapPivot_guide_up_srt.wm" "flap_guided_srtOffset_aimConstraint1.wum"
+connectAttr "link_flapPivot_guide_up_srt.wm" "flap_guided_srtOffset_aimConstraint1.wum"
 		;
-connectAttr "flapPivot_guide_srt.aimVector" "flap_guided_srtOffset_aimConstraint1.a"
+connectAttr "flap_guided_srtOffset.pim" "flap_guided_srtOffset_pointConstraint1.cpim"
 		;
-connectAttr "flapPivot_guide_srt.upVector" "flap_guided_srtOffset_aimConstraint1.u"
+connectAttr "flap_guided_srtOffset.rp" "flap_guided_srtOffset_pointConstraint1.crp"
+		;
+connectAttr "flap_guided_srtOffset.rpt" "flap_guided_srtOffset_pointConstraint1.crt"
+		;
+connectAttr "link_flapPivot_guide_srt.t" "flap_guided_srtOffset_pointConstraint1.tg[0].tt"
+		;
+connectAttr "link_flapPivot_guide_srt.rp" "flap_guided_srtOffset_pointConstraint1.tg[0].trp"
+		;
+connectAttr "link_flapPivot_guide_srt.rpt" "flap_guided_srtOffset_pointConstraint1.tg[0].trt"
+		;
+connectAttr "link_flapPivot_guide_srt.pm" "flap_guided_srtOffset_pointConstraint1.tg[0].tpm"
+		;
+connectAttr "flap_guided_srtOffset_pointConstraint1.w0" "flap_guided_srtOffset_pointConstraint1.tg[0].tw"
 		;
 connectAttr "this_srt.t" "this_guided_srt.t";
 connectAttr "this_srt.r" "this_guided_srt.r";
 connectAttr "this_srt.s" "this_guided_srt.s";
-connectAttr "child_srt_localTo_this.ot" "child_guided_srtOffset.t";
-connectAttr "topFlap_srtOffset_inWorld.ot" "topFlap_ctrl_srtOffset.t";
-connectAttr "topFlap_srtOffset_inWorld.or" "topFlap_ctrl_srtOffset.r";
-connectAttr "topFlap_srtOffset_inWorld.os" "topFlap_ctrl_srtOffset.s";
-connectAttr "btmFlap_srtOffset_inWorld.ot" "btmFlap_ctrl_srtOffset.t";
-connectAttr "btmFlap_srtOffset_inWorld.or" "btmFlap_ctrl_srtOffset.r";
-connectAttr "btmFlap_srtOffset_inWorld.os" "btmFlap_ctrl_srtOffset.s";
-connectAttr "topFlap_srt_inWorld.ot" "top_flap_srt.t";
-connectAttr "topFlap_srt_inWorld.or" "top_flap_srt.r";
-connectAttr "topFlap_srt_inWorld.os" "top_flap_srt.s";
-connectAttr "btmFlap_srt_inWorld.ot" "btm_flap_srt.t";
-connectAttr "btmFlap_srt_inWorld.or" "btm_flap_srt.r";
-connectAttr "btmFlap_srt_inWorld.os" "btm_flap_srt.s";
-connectAttr "axle_srt_inWorld.ot" "axle_srt.t";
-connectAttr "axle_srt_inWorld.or" "axle_srt.r";
-connectAttr "axle_srt_inWorld.os" "axle_srt.s";
-connectAttr "hinge_srt_inWorld.ot" "hinge_srt.t";
-connectAttr "hinge_srt_inWorld.or" "hinge_srt.r";
-connectAttr "hinge_srt_inWorld.os" "hinge_srt.s";
-connectAttr "swivel_srt_inWorld.ot" "swivel_srt.t";
-connectAttr "swivel_srt_inWorld.or" "swivel_srt.r";
-connectAttr "swivel_srt_inWorld.os" "swivel_srt.s";
+connectAttr "child_guided_srtOffset_pointConstraint1.ctx" "child_guided_srtOffset.tx"
+		;
+connectAttr "child_guided_srtOffset_pointConstraint1.cty" "child_guided_srtOffset.ty"
+		;
+connectAttr "child_guided_srtOffset_pointConstraint1.ctz" "child_guided_srtOffset.tz"
+		;
+connectAttr "child_guided_srtOffset.pim" "child_guided_srtOffset_pointConstraint1.cpim"
+		;
+connectAttr "child_guided_srtOffset.rp" "child_guided_srtOffset_pointConstraint1.crp"
+		;
+connectAttr "child_guided_srtOffset.rpt" "child_guided_srtOffset_pointConstraint1.crt"
+		;
+connectAttr "link_child_guide_srt.t" "child_guided_srtOffset_pointConstraint1.tg[0].tt"
+		;
+connectAttr "link_child_guide_srt.rp" "child_guided_srtOffset_pointConstraint1.tg[0].trp"
+		;
+connectAttr "link_child_guide_srt.rpt" "child_guided_srtOffset_pointConstraint1.tg[0].trt"
+		;
+connectAttr "link_child_guide_srt.pm" "child_guided_srtOffset_pointConstraint1.tg[0].tpm"
+		;
+connectAttr "child_guided_srtOffset_pointConstraint1.w0" "child_guided_srtOffset_pointConstraint1.tg[0].tw"
+		;
+connectAttr "link_topFlap_srtOffset_inWorld.ot" "link_topFlap_ctrl_srtOffset.t";
+connectAttr "link_topFlap_srtOffset_inWorld.or" "link_topFlap_ctrl_srtOffset.r";
+connectAttr "link_topFlap_srtOffset_inWorld.os" "link_topFlap_ctrl_srtOffset.s";
+connectAttr "link_btmFlap_srtOffset_inWorld.ot" "link_btmFlap_ctrl_srtOffset.t";
+connectAttr "link_btmFlap_srtOffset_inWorld.or" "link_btmFlap_ctrl_srtOffset.r";
+connectAttr "link_btmFlap_srtOffset_inWorld.os" "link_btmFlap_ctrl_srtOffset.s";
+connectAttr "link_topFlap_srt_inWorld.ot" "top_flap_srt.t";
+connectAttr "link_topFlap_srt_inWorld.or" "top_flap_srt.r";
+connectAttr "link_topFlap_srt_inWorld.os" "top_flap_srt.s";
+connectAttr "link_btmFlap_srt_inWorld.ot" "btm_flap_srt.t";
+connectAttr "link_btmFlap_srt_inWorld.or" "btm_flap_srt.r";
+connectAttr "link_btmFlap_srt_inWorld.os" "btm_flap_srt.s";
+connectAttr "link_axle_srt_inWorld.ot" "axle_srt.t";
+connectAttr "link_axle_srt_inWorld.or" "axle_srt.r";
+connectAttr "link_axle_srt_inWorld.os" "axle_srt.s";
+connectAttr "link_hinge_srt_inWorld.ot" "hinge_srt.t";
+connectAttr "link_hinge_srt_inWorld.or" "hinge_srt.r";
+connectAttr "link_hinge_srt_inWorld.os" "hinge_srt.s";
+connectAttr "link_swivel_srt_inWorld.ot" "swivel_srt.t";
+connectAttr "link_swivel_srt_inWorld.or" "swivel_srt.r";
+connectAttr "link_swivel_srt_inWorld.os" "swivel_srt.s";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 connectAttr "layerManager.dli[0]" "defaultLayer.id";
 connectAttr "renderLayerManager.rlmi[0]" "defaultRenderLayer.rlid";
-connectAttr "this_srt.wm" "matrix_localTo_parent.i[0]";
-connectAttr "parent_srt.wim" "matrix_localTo_parent.i[1]";
-connectAttr "matrix_localTo_parent.o" "srt_localTo_parent.imat";
-connectAttr "srt_localTo_parent.oq" "rotation_localTo_parent.iq";
-connectAttr "rotation_localTo_parent.iro" "hinge_srt_localTo_parent.ro";
-connectAttr "rotation_localTo_parent.orx" "hinge_srt_localTo_parent.irx";
-connectAttr "rotation_localTo_parent.ory" "hinge_srt_localTo_parent.iry";
-connectAttr "srt_localTo_parent.ot" "hinge_srt_localTo_parent.it";
-connectAttr "rotation_localTo_parent.iro" "axle_srt_localTo_parent.ro";
-connectAttr "rotation_localTo_parent.orx" "axle_srt_localTo_parent.irx";
-connectAttr "srt_localTo_parent.ot" "axle_srt_localTo_parent.it";
-connectAttr "rotation_localTo_parent.iro" "swivel_srt_localTo_parent.ro";
-connectAttr "rotation_localTo_parent.orx" "swivel_srt_localTo_parent.irx";
-connectAttr "rotation_localTo_parent.ory" "swivel_srt_localTo_parent.iry";
-connectAttr "rotation_localTo_parent.orz" "swivel_srt_localTo_parent.irz";
-connectAttr "srt_localTo_parent.ot" "swivel_srt_localTo_parent.it";
-connectAttr "swivel_srt_localTo_parent.omat" "swivel_parentMatrix.i[0]";
-connectAttr "parent_srt.wm" "swivel_parentMatrix.i[1]";
-connectAttr "axle_srt_localTo_parent.omat" "axle_worldMatrix.i[0]";
-connectAttr "parent_srt.wm" "axle_worldMatrix.i[1]";
-connectAttr "hinge_srt_localTo_parent.omat" "hinge_worldMatrix.i[0]";
-connectAttr "parent_srt.wm" "hinge_worldMatrix.i[1]";
-connectAttr "axle_worldMatrix.o" "axle_srt_inWorld.imat";
-connectAttr "hinge_worldMatrix.o" "hinge_srt_inWorld.imat";
-connectAttr "swivel_worldMatrix.o" "swivel_srt_inWorld.imat";
-connectAttr "flap_srtOffset.wm" "topFlap_srtOffset_inWorld.imat";
-connectAttr "btmFlap_parentMatrix.o" "btmFlap_srtOffset_inWorld.imat";
-connectAttr "btmFlap_ctrl_orientation_matrix.omat" "btmFlap_parentMatrix.i[0]";
-connectAttr "flap_srtOffset.wm" "btmFlap_parentMatrix.i[1]";
-connectAttr "btmFlap_ctrl.wm" "btmFlap_srt_inWorld.imat";
-connectAttr "topFlap_ctrl.wm" "topFlap_srt_inWorld.imat";
-connectAttr "child_srt.wm" "child_matrix_localTo_swivelParent.i[1]";
-connectAttr "swivel_parentInverseMatrix.omat" "child_matrix_localTo_swivelParent.i[2]"
+connectAttr "this_srt.wm" "link_matrix_localTo_parent.i[0]";
+connectAttr "parent_srt.wim" "link_matrix_localTo_parent.i[1]";
+connectAttr "link_matrix_localTo_parent.o" "link_srt_localTo_parent.imat";
+connectAttr "link_srt_localTo_parent.oq" "link_rotation_localTo_parent.iq";
+connectAttr "link_rotation_localTo_parent.iro" "link_hinge_srt_localTo_parent.ro"
 		;
-connectAttr "child_matrix_localTo_swivelParent.o" "child_transform_localTo_swivelParent.imat"
+connectAttr "link_rotation_localTo_parent.orx" "link_hinge_srt_localTo_parent.irx"
 		;
-connectAttr "child_transform_localTo_swivelParent.ot" "swivel_matrix.it";
-connectAttr "swivel_parentMatrix.o" "swivel_parentInverseMatrix.imat";
-connectAttr "child_srtOffset.im" "swivel_worldMatrix.i[0]";
-connectAttr "swivel_matrix.omat" "swivel_worldMatrix.i[1]";
-connectAttr "swivel_parentMatrix.o" "swivel_worldMatrix.i[2]";
-connectAttr "child_guide_srt.wm" "child_matrix_localTo_this.i[0]";
-connectAttr "this_guided_srt.wim" "child_matrix_localTo_this.i[1]";
-connectAttr "child_matrix_localTo_this.o" "child_srt_localTo_this.imat";
-connectAttr "parent_guided_srt.wim" "flapPivot_guided_position_localTo_parent.m"
+connectAttr "link_rotation_localTo_parent.ory" "link_hinge_srt_localTo_parent.iry"
 		;
-connectAttr "flapPivot_guide_srt.t" "flapPivot_guided_position_localTo_parent.i1"
+connectAttr "link_srt_localTo_parent.ot" "link_hinge_srt_localTo_parent.it";
+connectAttr "link_rotation_localTo_parent.iro" "link_axle_srt_localTo_parent.ro"
 		;
-connectAttr "flapPivot_guide_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
+connectAttr "link_rotation_localTo_parent.orx" "link_axle_srt_localTo_parent.irx"
 		;
-connectAttr "flapPivot_guided_position_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "link_srt_localTo_parent.ot" "link_axle_srt_localTo_parent.it";
+connectAttr "link_rotation_localTo_parent.iro" "link_swivel_srt_localTo_parent.ro"
 		;
-connectAttr "child_srt_localTo_this.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "link_rotation_localTo_parent.orx" "link_swivel_srt_localTo_parent.irx"
 		;
-connectAttr "child_guided_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+connectAttr "link_rotation_localTo_parent.ory" "link_swivel_srt_localTo_parent.iry"
 		;
-connectAttr "this_guided_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn";
-connectAttr "flap_guided_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+connectAttr "link_rotation_localTo_parent.orz" "link_swivel_srt_localTo_parent.irz"
 		;
-connectAttr "child_guide_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
-connectAttr "parent_guided_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+connectAttr "link_srt_localTo_parent.ot" "link_swivel_srt_localTo_parent.it";
+connectAttr "link_swivel_srt_localTo_parent.omat" "link_swivel_parentMatrix.i[0]"
 		;
-connectAttr "child_matrix_localTo_this.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+connectAttr "parent_srt.wm" "link_swivel_parentMatrix.i[1]";
+connectAttr "link_axle_srt_localTo_parent.omat" "link_axle_worldMatrix.i[0]";
+connectAttr "parent_srt.wm" "link_axle_worldMatrix.i[1]";
+connectAttr "link_hinge_srt_localTo_parent.omat" "link_hinge_worldMatrix.i[0]";
+connectAttr "parent_srt.wm" "link_hinge_worldMatrix.i[1]";
+connectAttr "link_axle_worldMatrix.o" "link_axle_srt_inWorld.imat";
+connectAttr "link_hinge_worldMatrix.o" "link_hinge_srt_inWorld.imat";
+connectAttr "link_swivel_worldMatrix.o" "link_swivel_srt_inWorld.imat";
+connectAttr "flap_srtOffset.wm" "link_topFlap_srtOffset_inWorld.imat";
+connectAttr "link_btmFlap_parentMatrix.o" "link_btmFlap_srtOffset_inWorld.imat";
+connectAttr "link_btmFlap_ctrl_orientation_matrix.omat" "link_btmFlap_parentMatrix.i[0]"
 		;
-connectAttr "flapPivot_guide_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
+connectAttr "flap_srtOffset.wm" "link_btmFlap_parentMatrix.i[1]";
+connectAttr "link_btmFlap_ctrl.wm" "link_btmFlap_srt_inWorld.imat";
+connectAttr "link_topFlap_ctrl.wm" "link_topFlap_srt_inWorld.imat";
+connectAttr "child_srt.wm" "link_child_matrix_localTo_swivelParent.i[1]";
+connectAttr "link_swivel_parentInverseMatrix.omat" "link_child_matrix_localTo_swivelParent.i[2]"
 		;
-connectAttr "child_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
-connectAttr "swivel_parentInverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "link_child_matrix_localTo_swivelParent.o" "link_child_transform_localTo_swivelParent.imat"
 		;
-connectAttr "hinge_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+connectAttr "link_child_transform_localTo_swivelParent.ot" "link_swivel_matrix.it"
 		;
-connectAttr "hinge_srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "link_swivel_parentMatrix.o" "link_swivel_parentInverseMatrix.imat";
+connectAttr "child_srtOffset.im" "link_swivel_worldMatrix.i[0]";
+connectAttr "link_swivel_matrix.omat" "link_swivel_worldMatrix.i[1]";
+connectAttr "link_swivel_parentMatrix.o" "link_swivel_worldMatrix.i[2]";
+connectAttr "link_swivel_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "swivel_matrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "hinge_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn";
-connectAttr "hinge_worldMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
+connectAttr "link_srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
-connectAttr "swivel_parentMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn"
+connectAttr "link_hinge_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "matrix_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn"
+connectAttr "link_swivel_worldMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
 		;
-connectAttr "child_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn";
-connectAttr "rotation_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
+connectAttr "link_axle_worldMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
-connectAttr "parent_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn";
-connectAttr "swivel_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn";
-connectAttr "child_matrix_localTo_swivelParent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn"
+connectAttr "child_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "link_child_transform_localTo_swivelParent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
 		;
-connectAttr "swivel_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
+connectAttr "hinge_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
+connectAttr "link_child_matrix_localTo_swivelParent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
 		;
-connectAttr "axle_srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn"
+connectAttr "link_swivel_srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
 		;
-connectAttr "swivel_worldMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[17].dn"
+connectAttr "parent_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
+connectAttr "link_axle_srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
 		;
-connectAttr "axle_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[18].dn"
+connectAttr "link_axle_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "child_transform_localTo_swivelParent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[19].dn"
+connectAttr "swivel_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn";
+connectAttr "link_rotation_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
 		;
-connectAttr "this_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[20].dn";
-connectAttr "axle_worldMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[21].dn"
+connectAttr "this_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[15].dn";
+connectAttr "link_swivel_parentInverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[16].dn"
 		;
-connectAttr "swivel_srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[22].dn"
+connectAttr "link_hinge_worldMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[17].dn"
 		;
-connectAttr "axle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[23].dn";
-connectAttr "srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[24].dn"
+connectAttr "link_flapPivot_guide_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[18].dn"
 		;
-connectAttr "btmFlap_ctrl.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
-connectAttr "topFlap_srtOffset_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
+connectAttr "link_swivel_matrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[19].dn"
 		;
-connectAttr "btmFlap_ctrl_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
+connectAttr "link_swivel_parentMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[20].dn"
 		;
-connectAttr "btmFlap_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+connectAttr "link_hinge_srt_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[21].dn"
 		;
-connectAttr "flap_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
-connectAttr "topFlap_ctrl.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
-connectAttr "btmFlap_srtOffset_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
+connectAttr "link_matrix_localTo_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[22].dn"
 		;
-connectAttr "topFlap_ctrl_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
+connectAttr "axle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[23].dn";
+connectAttr "child_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[24].dn"
 		;
-connectAttr "topFlap_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
+connectAttr "link_btmFlap_ctrl_orientation_matrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
 		;
-connectAttr "btm_flap_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn";
-connectAttr "btmFlap_parentMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn"
+connectAttr "link_btmFlap_parentMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
 		;
-connectAttr "top_flap_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn";
-connectAttr "btmFlap_ctrl_orientation_matrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
+connectAttr "btm_flap_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "top_flap_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
+connectAttr "link_topFlap_ctrl.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
 		;
-connectAttr "matrix_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "rotation_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "hinge_srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "axle_srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "swivel_srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "swivel_parentMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "axle_worldMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "hinge_worldMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "axle_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "hinge_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "swivel_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "topFlap_srtOffset_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "btmFlap_srtOffset_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "btmFlap_parentMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "btmFlap_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "topFlap_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "btmFlap_ctrl_orientation_matrix.msg" ":defaultRenderUtilityList1.u"
+connectAttr "link_btmFlap_ctrl.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
+		;
+connectAttr "link_topFlap_ctrl_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
+		;
+connectAttr "link_btmFlap_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
+		;
+connectAttr "link_btmFlap_ctrl_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn"
+		;
+connectAttr "flap_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn";
+connectAttr "link_topFlap_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
+		;
+connectAttr "link_topFlap_srtOffset_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
+		;
+connectAttr "link_btmFlap_srtOffset_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
+		;
+connectAttr "about.msg" "hyperLayout1.hyp[0].dn";
+connectAttr "input.msg" "hyperLayout1.hyp[1].dn";
+connectAttr "parent_srt.msg" "hyperLayout1.hyp[2].dn";
+connectAttr "flap_srtOffset.msg" "hyperLayout1.hyp[3].dn";
+connectAttr "this_srt.msg" "hyperLayout1.hyp[4].dn";
+connectAttr "child_srtOffset.msg" "hyperLayout1.hyp[5].dn";
+connectAttr "child_srt.msg" "hyperLayout1.hyp[6].dn";
+connectAttr "guided.msg" "hyperLayout1.hyp[7].dn";
+connectAttr "parent_guided_srt.msg" "hyperLayout1.hyp[8].dn";
+connectAttr "flap_guided_srtOffset.msg" "hyperLayout1.hyp[9].dn";
+connectAttr "flap_guided_srtOffset_aimConstraint1.msg" "hyperLayout1.hyp[10].dn"
+		;
+connectAttr "flap_guided_srtOffset_pointConstraint1.msg" "hyperLayout1.hyp[11].dn"
+		;
+connectAttr "this_guided_srt.msg" "hyperLayout1.hyp[12].dn";
+connectAttr "child_guided_srtOffset.msg" "hyperLayout1.hyp[13].dn";
+connectAttr "child_guided_srtOffset_pointConstraint1.msg" "hyperLayout1.hyp[14].dn"
+		;
+connectAttr "guides.msg" "hyperLayout1.hyp[15].dn";
+connectAttr "link_flapPivot_guide_srt.msg" "hyperLayout1.hyp[16].dn";
+connectAttr "|link_cmpt|guides|link_flapPivot_guide_srt|link_curveShape2.msg" "hyperLayout1.hyp[17].dn"
+		;
+connectAttr "link_flapPivot_guide_aim_srt.msg" "hyperLayout1.hyp[18].dn";
+connectAttr "|link_cmpt|guides|link_flapPivot_guide_srt|link_flapPivot_guide_aim_srt|link_curveShape2.msg" "hyperLayout1.hyp[19].dn"
+		;
+connectAttr "link_flapPivot_guide_up_srt.msg" "hyperLayout1.hyp[20].dn";
+connectAttr "|link_cmpt|guides|link_flapPivot_guide_srt|link_flapPivot_guide_up_srt|link_curveShape2.msg" "hyperLayout1.hyp[21].dn"
+		;
+connectAttr "link_child_guide_srt.msg" "hyperLayout1.hyp[22].dn";
+connectAttr "|link_cmpt|guides|link_child_guide_srt|link_curveShape2.msg" "hyperLayout1.hyp[23].dn"
+		;
+connectAttr "control.msg" "hyperLayout1.hyp[24].dn";
+connectAttr "link_topFlap_ctrl_srtOffset.msg" "hyperLayout1.hyp[25].dn";
+connectAttr "link_topFlap_ctrl.msg" "hyperLayout1.hyp[26].dn";
+connectAttr "link_curveShape3.msg" "hyperLayout1.hyp[27].dn";
+connectAttr "link_btmFlap_ctrl_srtOffset.msg" "hyperLayout1.hyp[28].dn";
+connectAttr "link_btmFlap_ctrl.msg" "hyperLayout1.hyp[29].dn";
+connectAttr "|link_cmpt|control|link_btmFlap_ctrl_srtOffset|link_btmFlap_ctrl|link_curveShape2.msg" "hyperLayout1.hyp[30].dn"
+		;
+connectAttr "deform.msg" "hyperLayout1.hyp[31].dn";
+connectAttr "top_flap_srt.msg" "hyperLayout1.hyp[32].dn";
+connectAttr "btm_flap_srt.msg" "hyperLayout1.hyp[33].dn";
+connectAttr "axle_srt.msg" "hyperLayout1.hyp[34].dn";
+connectAttr "hinge_srt.msg" "hyperLayout1.hyp[35].dn";
+connectAttr "swivel_srt.msg" "hyperLayout1.hyp[36].dn";
+connectAttr "link_swivel_worldMatrix.msg" "hyperLayout1.hyp[37].dn";
+connectAttr "link_swivel_parentInverseMatrix.msg" "hyperLayout1.hyp[38].dn";
+connectAttr "link_swivel_matrix.msg" "hyperLayout1.hyp[39].dn";
+connectAttr "link_child_transform_localTo_swivelParent.msg" "hyperLayout1.hyp[40].dn"
+		;
+connectAttr "link_child_matrix_localTo_swivelParent.msg" "hyperLayout1.hyp[41].dn"
+		;
+connectAttr "link_btmFlap_ctrl_orientation_matrix.msg" "hyperLayout1.hyp[42].dn"
+		;
+connectAttr "link_topFlap_srt_inWorld.msg" "hyperLayout1.hyp[43].dn";
+connectAttr "link_btmFlap_srt_inWorld.msg" "hyperLayout1.hyp[44].dn";
+connectAttr "link_btmFlap_parentMatrix.msg" "hyperLayout1.hyp[45].dn";
+connectAttr "link_btmFlap_srtOffset_inWorld.msg" "hyperLayout1.hyp[46].dn";
+connectAttr "link_topFlap_srtOffset_inWorld.msg" "hyperLayout1.hyp[47].dn";
+connectAttr "link_swivel_srt_inWorld.msg" "hyperLayout1.hyp[48].dn";
+connectAttr "link_hinge_srt_inWorld.msg" "hyperLayout1.hyp[49].dn";
+connectAttr "link_axle_srt_inWorld.msg" "hyperLayout1.hyp[50].dn";
+connectAttr "link_hinge_worldMatrix.msg" "hyperLayout1.hyp[51].dn";
+connectAttr "link_axle_worldMatrix.msg" "hyperLayout1.hyp[52].dn";
+connectAttr "link_swivel_parentMatrix.msg" "hyperLayout1.hyp[53].dn";
+connectAttr "link_swivel_srt_localTo_parent.msg" "hyperLayout1.hyp[54].dn";
+connectAttr "link_axle_srt_localTo_parent.msg" "hyperLayout1.hyp[55].dn";
+connectAttr "link_hinge_srt_localTo_parent.msg" "hyperLayout1.hyp[56].dn";
+connectAttr "link_rotation_localTo_parent.msg" "hyperLayout1.hyp[57].dn";
+connectAttr "link_srt_localTo_parent.msg" "hyperLayout1.hyp[58].dn";
+connectAttr "link_matrix_localTo_parent.msg" "hyperLayout1.hyp[59].dn";
+connectAttr "link_matrix_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_rotation_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "link_hinge_srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "link_axle_srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "link_swivel_srt_localTo_parent.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "link_swivel_parentMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_axle_worldMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_hinge_worldMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_axle_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_hinge_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_swivel_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_topFlap_srtOffset_inWorld.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "link_btmFlap_srtOffset_inWorld.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "link_btmFlap_parentMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_btmFlap_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_topFlap_srt_inWorld.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_btmFlap_ctrl_orientation_matrix.msg" ":defaultRenderUtilityList1.u"
 		 -na;
-connectAttr "child_matrix_localTo_swivelParent.msg" ":defaultRenderUtilityList1.u"
+connectAttr "link_child_matrix_localTo_swivelParent.msg" ":defaultRenderUtilityList1.u"
 		 -na;
-connectAttr "child_transform_localTo_swivelParent.msg" ":defaultRenderUtilityList1.u"
+connectAttr "link_child_transform_localTo_swivelParent.msg" ":defaultRenderUtilityList1.u"
 		 -na;
-connectAttr "swivel_matrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "swivel_parentInverseMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "swivel_worldMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "child_matrix_localTo_this.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "child_srt_localTo_this.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "flapPivot_guided_position_localTo_parent.msg" ":defaultRenderUtilityList1.u"
+connectAttr "link_swivel_matrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "link_swivel_parentInverseMatrix.msg" ":defaultRenderUtilityList1.u"
 		 -na;
+connectAttr "link_swivel_worldMatrix.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 // End of twoFlapLink.ma
