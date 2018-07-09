@@ -200,6 +200,9 @@ def plug_long_name(plug, **kwargs):
     )
 
 
+class ParseArgumentError(RuntimeError):
+    pass
+
 class ArgumentParser(object):
     """Convienence methods for parsing Maya command arguments.
 
@@ -308,10 +311,13 @@ class ArgumentParser(object):
 
         result = []
 
-        selected_objects = self._args_data.getObjectList()
+        try:
+            selected_objects = self._args_data.getObjectList()
+        except RuntimeError:
+            selected_objects = OpenMaya.MSelectionList()
 
         for i in xrange(selected_objects.length()):
-            cmpt = selected_objects.getDependNode(0)
+            cmpt = selected_objects.getDependNode(i)
 
             if not cmpt.isNull():
                 result.append(cmpt)
@@ -614,27 +620,23 @@ class RenameRigComponentCommand(OpenMaya.MPxCommand):
         self.redoIt()
 
     def get_name(self, obj, old_prefix):
-        if obj.hasFn(OpenMaya.MFn.kDagNode):
-            name = OpenMaya.MDagPath.getAPathTo(obj).fullPathName()
-        else:
-            name = OpenMaya.MFnDependencyNode(obj).name()
-
-        path_parts = name.split('|')
-
-        name = path_parts[-1].replace(old_prefix, '')
-
-        name_parts = map(str, name.split('_'))
+        name = node_short_name(obj)
 
         if name in [
+            'about',
             'input',
             'guided',
             'guides',
             'internal',
+            'display',
             'control',
             'deform',
             'output'
         ]:
             return name
+
+        full_path = node_long_name(obj)
+        path_parts = full_path.split('|')
 
         if (
                'input' in path_parts
@@ -642,6 +644,9 @@ class RenameRigComponentCommand(OpenMaya.MPxCommand):
             or 'deform' in path_parts
         ):
             return name
+
+        short_name = name.replace(old_prefix, '')
+        name_parts = map(str, short_name.split('_'))
 
         if name_parts[0] == self.cmpt_name:
             name_parts.pop(0)
@@ -678,8 +683,11 @@ class RenameRigComponentCommand(OpenMaya.MPxCommand):
         new_name = self.get_name(self.selected_component, old_prefix)
 
         if cmds.objExists(new_name):
-            self.displayError("A component name '%s' already exists." % new_name)
-            return
+            other_cmpt = get_cmpt_by_name(new_name)
+
+            if self.selected_component != other_cmpt:
+                self.displayError("A component name '%s' already exists." % new_name)
+                return
 
         for each in iter_asset(self.selected_component):
             self.nameIt(each, old_prefix)
@@ -736,7 +744,7 @@ class MirrorComponentGuidesCommand(OpenMaya.MPxCommand):
     def get_syntax():
         syntax = OpenMaya.MSyntax()
 
-        syntax.setObjectType(OpenMaya.MSyntax.kSelectionList, 1)
+        syntax.setObjectType(OpenMaya.MSyntax.kSelectionList)
         syntax.useSelectionAsDefault(True)
 
         syntax.addFlag(
@@ -809,7 +817,12 @@ class MirrorComponentGuidesCommand(OpenMaya.MPxCommand):
             lhs, rhs = self.search_replace
 
             name_parts = name.split('_')
-            name_parts[1] = rhs
+
+            try:
+                idx = name_parts.index(lhs)
+                name_parts[idx] = rhs
+            except ValueError:
+                pass
 
             result = '_'.join(name_parts)
 
@@ -828,8 +841,6 @@ class MirrorComponentGuidesCommand(OpenMaya.MPxCommand):
             m = OpenMaya.MMatrix([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, z, 1])
 
             name_parts = mirrored_name.split('_')
-
-            print name_parts
 
             if 'aim' in name_parts or 'up' in name_parts:
                 mm = m * self.mirror_orientation_matrix
@@ -886,8 +897,6 @@ class MirrorComponentGuidesCommand(OpenMaya.MPxCommand):
             if other_cmpt.isNull():
                 continue
 
-            print cmpt_name, other_name
-
             cmpt_data = dict(SaveComponentGuidesCommand.workIt(cmpt))
             self.undo_data.append((cmpt, cmpt_data))
 
@@ -937,7 +946,7 @@ class BaseComponentIOCommand(OpenMaya.MPxCommand):
 
         return syntax
 
-    def doIt(self, args_list):
+    def parse_args(self, args_list):
         args_data = OpenMaya.MArgDatabase(self.syntax(), args_list)
 
         arg_parser = ArgumentParser(args_data, self.command_name)
@@ -952,6 +961,14 @@ class BaseComponentIOCommand(OpenMaya.MPxCommand):
             self.selected_components = arg_parser.get_selected_components()
         except LookupError as e:
             self.displayError(str(e))
+            raise ParseArgumentError()
+
+        return args_data
+
+    def doIt(self, args_list):
+        try:
+            self.parse_args(args_list)
+        except ParseArgumentError:
             return
 
         self.redoIt()
@@ -1030,7 +1047,8 @@ class LoadComponentGuidesCommand(BaseComponentIOCommand):
 
     def undoIt(self):
         for plug, old_value in self.undo_data:
-            plug.setDouble(old_value)
+            if not (plug.isLocked or plug.isDestination):
+                plug.setDouble(old_value)
 
 
 class SaveComponentGuidesCommand(BaseComponentIOCommand):
@@ -1092,55 +1110,14 @@ class LoadComponentInputsCommand(BaseComponentIOCommand):
         super(LoadComponentInputsCommand, self).__init__()
 
         self.undo_data = []
+        self.search_replace = ("", "")
 
     @staticmethod
     def create():
         return LoadComponentInputsCommand()
 
     @staticmethod
-    def doWork(input_node, input_data):
-        input_fn = OpenMaya.MFnDependencyNode(input_node)
-
-        for attr, data in input_data.iteritems():
-            if not input_fn.hasAttribute(attr):
-                continue
-
-            cmpt_name, output_name = data
-
-            cmpt = get_cmpt_by_name(cmpt_name)
-
-            if cmpt.isNull():
-                continue
-
-            output_hrc = find_cmpt_node(cmpt, 'output')
-
-            if output_hrc.isNull():
-                continue
-
-            output_node = find_cmpt_node(output_hrc, output_name)
-
-            if output_node.isNull():
-                continue
-
-            output_fn = OpenMaya.MFnDependencyNode(output_node)
-
-            if not output_fn.hasAttribute(attr):
-                continue
-
-            src_plug = output_fn.findPlug(attr, True)
-            dest_plug = input_fn.findPlug(attr, True)
-
-            src_attr = plug_long_name(src_plug)
-            dest_attr = plug_long_name(dest_plug)
-
-            if cmds.isConnected(src_attr, dest_attr):
-                continue
-
-            cmds.connectAttr(src_attr, dest_attr, force=True)
-
-            yield src_attr, dest_attr
-
-    def workIt(self, cmpt, cmpt_data):
+    def workIt(cmpt, cmpt_data):
         input_hrc = find_cmpt_node(cmpt, 'input')
 
         for name, input_data in cmpt_data.iteritems():
@@ -1149,8 +1126,46 @@ class LoadComponentInputsCommand(BaseComponentIOCommand):
             if input_node.isNull():
                 continue
 
-            for src_attr, dest_attr in self.doWork(input_node, input_data):
-                self.undo_data.append((src_attr, dest_attr))
+            input_fn = OpenMaya.MFnDependencyNode(input_node)
+
+            for attr, data in input_data.iteritems():
+                if not input_fn.hasAttribute(attr):
+                    continue
+
+                cmpt_name, output_name = data
+
+                cmpt = get_cmpt_by_name(cmpt_name)
+
+                if cmpt.isNull():
+                    continue
+
+                output_hrc = find_cmpt_node(cmpt, 'output')
+
+                if output_hrc.isNull():
+                    continue
+
+                output_node = find_cmpt_node(output_hrc, output_name)
+
+                if output_node.isNull():
+                    continue
+
+                output_fn = OpenMaya.MFnDependencyNode(output_node)
+
+                if not output_fn.hasAttribute(attr):
+                    continue
+
+                src_plug = output_fn.findPlug(attr, True)
+                dest_plug = input_fn.findPlug(attr, True)
+
+                src_attr = plug_long_name(src_plug)
+                dest_attr = plug_long_name(dest_plug)
+
+                if cmds.isConnected(src_attr, dest_attr):
+                    continue
+
+                cmds.connectAttr(src_attr, dest_attr, force=True)
+
+                yield src_attr, dest_attr
 
     def redoIt(self):
         with open(self.filepath, 'r') as fp:
@@ -1164,7 +1179,8 @@ class LoadComponentInputsCommand(BaseComponentIOCommand):
             except KeyError:
                 self.displayWarning("No input data found for '{}'.".format(cmpt_name))
             else:
-                self.workIt(cmpt, cmpt_data)
+                for src_attr, dest_attr in self.workIt(cmpt, cmpt_data):
+                    self.undo_data.append((src_attr, dest_attr))
 
     def undoIt(self):
         for src_attr, dst_attr in self.undo_data:
@@ -1220,7 +1236,8 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
 
         return cmpt_name, driver_name
 
-    def workIt(self, cmpt):
+    @staticmethod
+    def workIt(cmpt, displayWarning=None):
         for node in iter_dag(find_cmpt_node(cmpt, 'input')):
             data = {}
 
@@ -1239,15 +1256,16 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
                 plug = node_fn.findPlug(attr, True)
 
                 try:
-                    result = self.doWork(plug)
+                    result = SaveComponentInputsCommand.doWork(plug)
                 except ValueError as e:
-                    self.displayWarning(
-                        "Could not save '{}' input '{}' - {}".format(
-                            node_short_name(cmpt),
-                            plug.name(),
-                            str(e)
+                    if callable(displayWarning):
+                        displayWarning(
+                            "Could not save '{}' input '{}' - {}".format(
+                                node_short_name(cmpt),
+                                plug.name(),
+                                str(e)
+                            )
                         )
-                    )
                 else:
                     if result is not None:
                         data[attr] = result
@@ -1256,7 +1274,7 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
 
     def redoIt(self):
         data = {
-            node_short_name(cmpt): dict(self.workIt(cmpt))
+            node_short_name(cmpt): dict(self.workIt(cmpt, self.displayWarning))
             for cmpt in self.selected_components
         }
 
@@ -1264,6 +1282,154 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
             json.dump(data, fp, indent=4)
 
         self.setResult(self.filepath)
+
+
+class MirrorComponentInputsCommand(OpenMaya.MPxCommand):
+    """Command to mirror component input connections.
+
+    Usage
+    -----
+        mirrorCmptInputs [-searchReplace "" ""] [cmpt...]
+    """
+
+    command_name = 'mirrorCmptInputs'
+
+    SEARCH_REPLACE_FLAG = "-sr"
+    SEARCH_REPLACE_LONG = "-searchReplace"
+
+    def __init__(self):
+        super(MirrorComponentInputsCommand, self).__init__()
+
+        self.selected_components = []
+        self.search_replace = ('', '')
+        self.undo_data = []
+
+    @staticmethod
+    def create():
+        return MirrorComponentInputsCommand()
+
+    @staticmethod
+    def hasSyntax():
+        return True
+
+    @staticmethod
+    def isUndoable():
+        return True
+
+    @staticmethod
+    def get_syntax():
+        syntax = OpenMaya.MSyntax()
+
+        syntax.setObjectType(OpenMaya.MSyntax.kSelectionList)
+        syntax.useSelectionAsDefault(True)
+
+        syntax.addFlag(
+            BaseComponentIOCommand.FILEPATH_FLAG,
+            BaseComponentIOCommand.FILEPATH_LONG,
+            OpenMaya.MSyntax.kString
+        )
+
+        syntax.addFlag(
+            MirrorComponentInputsCommand.SEARCH_REPLACE_FLAG,
+            MirrorComponentInputsCommand.SEARCH_REPLACE_LONG,
+            (
+                OpenMaya.MSyntax.kString,
+                OpenMaya.MSyntax.kString,
+            )
+        )
+
+        return syntax
+
+    def parse_args(self, args_list):
+        args_data = OpenMaya.MArgDatabase(self.syntax(), args_list)
+
+        arg_parser = ArgumentParser(args_data, self.command_name)
+
+        try:
+            self.selected_components = arg_parser.get_selected_components()
+        except LookupError as e:
+            self.displayError(str(e))
+            raise ParseArgumentError()
+
+        if args_data.isFlagSet(MirrorComponentInputsCommand.SEARCH_REPLACE_FLAG):
+            lhs = args_data.flagArgumentString(MirrorComponentInputsCommand.SEARCH_REPLACE_FLAG, 0)
+            rhs = args_data.flagArgumentString(MirrorComponentInputsCommand.SEARCH_REPLACE_FLAG, 1)
+
+            self.search_replace = lhs, rhs
+        else:
+            error_msg = "The {}/{} flag is required by the {} command.".format(
+                MirrorComponentInputsCommand.SEARCH_REPLACE_FLAG,
+                MirrorComponentInputsCommand.SEARCH_REPLACE_LONG,
+                self.command_name
+            )
+
+            self.displayError(error_msg)
+            raise ParseArgumentError()
+
+        return args_data
+
+    def doIt(self, args_list):
+        try:
+            self.parse_args(args_list)
+        except ParseArgumentError:
+            return
+
+        self.redoIt()
+
+    def mirror_name(self, name):
+        lhs, rhs = self.search_replace
+
+        name_parts = name.split('_')
+
+        try:
+            idx = name_parts.index(lhs)
+            name_parts[idx] = rhs
+        except ValueError:
+            pass
+
+        result = '_'.join(name_parts)
+
+        return result
+
+    def doWork(self, data):
+        m = self.mirror_name
+
+        if isinstance(data, basestring):
+            return m(data)
+        elif isinstance(data, (tuple, list)):
+            return map(m, data)
+        elif isinstance(data, dict):
+            return {self.doWork(k): self.doWork(v) for k, v in data.iteritems()}
+
+    def workIt(self, cmpt_data):
+        return self.doWork(cmpt_data)
+
+    def redoIt(self):
+        for cmpt in self.selected_components:
+            cmpt_name = node_short_name(cmpt)
+
+            other_cmpt_name = self.mirror_name(cmpt_name)
+
+            if cmpt_name == other_cmpt_name:
+                continue
+
+            other_cmpt = get_cmpt_by_name(other_cmpt_name)
+
+            cmpt_data = dict(SaveComponentInputsCommand.workIt(cmpt))
+            mirrored_data = self.workIt(cmpt_data)
+
+            cmpt_undo_data = LoadComponentInputsCommand.workIt(other_cmpt, mirrored_data)
+            self.undo_data.extend(cmpt_undo_data)
+
+            self.displayInfo(
+                "Mirrored component inputs from '{}' to '{}'.".format(
+                    cmpt_name, other_cmpt_name
+                )
+            )
+
+    def undoIt(self):
+        for src_attr, dst_attr in self.undo_data:
+            cmds.disconnectAttr(src_attr, dst_attr)
 
 
 class LoadComponentOutputsCommand(BaseComponentIOCommand):
@@ -1287,25 +1453,7 @@ class LoadComponentOutputsCommand(BaseComponentIOCommand):
         return LoadComponentOutputsCommand()
 
     @staticmethod
-    def doWork(node, data):
-        node_fn = OpenMaya.MFnDependencyNode(node)
-
-        for attr in data:
-            if not node_fn.hasAttribute(attr):
-                continue
-
-            src_attr = plug_long_name(node_fn.findPlug(attr, True))
-
-            for dest_attr in data[attr]:
-                if not cmds.objExists(dest_attr):
-                    continue
-
-                if not cmds.isConnected(src_attr, dest_attr):
-                    cmds.connectAttr(src_attr, dest_attr, force=True)
-
-                    yield src_attr, dest_attr
-
-    def workIt(self, cmpt, cmpt_data):
+    def workIt(cmpt, cmpt_data):
         output_hrc = find_cmpt_node(cmpt, 'deform')
 
         for name, output_data in cmpt_data.iteritems():
@@ -1314,8 +1462,22 @@ class LoadComponentOutputsCommand(BaseComponentIOCommand):
             if output_node.isNull():
                 continue
 
-            for src_attr, dest_attr in self.doWork(output_node, output_data):
-                self.undo_data.append((src_attr, dest_attr))
+            node_fn = OpenMaya.MFnDependencyNode(output_node)
+
+            for attr in output_data:
+                if not node_fn.hasAttribute(attr):
+                    continue
+
+                src_attr = plug_long_name(node_fn.findPlug(attr, True))
+
+                for dest_attr in output_data[attr]:
+                    if not cmds.objExists(dest_attr):
+                        continue
+
+                    if not cmds.isConnected(src_attr, dest_attr):
+                        cmds.connectAttr(src_attr, dest_attr, force=True)
+
+                        yield src_attr, dest_attr
 
     def redoIt(self):
         with open(self.filepath, 'r') as fp:
@@ -1329,7 +1491,8 @@ class LoadComponentOutputsCommand(BaseComponentIOCommand):
             except KeyError:
                 self.displayWarning("No output data found for '{}'.".format(cmpt_name))
             else:
-                self.workIt(cmpt, cmpt_data)
+                for src_attr, dest_attr in self.workIt(cmpt, cmpt_data):
+                    self.undo_data.append((src_attr, dest_attr))
 
     def undoIt(self):
         for src_attr, dst_attr in self.undo_data:
@@ -1352,33 +1515,32 @@ class SaveComponentOutputsCommand(BaseComponentIOCommand):
         return SaveComponentOutputsCommand()
 
     @staticmethod
-    def doWork(deform_node):
-        data = {}
+    def workIt(cmpt):
+        result = {}
 
-        node_fn = OpenMaya.MFnDagNode(deform_node)
-
-        for attr in [
-            'translate', 'translateX', 'translateY', 'translateZ',
-            'rotate', 'rotateX', 'rotateY', 'rotateZ',
-            'scale', 'scaleX', 'scaleY', 'scaleZ'
-        ]:
-            plug = node_fn.findPlug(attr, True)
-
-            driven = plug.connectedTo(False, True)
-
-            driven = [p.name() for p in driven]
-
-            if driven:
-                data[attr] = driven
-
-        return data
-
-    def workIt(self, cmpt):
         for node in iter_dag(find_cmpt_node(cmpt, 'deform')):
-            data = self.doWork(node)
+            data = {}
+
+            node_fn = OpenMaya.MFnDagNode(node)
+
+            for attr in [
+                'translate', 'translateX', 'translateY', 'translateZ',
+                'rotate', 'rotateX', 'rotateY', 'rotateZ',
+                'scale', 'scaleX', 'scaleY', 'scaleZ'
+            ]:
+                plug = node_fn.findPlug(attr, True)
+
+                driven = plug.connectedTo(False, True)
+
+                driven = [p.name() for p in driven]
+
+                if driven:
+                    data[attr] = driven
 
             if data:
-                yield node_short_name(node), data
+                result[node_short_name(node)] = data
+
+        return result
 
     def redoIt(self):
         data = {
@@ -1392,6 +1554,149 @@ class SaveComponentOutputsCommand(BaseComponentIOCommand):
         self.setResult(self.filepath)
 
 
+class MirrorComponentOutputsCommand(OpenMaya.MPxCommand):
+    """Command to mirror component output connections.
+
+    Usage
+    -----
+        mirrorCmptInputs [-searchReplace "" ""] [cmpt...]
+    """
+
+    command_name = 'mirrorCmptOutputs'
+
+    SEARCH_REPLACE_FLAG = "-sr"
+    SEARCH_REPLACE_LONG = "-searchReplace"
+
+    def __init__(self):
+        super(MirrorComponentOutputsCommand, self).__init__()
+
+        self.selected_components = []
+        self.search_replace = ('', '')
+        self.undo_data = []
+
+    @staticmethod
+    def create():
+        return MirrorComponentOutputsCommand()
+
+    @staticmethod
+    def hasSyntax():
+        return True
+
+    @staticmethod
+    def isUndoable():
+        return True
+
+    @staticmethod
+    def get_syntax():
+        syntax = OpenMaya.MSyntax()
+
+        syntax.setObjectType(OpenMaya.MSyntax.kSelectionList)
+        syntax.useSelectionAsDefault(True)
+
+        syntax.addFlag(
+            MirrorComponentOutputsCommand.SEARCH_REPLACE_FLAG,
+            MirrorComponentOutputsCommand.SEARCH_REPLACE_LONG,
+            (
+                OpenMaya.MSyntax.kString,
+                OpenMaya.MSyntax.kString,
+            )
+        )
+
+        return syntax
+
+    def parse_args(self, args_list):
+        args_data = OpenMaya.MArgDatabase(self.syntax(), args_list)
+
+        arg_parser = ArgumentParser(args_data, self.command_name)
+
+        try:
+            self.selected_components = arg_parser.get_selected_components()
+        except LookupError as e:
+            self.displayError(str(e))
+            raise ParseArgumentError()
+
+        if args_data.isFlagSet(MirrorComponentOutputsCommand.SEARCH_REPLACE_FLAG):
+            lhs = args_data.flagArgumentString(MirrorComponentOutputsCommand.SEARCH_REPLACE_FLAG, 0)
+            rhs = args_data.flagArgumentString(MirrorComponentOutputsCommand.SEARCH_REPLACE_FLAG, 1)
+
+            self.search_replace = lhs, rhs
+        else:
+            error_msg = "The {}/{} flag is required by the {} command.".format(
+                MirrorComponentOutputsCommand.SEARCH_REPLACE_FLAG,
+                MirrorComponentOutputsCommand.SEARCH_REPLACE_LONG,
+                self.command_name
+            )
+
+            self.displayError(error_msg)
+            raise ParseArgumentError()
+
+        return args_data
+
+    def doIt(self, args_list):
+        try:
+            self.parse_args(args_list)
+        except ParseArgumentError:
+            return
+
+        self.redoIt()
+
+    def mirror_name(self, name):
+        lhs, rhs = self.search_replace
+
+        name_parts = name.split('_')
+
+        try:
+            idx = name_parts.index(lhs)
+            name_parts[idx] = rhs
+        except ValueError:
+            pass
+
+        result = '_'.join(name_parts)
+
+        return result
+
+    def doWork(self, data):
+        m = self.mirror_name
+
+        if isinstance(data, basestring):
+            return m(data)
+        elif isinstance(data, (tuple, list)):
+            return map(m, data)
+        elif isinstance(data, dict):
+            return {self.doWork(k): self.doWork(v) for k, v in data.iteritems()}
+
+    def workIt(self, cmpt_data):
+        return self.doWork(cmpt_data)
+
+    def redoIt(self):
+        for cmpt in self.selected_components:
+            cmpt_name = node_short_name(cmpt)
+
+            other_cmpt_name = self.mirror_name(cmpt_name)
+
+            if cmpt_name == other_cmpt_name:
+                continue
+
+            other_cmpt = get_cmpt_by_name(other_cmpt_name)
+
+            cmpt_data = dict(SaveComponentOutputsCommand.workIt(cmpt))
+            mirrored_data = self.workIt(cmpt_data)
+
+            cmpt_undo_data = LoadComponentOutputsCommand.workIt(other_cmpt, mirrored_data)
+
+            self.undo_data.extend(cmpt_undo_data)
+
+            self.displayInfo(
+                "Mirrored component output from '{}' to '{}'.".format(
+                    cmpt_name, other_cmpt_name
+                )
+            )
+
+    def undoIt(self):
+        for src_attr, dst_attr in self.undo_data:
+            cmds.disconnectAttr(src_attr, dst_attr)
+
+
 def initializePlugin(plugin_mObj):
     fn_plugin = OpenMaya.MFnPlugin(plugin_mObj)
 
@@ -1402,15 +1707,21 @@ def initializePlugin(plugin_mObj):
             sys.stderr.write("Failed to register command: %s\n" % cmd.command_name)
 
     register_command(RenameRigComponentCommand)
-    register_command(MirrorComponentGuidesCommand)
+
     register_command(AttachComponentGuidesCommand)
     register_command(DetachComponentGuidesCommand)
+
     register_command(SaveComponentGuidesCommand)
     register_command(LoadComponentGuidesCommand)
+    register_command(MirrorComponentGuidesCommand)
+
     register_command(SaveComponentInputsCommand)
     register_command(LoadComponentInputsCommand)
+    register_command(MirrorComponentInputsCommand)
+
     register_command(SaveComponentOutputsCommand)
     register_command(LoadComponentOutputsCommand)
+    register_command(MirrorComponentOutputsCommand)
 
 
 def uninitializePlugin(plugin_mObj):
@@ -1423,12 +1734,18 @@ def uninitializePlugin(plugin_mObj):
             sys.stderr.write("Failed to register command: %s\n" % cmd.command_name)
 
     deregister_command(RenameRigComponentCommand)
-    deregister_command(MirrorComponentGuidesCommand)
+
     deregister_command(AttachComponentGuidesCommand)
     deregister_command(DetachComponentGuidesCommand)
+
     deregister_command(SaveComponentGuidesCommand)
     deregister_command(LoadComponentGuidesCommand)
+    deregister_command(MirrorComponentGuidesCommand)
+
     deregister_command(SaveComponentInputsCommand)
     deregister_command(LoadComponentInputsCommand)
+    deregister_command(MirrorComponentInputsCommand)
+
     deregister_command(SaveComponentOutputsCommand)
     deregister_command(LoadComponentOutputsCommand)
+    deregister_command(MirrorComponentOutputsCommand)
