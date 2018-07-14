@@ -1,6 +1,6 @@
 //Maya ASCII 2016 scene
 //Name: wheel.ma
-//Last modified: Sat, Jul 07, 2018 03:58:40 PM
+//Last modified: Mon, Jul 09, 2018 07:59:16 PM
 //Codeset: 1252
 requires maya "2016";
 requires -nodeType "decomposeMatrix" -nodeType "composeMatrix" -nodeType "inverseMatrix"
@@ -129,8 +129,6 @@ createNode transform -n "input" -p "wheel_cmpt";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode transform -n "world_srt" -p "input";
-	rename -uid "29E17B79-4C48-C0EB-CFAB-DDB0C3EB6E97";
 createNode transform -n "foot_srt" -p "input";
 	rename -uid "97D49C54-4920-8EB4-0D4D-17BE0A3BD92E";
 	setAttr ".t" -type "double3" 4.5 1.269 15.347 ;
@@ -140,8 +138,7 @@ createNode transform -n "strut_axle_srtOffset" -p "foot_srt";
 	addAttr -ci true -sn "upVectorX" -ln "upVectorX" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorY" -ln "upVectorY" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorZ" -ln "upVectorZ" -at "double" -p "upVector";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 	setAttr -k on ".upVector";
 	setAttr -k on ".upVectorX";
@@ -149,8 +146,7 @@ createNode transform -n "strut_axle_srtOffset" -p "foot_srt";
 	setAttr -k on ".upVectorZ";
 createNode transform -n "strut_swivel_srtOffset" -p "strut_axle_srtOffset";
 	rename -uid "59530325-4085-2B68-0108-D3AF252B0220";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "strut_hinge_srtOffset" -p "strut_swivel_srtOffset";
 	rename -uid "7F95B77F-4FE3-CFD9-C133-7991350C186B";
@@ -158,8 +154,7 @@ createNode transform -n "strut_hinge_srtOffset" -p "strut_swivel_srtOffset";
 	addAttr -ci true -sn "upVectorX" -ln "upVectorX" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorY" -ln "upVectorY" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorZ" -ln "upVectorZ" -at "double" -p "upVector";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 	setAttr -k on ".upVector";
 	setAttr -k on ".upVectorX";
@@ -171,8 +166,7 @@ createNode transform -n "rod_hinge_srtOffset" -p "strut_hinge_srtOffset";
 	addAttr -ci true -sn "upVectorX" -ln "upVectorX" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorY" -ln "upVectorY" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorZ" -ln "upVectorZ" -at "double" -p "upVector";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 	setAttr -k on ".upVector";
 	setAttr -k on ".upVectorX";
@@ -184,8 +178,7 @@ createNode transform -n "rod_axle_srtOffset" -p "rod_hinge_srtOffset";
 	addAttr -ci true -sn "upVectorX" -ln "upVectorX" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorY" -ln "upVectorY" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorZ" -ln "upVectorZ" -at "double" -p "upVector";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 	setAttr ".r" -type "double3" 0 1.9878466759146975e-016 0 ;
 	setAttr ".s" -type "double3" 1.0000000000000002 1 1.0000000000000002 ;
@@ -195,18 +188,15 @@ createNode transform -n "rod_axle_srtOffset" -p "rod_hinge_srtOffset";
 	setAttr -k on ".upVectorZ";
 createNode transform -n "rod_swivel_srtOffset" -p "rod_axle_srtOffset";
 	rename -uid "0FFB8283-4803-1FBD-6B2D-43922ACCEB35";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "wheel_srtOffset" -p "rod_swivel_srtOffset";
 	rename -uid "3AB1D599-4EC9-DE42-EDED-88833F366F64";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "wheelCover_ctrl_srtOffset" -p "wheel_srtOffset";
 	rename -uid "8AC55184-4301-E137-1BB4-F69ACA1F19F0";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 	setAttr ".s" -type "double3" 0.99999999999999978 1 0.99999999999999978 ;
 createNode transform -n "wheelCover_srtOffset" -p "wheel_srtOffset";
@@ -215,8 +205,7 @@ createNode transform -n "wheelCover_srtOffset" -p "wheel_srtOffset";
 	addAttr -ci true -sn "upVectorX" -ln "upVectorX" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorY" -ln "upVectorY" -at "double" -p "upVector";
 	addAttr -ci true -sn "upVectorZ" -ln "upVectorZ" -at "double" -p "upVector";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 	setAttr ".t" -type "double3" 4.4408920985006262e-016 4.4408920985006262e-016 0 ;
 	setAttr ".s" -type "double3" 0.99999999999999978 1 0.99999999999999978 ;
@@ -226,68 +215,55 @@ createNode transform -n "wheelCover_srtOffset" -p "wheel_srtOffset";
 	setAttr -k on ".upVectorZ";
 createNode transform -n "hinge_ik_base_srtOffset" -p "foot_srt";
 	rename -uid "BBD8C43E-4927-F888-89C9-39BF51AA1716";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "hinge_ik_bend_srtOffset" -p "hinge_ik_base_srtOffset";
 	rename -uid "986409C2-4DA4-2D19-572F-4889AEFE008E";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "hinge_ik_end_srtOffset" -p "hinge_ik_bend_srtOffset";
 	rename -uid "FB2D0D07-4A37-B692-8A6C-62A84C1DE4EF";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "rod_ik_base_srtOffset" -p "hinge_ik_bend_srtOffset";
 	rename -uid "9E42F643-4860-B993-2112-51A320AEACF0";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "rod_ik_bend_srtOffset" -p "rod_ik_base_srtOffset";
 	rename -uid "407845DA-4A11-3E19-3D62-4F9EADFCA6F9";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "rod_ik_end_srtOffset" -p "rod_ik_bend_srtOffset";
 	rename -uid "978711BC-4D67-7CFA-C1EF-3E8C2E0E9F22";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "base_fk_srtOffset" -p "foot_srt";
 	rename -uid "C804FE3C-4844-D173-A6BC-ECBDCD7F69F9";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "hinge_fk_srtOffset" -p "base_fk_srtOffset";
 	rename -uid "FFFCFC84-4715-0935-44C8-4AB6E24A308E";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "rod_fk_srtOffset" -p "hinge_fk_srtOffset";
 	rename -uid "43D80F8E-45FB-8601-B0D0-6AB3871F041F";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "wheel_fk_srtOffset" -p "rod_fk_srtOffset";
 	rename -uid "785CFB7E-4581-6184-0093-70A3CF7CDC13";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "hinge_ik_ctrl_srtOffset" -p "foot_srt";
 	rename -uid "2C28DC5F-4201-6349-352E-B483E35D78F1";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "rod_ik_ctrl_srtOffset" -p "hinge_ik_ctrl_srtOffset";
 	rename -uid "4969825E-40D1-FD68-B04C-56BC17C4E47D";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "rod_pv_ctrl_srtOffset" -p "hinge_ik_ctrl_srtOffset";
 	rename -uid "811ABF20-4AC5-3C71-05B5-D19C6E94C09C";
-	addAttr -ci true -m -sn "guideData" -ln "guideData" -at "compound" -nc 2;
-	addAttr -s false -ci true -sn "guide_node" -ln "guide_node" -at "message" -p "guideData";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
 	addAttr -s false -ci true -m -sn "guide_attr" -ln "guide_attr" -at "message" -p "guideData";
 createNode transform -n "settings" -p "input";
 	rename -uid "74D14322-49F3-2FBF-2803-CDA31D6F6404";
@@ -1262,6 +1238,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_base_guide_srt";
 		;
 createNode transform -n "wheel_base_fk_ctrl_aim_guide_srt" -p "wheel_base_guide_srt";
 	rename -uid "15282A1C-406A-789A-F2B7-C7AFA1035E16";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0.5 0 0 ;
 	setAttr -l on -k off ".rx";
@@ -1270,6 +1248,7 @@ createNode transform -n "wheel_base_fk_ctrl_aim_guide_srt" -p "wheel_base_guide_
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_base_fk_ctrl_aim_guide_srt";
 	rename -uid "5B9DB6F0-4212-D1A3-E6C7-1AA27C324D05";
 	setAttr -k off ".v";
@@ -1296,6 +1275,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_base_fk_ctrl_aim_guide_sr
 		;
 createNode transform -n "wheel_base_fk_ctrl_up_guide_srt" -p "wheel_base_guide_srt";
 	rename -uid "37CC3B16-4497-934E-CF53-BBA363D26032";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 0.5 0 ;
 	setAttr -l on -k off ".rx";
@@ -1304,6 +1285,7 @@ createNode transform -n "wheel_base_fk_ctrl_up_guide_srt" -p "wheel_base_guide_s
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_base_fk_ctrl_up_guide_srt";
 	rename -uid "66D1844C-45DD-97D3-8E26-AAAD876383F4";
 	setAttr -k off ".v";
@@ -1435,6 +1417,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_hinge_start_guide_srt";
 		;
 createNode transform -n "wheel_hinge_fk_ctrl_aim_guide_srt" -p "wheel_hinge_start_guide_srt";
 	rename -uid "1F3530BE-4A12-FB19-7DD5-9591348B331D";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0.5 0 0 ;
 	setAttr -l on -k off ".rx";
@@ -1443,6 +1427,7 @@ createNode transform -n "wheel_hinge_fk_ctrl_aim_guide_srt" -p "wheel_hinge_star
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_hinge_fk_ctrl_aim_guide_srt";
 	rename -uid "85BC486E-4CAE-04A4-1A76-83B2CBD76F41";
 	setAttr -k off ".v";
@@ -1469,6 +1454,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_hinge_fk_ctrl_aim_guide_s
 		;
 createNode transform -n "wheel_hinge_fk_ctrl_up_guide_srt" -p "wheel_hinge_start_guide_srt";
 	rename -uid "843ED3EF-4BC4-1EC1-C566-E192625B0405";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 0.5 0 ;
 	setAttr -l on -k off ".rx";
@@ -1477,6 +1464,7 @@ createNode transform -n "wheel_hinge_fk_ctrl_up_guide_srt" -p "wheel_hinge_start
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_hinge_fk_ctrl_up_guide_srt";
 	rename -uid "47053AA1-4867-D867-34FC-7188D99D04F9";
 	setAttr -k off ".v";
@@ -1574,6 +1562,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_hinge_end_guide_srt";
 		;
 createNode transform -n "wheel_rod_fk_ctrl_aim_guide_srt" -p "wheel_hinge_end_guide_srt";
 	rename -uid "3C49D069-4CAC-33E7-4135-F68343E1A56B";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0.5 0 0 ;
 	setAttr -l on -k off ".rx";
@@ -1582,6 +1572,7 @@ createNode transform -n "wheel_rod_fk_ctrl_aim_guide_srt" -p "wheel_hinge_end_gu
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_rod_fk_ctrl_aim_guide_srt";
 	rename -uid "E2876E25-4860-E91E-9C7A-AD9B9D826562";
 	setAttr -k off ".v";
@@ -1608,6 +1599,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_rod_fk_ctrl_aim_guide_srt
 		;
 createNode transform -n "wheel_rod_fk_ctrl_up_guide_srt" -p "wheel_hinge_end_guide_srt";
 	rename -uid "14DE9C21-4472-E309-53D1-1CB9311A59EE";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 0.5 0 ;
 	setAttr -l on -k off ".rx";
@@ -1616,6 +1609,7 @@ createNode transform -n "wheel_rod_fk_ctrl_up_guide_srt" -p "wheel_hinge_end_gui
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_rod_fk_ctrl_up_guide_srt";
 	rename -uid "BD52F5D6-404D-F932-CB59-24B17BA88A96";
 	setAttr -k off ".v";
@@ -1747,6 +1741,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_rod_start_guide_srt";
 		;
 createNode transform -n "wheel_fk_aim_guide_srt" -p "wheel_rod_start_guide_srt";
 	rename -uid "488BC834-414F-7D3A-124F-3A939E3B3FCA";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0.5 0 0 ;
 	setAttr -l on -k off ".rx";
@@ -1755,6 +1751,7 @@ createNode transform -n "wheel_fk_aim_guide_srt" -p "wheel_rod_start_guide_srt";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_fk_aim_guide_srt";
 	rename -uid "940B513D-4759-1E42-D132-4BB2D93C5F3D";
 	setAttr -k off ".v";
@@ -1781,6 +1778,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_fk_aim_guide_srt";
 		;
 createNode transform -n "wheel_fk_up_guide_srt" -p "wheel_rod_start_guide_srt";
 	rename -uid "962F8350-45FF-80FD-986F-D299AD88E011";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 0.5 0 ;
 	setAttr -l on -k off ".rx";
@@ -1789,6 +1788,7 @@ createNode transform -n "wheel_fk_up_guide_srt" -p "wheel_rod_start_guide_srt";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_fk_up_guide_srt";
 	rename -uid "24FFA112-4ADE-EB93-ACAD-BAA23A7895B5";
 	setAttr -k off ".v";
@@ -1954,6 +1954,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_guide_srt";
 		;
 createNode transform -n "wheel_ctrl_aim_guide_srt" -p "wheel_guide_srt";
 	rename -uid "B0F98971-47FD-86EB-59A2-4FB3DB9F661A";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0.5 0 0 ;
 	setAttr -l on -k off ".rx";
@@ -1962,6 +1964,7 @@ createNode transform -n "wheel_ctrl_aim_guide_srt" -p "wheel_guide_srt";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_ctrl_aim_guide_srt";
 	rename -uid "D31A2211-4AEE-15C5-B4AF-63A5F0489C9F";
 	setAttr -k off ".v";
@@ -1988,6 +1991,8 @@ createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_ctrl_aim_guide_srt";
 		;
 createNode transform -n "wheel_ctrl_up_guide_srt" -p "wheel_guide_srt";
 	rename -uid "85793A07-4796-5F5C-21B9-5FB3C0CB6384";
+	addAttr -ci true -sn "guideData" -ln "guideData" -at "compound" -nc 1;
+	addAttr -ci true -sn "guide_type" -ln "guide_type" -dt "string" -p "guideData";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 0.5 0 ;
 	setAttr -l on -k off ".rx";
@@ -1996,6 +2001,7 @@ createNode transform -n "wheel_ctrl_up_guide_srt" -p "wheel_guide_srt";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
+	setAttr ".guide_type" -type "string" "orientation";
 createNode nurbsCurve -n "wheel_curveShape2" -p "wheel_ctrl_up_guide_srt";
 	rename -uid "8D3683BD-434C-836A-1A57-4FBF950AC201";
 	setAttr -k off ".v";
@@ -2104,6 +2110,8 @@ createNode aimConstraint -n "wheel_rod_swivel_aimConstraint" -p "internal";
 createNode aimConstraint -n "wheel_cover_aimConstraint" -p "internal";
 	rename -uid "CE836550-451C-232A-6611-099ADF6110DF";
 	setAttr ".wut" 1;
+createNode transform -n "world_srt" -p "internal";
+	rename -uid "29E17B79-4C48-C0EB-CFAB-DDB0C3EB6E97";
 createNode transform -n "control" -p "wheel_cmpt";
 	rename -uid "BC02DEDA-4A5E-0E14-0D0C-3AB928E52FDB";
 	setAttr -l on -k off ".tx";
@@ -2666,17 +2674,17 @@ createNode transform -n "wheel_cover_srt" -p "deform";
 	rename -uid "39A417D6-4FE8-3A30-301D-00B2D2B68725";
 	setAttr -k on ".ro";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "C73133E6-49C9-6DA2-3146-02AF4737CBD9";
+	rename -uid "98FC7FA9-4A48-6D1C-E44E-3CBCA5292923";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "042E2C6B-4366-0072-8E4D-4B9C48FE4123";
+	rename -uid "41D540BA-475D-76DD-AA33-46A4F71D068E";
 	setAttr ".cdl" 1;
 	setAttr -s 2 ".dli[1]"  1;
 createNode displayLayer -n "defaultLayer";
 	rename -uid "922BB33E-4724-CD36-A43D-95B0AB693DE9";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "99C69486-4D49-284F-BD81-E38FE251783C";
+	rename -uid "715AB069-4100-4DDF-4D45-C38CA0EF0F96";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "F625866E-432D-03ED-624F-BB9757A3F342";
 	setAttr ".g" yes;
@@ -2706,9 +2714,9 @@ createNode script -n "uiConfigurationScriptNode";
 		+ "\t\t\t$editorName = $panelName;\n            modelEditor -e \n                -camera \"persp\" \n                -useInteractiveMode 0\n                -displayLights \"default\" \n                -displayAppearance \"wireframe\" \n                -activeOnly 0\n                -ignorePanZoom 0\n                -wireframeOnShaded 1\n                -headsUpDisplay 1\n                -holdOuts 1\n                -selectionHiliteDisplay 1\n                -useDefaultMaterial 0\n                -bufferMode \"double\" \n                -twoSidedLighting 1\n                -backfaceCulling 0\n                -xray 0\n                -jointXray 0\n                -activeComponentsXray 0\n                -displayTextures 0\n                -smoothWireframe 0\n                -lineWidth 1\n                -textureAnisotropic 0\n                -textureHilight 1\n                -textureSampling 2\n                -textureDisplay \"modulate\" \n                -textureMaxSize 32768\n                -fogging 0\n                -fogSource \"fragment\" \n                -fogMode \"linear\" \n"
 		+ "                -fogStart 0\n                -fogEnd 100\n                -fogDensity 0.1\n                -fogColor 0.5 0.5 0.5 1 \n                -depthOfFieldPreview 1\n                -maxConstantTransparency 1\n                -rendererName \"vp2Renderer\" \n                -objectFilterShowInHUD 1\n                -isFiltered 0\n                -colorResolution 256 256 \n                -bumpResolution 512 512 \n                -textureCompression 0\n                -transparencyAlgorithm \"frontAndBackCull\" \n                -transpInShadows 0\n                -cullingOverride \"none\" \n                -lowQualityLighting 0\n                -maximumNumHardwareLights 1\n                -occlusionCulling 0\n                -shadingModel 0\n                -useBaseRenderer 0\n                -useReducedRenderer 0\n                -smallObjectCulling 0\n                -smallObjectThreshold -1 \n                -interactiveDisableShadows 0\n                -interactiveBackFaceCull 0\n                -sortTransparent 1\n                -nurbsCurves 1\n"
 		+ "                -nurbsSurfaces 1\n                -polymeshes 1\n                -subdivSurfaces 1\n                -planes 1\n                -lights 1\n                -cameras 1\n                -controlVertices 1\n                -hulls 1\n                -grid 1\n                -imagePlane 1\n                -joints 1\n                -ikHandles 1\n                -deformers 1\n                -dynamics 1\n                -particleInstancers 1\n                -fluids 1\n                -hairSystems 1\n                -follicles 1\n                -nCloths 1\n                -nParticles 1\n                -nRigids 1\n                -dynamicConstraints 1\n                -locators 1\n                -manipulators 1\n                -pluginShapes 1\n                -dimensions 1\n                -handles 1\n                -pivots 1\n                -textures 1\n                -strokes 1\n                -motionTrails 1\n                -clipGhosts 1\n                -greasePencils 1\n                -shadows 0\n                -captureSequenceNumber -1\n"
-		+ "                -width 807\n                -height 841\n                -sceneRenderFilter 0\n                $editorName;\n            modelEditor -e -viewSelected 0 $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tmodelPanel -edit -l (localizedPanelLabel(\"Persp View\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        modelEditor -e \n            -camera \"persp\" \n            -useInteractiveMode 0\n            -displayLights \"default\" \n            -displayAppearance \"wireframe\" \n            -activeOnly 0\n            -ignorePanZoom 0\n            -wireframeOnShaded 1\n            -headsUpDisplay 1\n            -holdOuts 1\n            -selectionHiliteDisplay 1\n            -useDefaultMaterial 0\n            -bufferMode \"double\" \n            -twoSidedLighting 1\n            -backfaceCulling 0\n            -xray 0\n            -jointXray 0\n            -activeComponentsXray 0\n            -displayTextures 0\n            -smoothWireframe 0\n            -lineWidth 1\n            -textureAnisotropic 0\n"
+		+ "                -width 604\n                -height 841\n                -sceneRenderFilter 0\n                $editorName;\n            modelEditor -e -viewSelected 0 $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tmodelPanel -edit -l (localizedPanelLabel(\"Persp View\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        modelEditor -e \n            -camera \"persp\" \n            -useInteractiveMode 0\n            -displayLights \"default\" \n            -displayAppearance \"wireframe\" \n            -activeOnly 0\n            -ignorePanZoom 0\n            -wireframeOnShaded 1\n            -headsUpDisplay 1\n            -holdOuts 1\n            -selectionHiliteDisplay 1\n            -useDefaultMaterial 0\n            -bufferMode \"double\" \n            -twoSidedLighting 1\n            -backfaceCulling 0\n            -xray 0\n            -jointXray 0\n            -activeComponentsXray 0\n            -displayTextures 0\n            -smoothWireframe 0\n            -lineWidth 1\n            -textureAnisotropic 0\n"
 		+ "            -textureHilight 1\n            -textureSampling 2\n            -textureDisplay \"modulate\" \n            -textureMaxSize 32768\n            -fogging 0\n            -fogSource \"fragment\" \n            -fogMode \"linear\" \n            -fogStart 0\n            -fogEnd 100\n            -fogDensity 0.1\n            -fogColor 0.5 0.5 0.5 1 \n            -depthOfFieldPreview 1\n            -maxConstantTransparency 1\n            -rendererName \"vp2Renderer\" \n            -objectFilterShowInHUD 1\n            -isFiltered 0\n            -colorResolution 256 256 \n            -bumpResolution 512 512 \n            -textureCompression 0\n            -transparencyAlgorithm \"frontAndBackCull\" \n            -transpInShadows 0\n            -cullingOverride \"none\" \n            -lowQualityLighting 0\n            -maximumNumHardwareLights 1\n            -occlusionCulling 0\n            -shadingModel 0\n            -useBaseRenderer 0\n            -useReducedRenderer 0\n            -smallObjectCulling 0\n            -smallObjectThreshold -1 \n            -interactiveDisableShadows 0\n"
-		+ "            -interactiveBackFaceCull 0\n            -sortTransparent 1\n            -nurbsCurves 1\n            -nurbsSurfaces 1\n            -polymeshes 1\n            -subdivSurfaces 1\n            -planes 1\n            -lights 1\n            -cameras 1\n            -controlVertices 1\n            -hulls 1\n            -grid 1\n            -imagePlane 1\n            -joints 1\n            -ikHandles 1\n            -deformers 1\n            -dynamics 1\n            -particleInstancers 1\n            -fluids 1\n            -hairSystems 1\n            -follicles 1\n            -nCloths 1\n            -nParticles 1\n            -nRigids 1\n            -dynamicConstraints 1\n            -locators 1\n            -manipulators 1\n            -pluginShapes 1\n            -dimensions 1\n            -handles 1\n            -pivots 1\n            -textures 1\n            -strokes 1\n            -motionTrails 1\n            -clipGhosts 1\n            -greasePencils 1\n            -shadows 0\n            -captureSequenceNumber -1\n            -width 807\n            -height 841\n"
+		+ "            -interactiveBackFaceCull 0\n            -sortTransparent 1\n            -nurbsCurves 1\n            -nurbsSurfaces 1\n            -polymeshes 1\n            -subdivSurfaces 1\n            -planes 1\n            -lights 1\n            -cameras 1\n            -controlVertices 1\n            -hulls 1\n            -grid 1\n            -imagePlane 1\n            -joints 1\n            -ikHandles 1\n            -deformers 1\n            -dynamics 1\n            -particleInstancers 1\n            -fluids 1\n            -hairSystems 1\n            -follicles 1\n            -nCloths 1\n            -nParticles 1\n            -nRigids 1\n            -dynamicConstraints 1\n            -locators 1\n            -manipulators 1\n            -pluginShapes 1\n            -dimensions 1\n            -handles 1\n            -pivots 1\n            -textures 1\n            -strokes 1\n            -motionTrails 1\n            -clipGhosts 1\n            -greasePencils 1\n            -shadows 0\n            -captureSequenceNumber -1\n            -width 604\n            -height 841\n"
 		+ "            -sceneRenderFilter 0\n            $editorName;\n        modelEditor -e -viewSelected 0 $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextPanel \"outlinerPanel\" (localizedPanelLabel(\"Outliner\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels `;\n\t\t\t$editorName = $panelName;\n            outlinerEditor -e \n                -docTag \"isolOutln_fromSeln\" \n                -showShapes 0\n                -showReferenceNodes 1\n                -showReferenceMembers 1\n                -showAttributes 0\n                -showConnected 0\n                -showAnimCurvesOnly 0\n                -showMuteInfo 0\n                -organizeByLayer 1\n                -showAnimLayerWeight 1\n                -autoExpandLayers 1\n                -autoExpand 0\n                -showDagOnly 0\n                -showAssets 1\n                -showContainedOnly 1\n                -showPublishedAsConnected 0\n"
 		+ "                -showContainerContents 1\n                -ignoreDagHierarchy 0\n                -expandConnections 0\n                -showUpstreamCurves 1\n                -showUnitlessCurves 1\n                -showCompounds 1\n                -showLeafs 1\n                -showNumericAttrsOnly 0\n                -highlightActive 1\n                -autoSelectNewObjects 0\n                -doNotSelectNewObjects 0\n                -dropIsParent 1\n                -transmitFilters 0\n                -setFilter \"defaultSetFilter\" \n                -showSetMembers 1\n                -allowMultiSelection 1\n                -alwaysToggleSelect 0\n                -directSelect 0\n                -displayMode \"DAG\" \n                -expandObjects 0\n                -setsIgnoreFilters 1\n                -containersIgnoreFilters 0\n                -editAttrName 0\n                -showAttrValues 0\n                -highlightSecondary 0\n                -showUVAttrsOnly 0\n                -showTextureNodesOnly 0\n                -attrAlphaOrder \"default\" \n"
 		+ "                -animLayerFilterOptions \"allAffecting\" \n                -sortOrder \"none\" \n                -longNames 0\n                -niceNames 1\n                -showNamespace 1\n                -showPinIcons 0\n                -mapMotionTrails 0\n                -ignoreHiddenAttribute 0\n                -ignoreOutlinerColor 0\n                $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\toutlinerPanel -edit -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        outlinerEditor -e \n            -docTag \"isolOutln_fromSeln\" \n            -showShapes 0\n            -showReferenceNodes 1\n            -showReferenceMembers 1\n            -showAttributes 0\n            -showConnected 0\n            -showAnimCurvesOnly 0\n            -showMuteInfo 0\n            -organizeByLayer 1\n            -showAnimLayerWeight 1\n            -autoExpandLayers 1\n            -autoExpand 0\n            -showDagOnly 0\n            -showAssets 1\n            -showContainedOnly 1\n"
@@ -2746,12 +2754,12 @@ createNode script -n "uiConfigurationScriptNode";
 		+ "                -height 0\n                -sceneRenderFilter 0\n                -displayMode \"centerEye\" \n                -viewColor 0 0 0 1 \n                -useCustomBackground 1\n                $editorName;\n            stereoCameraView -e -viewSelected 0 $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextScriptedPanel \"hyperShadePanel\" (localizedPanelLabel(\"Hypershade\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `scriptedPanel -unParent  -type \"hyperShadePanel\" -l (localizedPanelLabel(\"Hypershade\")) -mbv $menusOkayInPanels `;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tscriptedPanel -edit -l (localizedPanelLabel(\"Hypershade\")) -mbv $menusOkayInPanels  $panelName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextScriptedPanel \"nodeEditorPanel\" (localizedPanelLabel(\"Node Editor\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `scriptedPanel -unParent  -type \"nodeEditorPanel\" -l (localizedPanelLabel(\"Node Editor\")) -mbv $menusOkayInPanels `;\n"
 		+ "\t\t\t$editorName = ($panelName+\"NodeEditorEd\");\n            nodeEditor -e \n                -allAttributes 0\n                -allNodes 0\n                -autoSizeNodes 1\n                -consistentNameSize 1\n                -createNodeCommand \"nodeEdCreateNodeCommand\" \n                -defaultPinnedState 0\n                -additiveGraphingMode 1\n                -settingsChangedCallback \"nodeEdSyncControls\" \n                -traversalDepthLimit -1\n                -keyPressCommand \"nodeEdKeyPressCommand\" \n                -nodeTitleMode \"name\" \n                -gridSnap 0\n                -gridVisibility 1\n                -popupMenuScript \"nodeEdBuildPanelMenus\" \n                -showNamespace 1\n                -showShapes 0\n                -showSGShapes 0\n                -showTransforms 1\n                -useAssets 0\n                -syncedSelection 1\n                -extendToShapes 1\n                -activeTab -1\n                -editorMode \"default\" \n                $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n"
 		+ "\t\tscriptedPanel -edit -l (localizedPanelLabel(\"Node Editor\")) -mbv $menusOkayInPanels  $panelName;\n\n\t\t\t$editorName = ($panelName+\"NodeEditorEd\");\n            nodeEditor -e \n                -allAttributes 0\n                -allNodes 0\n                -autoSizeNodes 1\n                -consistentNameSize 1\n                -createNodeCommand \"nodeEdCreateNodeCommand\" \n                -defaultPinnedState 0\n                -additiveGraphingMode 1\n                -settingsChangedCallback \"nodeEdSyncControls\" \n                -traversalDepthLimit -1\n                -keyPressCommand \"nodeEdKeyPressCommand\" \n                -nodeTitleMode \"name\" \n                -gridSnap 0\n                -gridVisibility 1\n                -popupMenuScript \"nodeEdBuildPanelMenus\" \n                -showNamespace 1\n                -showShapes 0\n                -showSGShapes 0\n                -showTransforms 1\n                -useAssets 0\n                -syncedSelection 1\n                -extendToShapes 1\n                -activeTab -1\n                -editorMode \"default\" \n"
-		+ "                $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\tif ($useSceneConfig) {\n        string $configName = `getPanel -cwl (localizedPanelLabel(\"Current Layout\"))`;\n        if (\"\" != $configName) {\n\t\t\tpanelConfiguration -edit -label (localizedPanelLabel(\"Current Layout\")) \n\t\t\t\t-defaultImage \"vacantCell.xP:/\"\n\t\t\t\t-image \"\"\n\t\t\t\t-sc false\n\t\t\t\t-configString \"global string $gMainPane; paneLayout -e -cn \\\"vertical2\\\" -ps 1 39 100 -ps 2 61 100 $gMainPane;\"\n\t\t\t\t-removeAllPanels\n\t\t\t\t-ap false\n\t\t\t\t\t(localizedPanelLabel(\"Outliner\")) \n\t\t\t\t\t\"outlinerPanel\"\n"
+		+ "                $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\tif ($useSceneConfig) {\n        string $configName = `getPanel -cwl (localizedPanelLabel(\"Current Layout\"))`;\n        if (\"\" != $configName) {\n\t\t\tpanelConfiguration -edit -label (localizedPanelLabel(\"Current Layout\")) \n\t\t\t\t-defaultImage \"vacantCell.xP:/\"\n\t\t\t\t-image \"\"\n\t\t\t\t-sc false\n\t\t\t\t-configString \"global string $gMainPane; paneLayout -e -cn \\\"vertical2\\\" -ps 1 55 100 -ps 2 45 100 $gMainPane;\"\n\t\t\t\t-removeAllPanels\n\t\t\t\t-ap false\n\t\t\t\t\t(localizedPanelLabel(\"Outliner\")) \n\t\t\t\t\t\"outlinerPanel\"\n"
 		+ "\t\t\t\t\t\"$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 0\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
 		+ "\t\t\t\t\t\"outlinerPanel -edit -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 0\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
 		+ "\t\t\t\t-ap false\n\t\t\t\t\t(localizedPanelLabel(\"Persp View\")) \n\t\t\t\t\t\"modelPanel\"\n"
-		+ "\t\t\t\t\t\"$panelName = `modelPanel -unParent -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 807\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
-		+ "\t\t\t\t\t\"modelPanel -edit -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 807\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
+		+ "\t\t\t\t\t\"$panelName = `modelPanel -unParent -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 604\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
+		+ "\t\t\t\t\t\"modelPanel -edit -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 1\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 604\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
 		+ "\t\t\t\t$configName;\n\n            setNamedPanelLayout (localizedPanelLabel(\"Current Layout\"));\n        }\n\n        panelHistory -e -clear mainPanelHistory;\n        setFocus `paneLayout -q -p1 $gMainPane`;\n        sceneUIReplacement -deleteRemaining;\n        sceneUIReplacement -clear;\n\t}\n\n\ngrid -spacing 5 -size 12 -divisions 5 -displayAxes yes -displayGridLines yes -displayDivisionLines yes -displayPerspectiveLabels no -displayOrthographicLabels no -displayAxesBold yes -perspectiveLabelPosition axis -orthographicLabelPosition edge;\nviewManip -drawCompass 0 -compassAngle 0 -frontParameters \"\" -homeParameters \"\" -selectionLockParameters \"\";\n}\n");
 	setAttr ".st" 3;
 createNode script -n "sceneConfigurationScriptNode";
@@ -4454,30 +4462,26 @@ connectAttr "strut_axle_guided_srtOffset.upVectorZ" "strut_axle_srtOffset.upVect
 connectAttr "strut_axle_guided_srtOffset.tx" "strut_axle_srtOffset.tx";
 connectAttr "strut_axle_guided_srtOffset.ty" "strut_axle_srtOffset.ty";
 connectAttr "strut_axle_guided_srtOffset.tz" "strut_axle_srtOffset.tz";
-connectAttr "strut_axle_guided_srtOffset.msg" "strut_axle_srtOffset.guideData[0].guide_node"
+connectAttr "strut_axle_guided_srtOffset.upVectorZ" "strut_axle_srtOffset.guide_attr[0]"
 		;
-connectAttr "strut_axle_guided_srtOffset.upVectorZ" "strut_axle_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "strut_axle_guided_srtOffset.upVectorX" "strut_axle_srtOffset.guide_attr[1]"
 		;
-connectAttr "strut_axle_guided_srtOffset.upVectorX" "strut_axle_srtOffset.guideData[0].guide_attr[1]"
+connectAttr "strut_axle_guided_srtOffset.upVectorY" "strut_axle_srtOffset.guide_attr[2]"
 		;
-connectAttr "strut_axle_guided_srtOffset.upVectorY" "strut_axle_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "strut_axle_guided_srtOffset.tz" "strut_axle_srtOffset.guide_attr[3]"
 		;
-connectAttr "strut_axle_guided_srtOffset.tz" "strut_axle_srtOffset.guideData[0].guide_attr[3]"
+connectAttr "strut_axle_guided_srtOffset.ty" "strut_axle_srtOffset.guide_attr[4]"
 		;
-connectAttr "strut_axle_guided_srtOffset.ty" "strut_axle_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "strut_axle_guided_srtOffset.tx" "strut_axle_srtOffset.guideData[0].guide_attr[5]"
+connectAttr "strut_axle_guided_srtOffset.tx" "strut_axle_srtOffset.guide_attr[5]"
 		;
 connectAttr "strut_swivel_guided_srtOffset.tx" "strut_swivel_srtOffset.tx";
 connectAttr "strut_swivel_guided_srtOffset.ty" "strut_swivel_srtOffset.ty";
 connectAttr "strut_swivel_guided_srtOffset.tz" "strut_swivel_srtOffset.tz";
-connectAttr "strut_swivel_guided_srtOffset.msg" "strut_swivel_srtOffset.guideData[0].guide_node"
+connectAttr "strut_swivel_guided_srtOffset.tz" "strut_swivel_srtOffset.guide_attr[0]"
 		;
-connectAttr "strut_swivel_guided_srtOffset.tz" "strut_swivel_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "strut_swivel_guided_srtOffset.ty" "strut_swivel_srtOffset.guide_attr[1]"
 		;
-connectAttr "strut_swivel_guided_srtOffset.ty" "strut_swivel_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "strut_swivel_guided_srtOffset.tx" "strut_swivel_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "strut_swivel_guided_srtOffset.tx" "strut_swivel_srtOffset.guide_attr[2]"
 		;
 connectAttr "strut_hinge_guided_srtOffset.upVectorX" "strut_hinge_srtOffset.upVectorX"
 		;
@@ -4488,19 +4492,17 @@ connectAttr "strut_hinge_guided_srtOffset.upVectorZ" "strut_hinge_srtOffset.upVe
 connectAttr "strut_hinge_guided_srtOffset.tx" "strut_hinge_srtOffset.tx";
 connectAttr "strut_hinge_guided_srtOffset.ty" "strut_hinge_srtOffset.ty";
 connectAttr "strut_hinge_guided_srtOffset.tz" "strut_hinge_srtOffset.tz";
-connectAttr "strut_hinge_guided_srtOffset.msg" "strut_hinge_srtOffset.guideData[0].guide_node"
+connectAttr "strut_hinge_guided_srtOffset.tz" "strut_hinge_srtOffset.guide_attr[0]"
 		;
-connectAttr "strut_hinge_guided_srtOffset.tz" "strut_hinge_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "strut_hinge_guided_srtOffset.ty" "strut_hinge_srtOffset.guide_attr[1]"
 		;
-connectAttr "strut_hinge_guided_srtOffset.ty" "strut_hinge_srtOffset.guideData[0].guide_attr[1]"
+connectAttr "strut_hinge_guided_srtOffset.tx" "strut_hinge_srtOffset.guide_attr[2]"
 		;
-connectAttr "strut_hinge_guided_srtOffset.tx" "strut_hinge_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "strut_hinge_guided_srtOffset.upVectorZ" "strut_hinge_srtOffset.guide_attr[3]"
 		;
-connectAttr "strut_hinge_guided_srtOffset.upVectorZ" "strut_hinge_srtOffset.guideData[0].guide_attr[3]"
+connectAttr "strut_hinge_guided_srtOffset.upVectorX" "strut_hinge_srtOffset.guide_attr[4]"
 		;
-connectAttr "strut_hinge_guided_srtOffset.upVectorX" "strut_hinge_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "strut_hinge_guided_srtOffset.upVectorY" "strut_hinge_srtOffset.guideData[0].guide_attr[5]"
+connectAttr "strut_hinge_guided_srtOffset.upVectorY" "strut_hinge_srtOffset.guide_attr[5]"
 		;
 connectAttr "rod_hinge_guided_srtOffset.upVectorX" "rod_hinge_srtOffset.upVectorX"
 		;
@@ -4511,19 +4513,14 @@ connectAttr "rod_hinge_guided_srtOffset.upVectorZ" "rod_hinge_srtOffset.upVector
 connectAttr "rod_hinge_guided_srtOffset.tx" "rod_hinge_srtOffset.tx";
 connectAttr "rod_hinge_guided_srtOffset.ty" "rod_hinge_srtOffset.ty";
 connectAttr "rod_hinge_guided_srtOffset.tz" "rod_hinge_srtOffset.tz";
-connectAttr "rod_hinge_guided_srtOffset.msg" "rod_hinge_srtOffset.guideData[0].guide_node"
+connectAttr "rod_hinge_guided_srtOffset.tx" "rod_hinge_srtOffset.guide_attr[0]";
+connectAttr "rod_hinge_guided_srtOffset.ty" "rod_hinge_srtOffset.guide_attr[1]";
+connectAttr "rod_hinge_guided_srtOffset.tz" "rod_hinge_srtOffset.guide_attr[2]";
+connectAttr "rod_hinge_guided_srtOffset.upVectorX" "rod_hinge_srtOffset.guide_attr[3]"
 		;
-connectAttr "rod_hinge_guided_srtOffset.tx" "rod_hinge_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_hinge_guided_srtOffset.upVectorY" "rod_hinge_srtOffset.guide_attr[4]"
 		;
-connectAttr "rod_hinge_guided_srtOffset.ty" "rod_hinge_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "rod_hinge_guided_srtOffset.tz" "rod_hinge_srtOffset.guideData[0].guide_attr[2]"
-		;
-connectAttr "rod_hinge_guided_srtOffset.upVectorX" "rod_hinge_srtOffset.guideData[0].guide_attr[3]"
-		;
-connectAttr "rod_hinge_guided_srtOffset.upVectorY" "rod_hinge_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "rod_hinge_guided_srtOffset.upVectorZ" "rod_hinge_srtOffset.guideData[0].guide_attr[5]"
+connectAttr "rod_hinge_guided_srtOffset.upVectorZ" "rod_hinge_srtOffset.guide_attr[5]"
 		;
 connectAttr "rod_axle_guided_srtOffset.upVectorX" "rod_axle_srtOffset.upVectorX"
 		;
@@ -4534,30 +4531,23 @@ connectAttr "rod_axle_guided_srtOffset.upVectorZ" "rod_axle_srtOffset.upVectorZ"
 connectAttr "rod_axle_guided_srtOffset.tx" "rod_axle_srtOffset.tx";
 connectAttr "rod_axle_guided_srtOffset.ty" "rod_axle_srtOffset.ty";
 connectAttr "rod_axle_guided_srtOffset.tz" "rod_axle_srtOffset.tz";
-connectAttr "rod_axle_guided_srtOffset.msg" "rod_axle_srtOffset.guideData[0].guide_node"
+connectAttr "rod_axle_guided_srtOffset.upVectorY" "rod_axle_srtOffset.guide_attr[0]"
 		;
-connectAttr "rod_axle_guided_srtOffset.upVectorY" "rod_axle_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_axle_guided_srtOffset.upVectorX" "rod_axle_srtOffset.guide_attr[1]"
 		;
-connectAttr "rod_axle_guided_srtOffset.upVectorX" "rod_axle_srtOffset.guideData[0].guide_attr[1]"
+connectAttr "rod_axle_guided_srtOffset.upVectorZ" "rod_axle_srtOffset.guide_attr[2]"
 		;
-connectAttr "rod_axle_guided_srtOffset.upVectorZ" "rod_axle_srtOffset.guideData[0].guide_attr[2]"
-		;
-connectAttr "rod_axle_guided_srtOffset.tz" "rod_axle_srtOffset.guideData[0].guide_attr[3]"
-		;
-connectAttr "rod_axle_guided_srtOffset.tx" "rod_axle_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "rod_axle_guided_srtOffset.ty" "rod_axle_srtOffset.guideData[0].guide_attr[5]"
-		;
+connectAttr "rod_axle_guided_srtOffset.tz" "rod_axle_srtOffset.guide_attr[3]";
+connectAttr "rod_axle_guided_srtOffset.tx" "rod_axle_srtOffset.guide_attr[4]";
+connectAttr "rod_axle_guided_srtOffset.ty" "rod_axle_srtOffset.guide_attr[5]";
 connectAttr "rod_swivel_guided_srtOffset.tx" "rod_swivel_srtOffset.tx";
 connectAttr "rod_swivel_guided_srtOffset.ty" "rod_swivel_srtOffset.ty";
 connectAttr "rod_swivel_guided_srtOffset.tz" "rod_swivel_srtOffset.tz";
-connectAttr "rod_swivel_guided_srtOffset.msg" "rod_swivel_srtOffset.guideData[0].guide_node"
+connectAttr "rod_swivel_guided_srtOffset.tz" "rod_swivel_srtOffset.guide_attr[0]"
 		;
-connectAttr "rod_swivel_guided_srtOffset.tz" "rod_swivel_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_swivel_guided_srtOffset.tx" "rod_swivel_srtOffset.guide_attr[1]"
 		;
-connectAttr "rod_swivel_guided_srtOffset.tx" "rod_swivel_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "rod_swivel_guided_srtOffset.ty" "rod_swivel_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "rod_swivel_guided_srtOffset.ty" "rod_swivel_srtOffset.guide_attr[2]"
 		;
 connectAttr "wheel_guided_srtOffset.tx" "wheel_srtOffset.tx";
 connectAttr "wheel_guided_srtOffset.ty" "wheel_srtOffset.ty";
@@ -4565,20 +4555,12 @@ connectAttr "wheel_guided_srtOffset.tz" "wheel_srtOffset.tz";
 connectAttr "wheel_guided_srtOffset.rx" "wheel_srtOffset.rx";
 connectAttr "wheel_guided_srtOffset.ry" "wheel_srtOffset.ry";
 connectAttr "wheel_guided_srtOffset.rz" "wheel_srtOffset.rz";
-connectAttr "wheel_guided_srtOffset.msg" "wheel_srtOffset.guideData[0].guide_node"
-		;
-connectAttr "wheel_guided_srtOffset.rz" "wheel_srtOffset.guideData[0].guide_attr[0]"
-		;
-connectAttr "wheel_guided_srtOffset.rx" "wheel_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "wheel_guided_srtOffset.ry" "wheel_srtOffset.guideData[0].guide_attr[2]"
-		;
-connectAttr "wheel_guided_srtOffset.tz" "wheel_srtOffset.guideData[0].guide_attr[3]"
-		;
-connectAttr "wheel_guided_srtOffset.tx" "wheel_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "wheel_guided_srtOffset.ty" "wheel_srtOffset.guideData[0].guide_attr[5]"
-		;
+connectAttr "wheel_guided_srtOffset.rz" "wheel_srtOffset.guide_attr[0]";
+connectAttr "wheel_guided_srtOffset.rx" "wheel_srtOffset.guide_attr[1]";
+connectAttr "wheel_guided_srtOffset.ry" "wheel_srtOffset.guide_attr[2]";
+connectAttr "wheel_guided_srtOffset.tz" "wheel_srtOffset.guide_attr[3]";
+connectAttr "wheel_guided_srtOffset.tx" "wheel_srtOffset.guide_attr[4]";
+connectAttr "wheel_guided_srtOffset.ty" "wheel_srtOffset.guide_attr[5]";
 connectAttr "wheelCover_ctrl_guided_srtOffset.tx" "wheelCover_ctrl_srtOffset.tx"
 		;
 connectAttr "wheelCover_ctrl_guided_srtOffset.ty" "wheelCover_ctrl_srtOffset.ty"
@@ -4591,19 +4573,17 @@ connectAttr "wheelCover_ctrl_guided_srtOffset.ry" "wheelCover_ctrl_srtOffset.ry"
 		;
 connectAttr "wheelCover_ctrl_guided_srtOffset.rz" "wheelCover_ctrl_srtOffset.rz"
 		;
-connectAttr "wheelCover_ctrl_guided_srtOffset.msg" "wheelCover_ctrl_srtOffset.guideData[0].guide_node"
+connectAttr "wheelCover_ctrl_guided_srtOffset.rx" "wheelCover_ctrl_srtOffset.guide_attr[0]"
 		;
-connectAttr "wheelCover_ctrl_guided_srtOffset.rx" "wheelCover_ctrl_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "wheelCover_ctrl_guided_srtOffset.ry" "wheelCover_ctrl_srtOffset.guide_attr[1]"
 		;
-connectAttr "wheelCover_ctrl_guided_srtOffset.ry" "wheelCover_ctrl_srtOffset.guideData[0].guide_attr[1]"
+connectAttr "wheelCover_ctrl_guided_srtOffset.tz" "wheelCover_ctrl_srtOffset.guide_attr[2]"
 		;
-connectAttr "wheelCover_ctrl_guided_srtOffset.tz" "wheelCover_ctrl_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "wheelCover_ctrl_guided_srtOffset.ty" "wheelCover_ctrl_srtOffset.guide_attr[3]"
 		;
-connectAttr "wheelCover_ctrl_guided_srtOffset.ty" "wheelCover_ctrl_srtOffset.guideData[0].guide_attr[3]"
+connectAttr "wheelCover_ctrl_guided_srtOffset.tx" "wheelCover_ctrl_srtOffset.guide_attr[4]"
 		;
-connectAttr "wheelCover_ctrl_guided_srtOffset.tx" "wheelCover_ctrl_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "wheelCover_ctrl_guided_srtOffset.rz" "wheelCover_ctrl_srtOffset.guideData[0].guide_attr[5]"
+connectAttr "wheelCover_ctrl_guided_srtOffset.rz" "wheelCover_ctrl_srtOffset.guide_attr[5]"
 		;
 connectAttr "wheelCover_guided_srtOffset.upVectorX" "wheelCover_srtOffset.upVectorX"
 		;
@@ -4611,79 +4591,65 @@ connectAttr "wheelCover_guided_srtOffset.upVectorY" "wheelCover_srtOffset.upVect
 		;
 connectAttr "wheelCover_guided_srtOffset.upVectorZ" "wheelCover_srtOffset.upVectorZ"
 		;
-connectAttr "wheelCover_guided_srtOffset.msg" "wheelCover_srtOffset.guideData[0].guide_node"
+connectAttr "wheelCover_guided_srtOffset.upVectorY" "wheelCover_srtOffset.guide_attr[0]"
 		;
-connectAttr "wheelCover_guided_srtOffset.upVectorY" "wheelCover_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "wheelCover_guided_srtOffset.upVectorX" "wheelCover_srtOffset.guide_attr[1]"
 		;
-connectAttr "wheelCover_guided_srtOffset.upVectorX" "wheelCover_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "wheelCover_guided_srtOffset.upVectorZ" "wheelCover_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "wheelCover_guided_srtOffset.upVectorZ" "wheelCover_srtOffset.guide_attr[2]"
 		;
 connectAttr "hinge_ik_base_guided_srtOffset.tx" "hinge_ik_base_srtOffset.tx";
 connectAttr "hinge_ik_base_guided_srtOffset.ty" "hinge_ik_base_srtOffset.ty";
 connectAttr "hinge_ik_base_guided_srtOffset.tz" "hinge_ik_base_srtOffset.tz";
-connectAttr "hinge_ik_base_guided_srtOffset.msg" "hinge_ik_base_srtOffset.guideData[0].guide_node"
+connectAttr "hinge_ik_base_guided_srtOffset.tz" "hinge_ik_base_srtOffset.guide_attr[0]"
 		;
-connectAttr "hinge_ik_base_guided_srtOffset.tz" "hinge_ik_base_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "hinge_ik_base_guided_srtOffset.ty" "hinge_ik_base_srtOffset.guide_attr[1]"
 		;
-connectAttr "hinge_ik_base_guided_srtOffset.ty" "hinge_ik_base_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "hinge_ik_base_guided_srtOffset.tx" "hinge_ik_base_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "hinge_ik_base_guided_srtOffset.tx" "hinge_ik_base_srtOffset.guide_attr[2]"
 		;
 connectAttr "hinge_ik_bend_guided_srtOffset.tx" "hinge_ik_bend_srtOffset.tx";
 connectAttr "hinge_ik_bend_guided_srtOffset.ty" "hinge_ik_bend_srtOffset.ty";
 connectAttr "hinge_ik_bend_guided_srtOffset.tz" "hinge_ik_bend_srtOffset.tz";
-connectAttr "hinge_ik_bend_guided_srtOffset.msg" "hinge_ik_bend_srtOffset.guideData[0].guide_node"
+connectAttr "hinge_ik_bend_guided_srtOffset.ty" "hinge_ik_bend_srtOffset.guide_attr[0]"
 		;
-connectAttr "hinge_ik_bend_guided_srtOffset.ty" "hinge_ik_bend_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "hinge_ik_bend_guided_srtOffset.tx" "hinge_ik_bend_srtOffset.guide_attr[1]"
 		;
-connectAttr "hinge_ik_bend_guided_srtOffset.tx" "hinge_ik_bend_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "hinge_ik_bend_guided_srtOffset.tz" "hinge_ik_bend_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "hinge_ik_bend_guided_srtOffset.tz" "hinge_ik_bend_srtOffset.guide_attr[2]"
 		;
 connectAttr "hinge_ik_end_guided_srtOffset.tx" "hinge_ik_end_srtOffset.tx";
 connectAttr "hinge_ik_end_guided_srtOffset.ty" "hinge_ik_end_srtOffset.ty";
 connectAttr "hinge_ik_end_guided_srtOffset.tz" "hinge_ik_end_srtOffset.tz";
-connectAttr "hinge_ik_end_guided_srtOffset.msg" "hinge_ik_end_srtOffset.guideData[0].guide_node"
+connectAttr "hinge_ik_end_guided_srtOffset.tx" "hinge_ik_end_srtOffset.guide_attr[0]"
 		;
-connectAttr "hinge_ik_end_guided_srtOffset.tx" "hinge_ik_end_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "hinge_ik_end_guided_srtOffset.ty" "hinge_ik_end_srtOffset.guide_attr[1]"
 		;
-connectAttr "hinge_ik_end_guided_srtOffset.ty" "hinge_ik_end_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "hinge_ik_end_guided_srtOffset.tz" "hinge_ik_end_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "hinge_ik_end_guided_srtOffset.tz" "hinge_ik_end_srtOffset.guide_attr[2]"
 		;
 connectAttr "rod_ik_base_guided_srtOffset.tx" "rod_ik_base_srtOffset.tx";
 connectAttr "rod_ik_base_guided_srtOffset.ty" "rod_ik_base_srtOffset.ty";
 connectAttr "rod_ik_base_guided_srtOffset.tz" "rod_ik_base_srtOffset.tz";
-connectAttr "rod_ik_base_guided_srtOffset.msg" "rod_ik_base_srtOffset.guideData[0].guide_node"
+connectAttr "rod_ik_base_guided_srtOffset.tz" "rod_ik_base_srtOffset.guide_attr[0]"
 		;
-connectAttr "rod_ik_base_guided_srtOffset.tz" "rod_ik_base_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_ik_base_guided_srtOffset.ty" "rod_ik_base_srtOffset.guide_attr[1]"
 		;
-connectAttr "rod_ik_base_guided_srtOffset.ty" "rod_ik_base_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "rod_ik_base_guided_srtOffset.tx" "rod_ik_base_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "rod_ik_base_guided_srtOffset.tx" "rod_ik_base_srtOffset.guide_attr[2]"
 		;
 connectAttr "rod_ik_bend_guided_srtOffset.tx" "rod_ik_bend_srtOffset.tx";
 connectAttr "rod_ik_bend_guided_srtOffset.ty" "rod_ik_bend_srtOffset.ty";
 connectAttr "rod_ik_bend_guided_srtOffset.tz" "rod_ik_bend_srtOffset.tz";
-connectAttr "rod_ik_bend_guided_srtOffset.msg" "rod_ik_bend_srtOffset.guideData[0].guide_node"
+connectAttr "rod_ik_bend_guided_srtOffset.ty" "rod_ik_bend_srtOffset.guide_attr[0]"
 		;
-connectAttr "rod_ik_bend_guided_srtOffset.ty" "rod_ik_bend_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_ik_bend_guided_srtOffset.tx" "rod_ik_bend_srtOffset.guide_attr[1]"
 		;
-connectAttr "rod_ik_bend_guided_srtOffset.tx" "rod_ik_bend_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "rod_ik_bend_guided_srtOffset.tz" "rod_ik_bend_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "rod_ik_bend_guided_srtOffset.tz" "rod_ik_bend_srtOffset.guide_attr[2]"
 		;
 connectAttr "rod_ik_end_guided_srtOffset.tx" "rod_ik_end_srtOffset.tx";
 connectAttr "rod_ik_end_guided_srtOffset.ty" "rod_ik_end_srtOffset.ty";
 connectAttr "rod_ik_end_guided_srtOffset.tz" "rod_ik_end_srtOffset.tz";
-connectAttr "rod_ik_end_guided_srtOffset.msg" "rod_ik_end_srtOffset.guideData[0].guide_node"
+connectAttr "rod_ik_end_guided_srtOffset.tx" "rod_ik_end_srtOffset.guide_attr[0]"
 		;
-connectAttr "rod_ik_end_guided_srtOffset.tx" "rod_ik_end_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_ik_end_guided_srtOffset.ty" "rod_ik_end_srtOffset.guide_attr[1]"
 		;
-connectAttr "rod_ik_end_guided_srtOffset.ty" "rod_ik_end_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "rod_ik_end_guided_srtOffset.tz" "rod_ik_end_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "rod_ik_end_guided_srtOffset.tz" "rod_ik_end_srtOffset.guide_attr[2]"
 		;
 connectAttr "base_fk_guided_srtOffset.tx" "base_fk_srtOffset.tx";
 connectAttr "base_fk_guided_srtOffset.ty" "base_fk_srtOffset.ty";
@@ -4691,99 +4657,65 @@ connectAttr "base_fk_guided_srtOffset.tz" "base_fk_srtOffset.tz";
 connectAttr "base_fk_guided_srtOffset.rx" "base_fk_srtOffset.rx";
 connectAttr "base_fk_guided_srtOffset.ry" "base_fk_srtOffset.ry";
 connectAttr "base_fk_guided_srtOffset.rz" "base_fk_srtOffset.rz";
-connectAttr "base_fk_guided_srtOffset.msg" "base_fk_srtOffset.guideData[0].guide_node"
-		;
-connectAttr "base_fk_guided_srtOffset.tz" "base_fk_srtOffset.guideData[0].guide_attr[0]"
-		;
-connectAttr "base_fk_guided_srtOffset.tx" "base_fk_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "base_fk_guided_srtOffset.ty" "base_fk_srtOffset.guideData[0].guide_attr[2]"
-		;
-connectAttr "base_fk_guided_srtOffset.rz" "base_fk_srtOffset.guideData[0].guide_attr[3]"
-		;
-connectAttr "base_fk_guided_srtOffset.rx" "base_fk_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "base_fk_guided_srtOffset.ry" "base_fk_srtOffset.guideData[0].guide_attr[5]"
-		;
+connectAttr "base_fk_guided_srtOffset.tz" "base_fk_srtOffset.guide_attr[0]";
+connectAttr "base_fk_guided_srtOffset.tx" "base_fk_srtOffset.guide_attr[1]";
+connectAttr "base_fk_guided_srtOffset.ty" "base_fk_srtOffset.guide_attr[2]";
+connectAttr "base_fk_guided_srtOffset.rz" "base_fk_srtOffset.guide_attr[3]";
+connectAttr "base_fk_guided_srtOffset.rx" "base_fk_srtOffset.guide_attr[4]";
+connectAttr "base_fk_guided_srtOffset.ry" "base_fk_srtOffset.guide_attr[5]";
 connectAttr "hinge_fk_guided_srtOffset.tx" "hinge_fk_srtOffset.tx";
 connectAttr "hinge_fk_guided_srtOffset.ty" "hinge_fk_srtOffset.ty";
 connectAttr "hinge_fk_guided_srtOffset.tz" "hinge_fk_srtOffset.tz";
 connectAttr "hinge_fk_guided_srtOffset.rx" "hinge_fk_srtOffset.rx";
 connectAttr "hinge_fk_guided_srtOffset.ry" "hinge_fk_srtOffset.ry";
 connectAttr "hinge_fk_guided_srtOffset.rz" "hinge_fk_srtOffset.rz";
-connectAttr "hinge_fk_guided_srtOffset.msg" "hinge_fk_srtOffset.guideData[0].guide_node"
-		;
-connectAttr "hinge_fk_guided_srtOffset.ry" "hinge_fk_srtOffset.guideData[0].guide_attr[0]"
-		;
-connectAttr "hinge_fk_guided_srtOffset.rx" "hinge_fk_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "hinge_fk_guided_srtOffset.rz" "hinge_fk_srtOffset.guideData[0].guide_attr[2]"
-		;
-connectAttr "hinge_fk_guided_srtOffset.tz" "hinge_fk_srtOffset.guideData[0].guide_attr[3]"
-		;
-connectAttr "hinge_fk_guided_srtOffset.ty" "hinge_fk_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "hinge_fk_guided_srtOffset.tx" "hinge_fk_srtOffset.guideData[0].guide_attr[5]"
-		;
+connectAttr "hinge_fk_guided_srtOffset.ry" "hinge_fk_srtOffset.guide_attr[0]";
+connectAttr "hinge_fk_guided_srtOffset.rx" "hinge_fk_srtOffset.guide_attr[1]";
+connectAttr "hinge_fk_guided_srtOffset.rz" "hinge_fk_srtOffset.guide_attr[2]";
+connectAttr "hinge_fk_guided_srtOffset.tz" "hinge_fk_srtOffset.guide_attr[3]";
+connectAttr "hinge_fk_guided_srtOffset.ty" "hinge_fk_srtOffset.guide_attr[4]";
+connectAttr "hinge_fk_guided_srtOffset.tx" "hinge_fk_srtOffset.guide_attr[5]";
 connectAttr "rod_fk_guided_srtOffset.tx" "rod_fk_srtOffset.tx";
 connectAttr "rod_fk_guided_srtOffset.ty" "rod_fk_srtOffset.ty";
 connectAttr "rod_fk_guided_srtOffset.tz" "rod_fk_srtOffset.tz";
 connectAttr "rod_fk_guided_srtOffset.rx" "rod_fk_srtOffset.rx";
 connectAttr "rod_fk_guided_srtOffset.ry" "rod_fk_srtOffset.ry";
 connectAttr "rod_fk_guided_srtOffset.rz" "rod_fk_srtOffset.rz";
-connectAttr "rod_fk_guided_srtOffset.msg" "rod_fk_srtOffset.guideData[0].guide_node"
-		;
-connectAttr "rod_fk_guided_srtOffset.ry" "rod_fk_srtOffset.guideData[0].guide_attr[0]"
-		;
-connectAttr "rod_fk_guided_srtOffset.rx" "rod_fk_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "rod_fk_guided_srtOffset.rz" "rod_fk_srtOffset.guideData[0].guide_attr[2]"
-		;
-connectAttr "rod_fk_guided_srtOffset.tz" "rod_fk_srtOffset.guideData[0].guide_attr[3]"
-		;
-connectAttr "rod_fk_guided_srtOffset.ty" "rod_fk_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "rod_fk_guided_srtOffset.tx" "rod_fk_srtOffset.guideData[0].guide_attr[5]"
-		;
+connectAttr "rod_fk_guided_srtOffset.ry" "rod_fk_srtOffset.guide_attr[0]";
+connectAttr "rod_fk_guided_srtOffset.rx" "rod_fk_srtOffset.guide_attr[1]";
+connectAttr "rod_fk_guided_srtOffset.rz" "rod_fk_srtOffset.guide_attr[2]";
+connectAttr "rod_fk_guided_srtOffset.tz" "rod_fk_srtOffset.guide_attr[3]";
+connectAttr "rod_fk_guided_srtOffset.ty" "rod_fk_srtOffset.guide_attr[4]";
+connectAttr "rod_fk_guided_srtOffset.tx" "rod_fk_srtOffset.guide_attr[5]";
 connectAttr "wheel_fk_guided_srtOffset.tx" "wheel_fk_srtOffset.tx";
 connectAttr "wheel_fk_guided_srtOffset.ty" "wheel_fk_srtOffset.ty";
 connectAttr "wheel_fk_guided_srtOffset.tz" "wheel_fk_srtOffset.tz";
 connectAttr "wheel_fk_guided_srtOffset.rx" "wheel_fk_srtOffset.rx";
 connectAttr "wheel_fk_guided_srtOffset.ry" "wheel_fk_srtOffset.ry";
 connectAttr "wheel_fk_guided_srtOffset.rz" "wheel_fk_srtOffset.rz";
-connectAttr "wheel_fk_guided_srtOffset.msg" "wheel_fk_srtOffset.guideData[0].guide_node"
-		;
-connectAttr "wheel_fk_guided_srtOffset.tz" "wheel_fk_srtOffset.guideData[0].guide_attr[0]"
-		;
-connectAttr "wheel_fk_guided_srtOffset.ty" "wheel_fk_srtOffset.guideData[0].guide_attr[1]"
-		;
-connectAttr "wheel_fk_guided_srtOffset.tx" "wheel_fk_srtOffset.guideData[0].guide_attr[2]"
-		;
-connectAttr "wheel_fk_guided_srtOffset.ry" "wheel_fk_srtOffset.guideData[0].guide_attr[3]"
-		;
-connectAttr "wheel_fk_guided_srtOffset.rx" "wheel_fk_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "wheel_fk_guided_srtOffset.rz" "wheel_fk_srtOffset.guideData[0].guide_attr[5]"
-		;
+connectAttr "wheel_fk_guided_srtOffset.tz" "wheel_fk_srtOffset.guide_attr[0]";
+connectAttr "wheel_fk_guided_srtOffset.ty" "wheel_fk_srtOffset.guide_attr[1]";
+connectAttr "wheel_fk_guided_srtOffset.tx" "wheel_fk_srtOffset.guide_attr[2]";
+connectAttr "wheel_fk_guided_srtOffset.ry" "wheel_fk_srtOffset.guide_attr[3]";
+connectAttr "wheel_fk_guided_srtOffset.rx" "wheel_fk_srtOffset.guide_attr[4]";
+connectAttr "wheel_fk_guided_srtOffset.rz" "wheel_fk_srtOffset.guide_attr[5]";
 connectAttr "hinge_ik_ctrl_guided_srtOffset.tx" "hinge_ik_ctrl_srtOffset.tx";
 connectAttr "hinge_ik_ctrl_guided_srtOffset.ty" "hinge_ik_ctrl_srtOffset.ty";
 connectAttr "hinge_ik_ctrl_guided_srtOffset.tz" "hinge_ik_ctrl_srtOffset.tz";
 connectAttr "hinge_ik_ctrl_guided_srtOffset.rx" "hinge_ik_ctrl_srtOffset.rx";
 connectAttr "hinge_ik_ctrl_guided_srtOffset.ry" "hinge_ik_ctrl_srtOffset.ry";
 connectAttr "hinge_ik_ctrl_guided_srtOffset.rz" "hinge_ik_ctrl_srtOffset.rz";
-connectAttr "hinge_ik_ctrl_guided_srtOffset.msg" "hinge_ik_ctrl_srtOffset.guideData[0].guide_node"
+connectAttr "hinge_ik_ctrl_guided_srtOffset.ry" "hinge_ik_ctrl_srtOffset.guide_attr[0]"
 		;
-connectAttr "hinge_ik_ctrl_guided_srtOffset.ry" "hinge_ik_ctrl_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "hinge_ik_ctrl_guided_srtOffset.rx" "hinge_ik_ctrl_srtOffset.guide_attr[1]"
 		;
-connectAttr "hinge_ik_ctrl_guided_srtOffset.rx" "hinge_ik_ctrl_srtOffset.guideData[0].guide_attr[1]"
+connectAttr "hinge_ik_ctrl_guided_srtOffset.rz" "hinge_ik_ctrl_srtOffset.guide_attr[2]"
 		;
-connectAttr "hinge_ik_ctrl_guided_srtOffset.rz" "hinge_ik_ctrl_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "hinge_ik_ctrl_guided_srtOffset.tz" "hinge_ik_ctrl_srtOffset.guide_attr[3]"
 		;
-connectAttr "hinge_ik_ctrl_guided_srtOffset.tz" "hinge_ik_ctrl_srtOffset.guideData[0].guide_attr[3]"
+connectAttr "hinge_ik_ctrl_guided_srtOffset.ty" "hinge_ik_ctrl_srtOffset.guide_attr[4]"
 		;
-connectAttr "hinge_ik_ctrl_guided_srtOffset.ty" "hinge_ik_ctrl_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "hinge_ik_ctrl_guided_srtOffset.tx" "hinge_ik_ctrl_srtOffset.guideData[0].guide_attr[5]"
+connectAttr "hinge_ik_ctrl_guided_srtOffset.tx" "hinge_ik_ctrl_srtOffset.guide_attr[5]"
 		;
 connectAttr "rod_ik_ctrl_guided_srtOffset.tx" "rod_ik_ctrl_srtOffset.tx";
 connectAttr "rod_ik_ctrl_guided_srtOffset.ty" "rod_ik_ctrl_srtOffset.ty";
@@ -4791,19 +4723,17 @@ connectAttr "rod_ik_ctrl_guided_srtOffset.tz" "rod_ik_ctrl_srtOffset.tz";
 connectAttr "rod_ik_ctrl_guided_srtOffset.rx" "rod_ik_ctrl_srtOffset.rx";
 connectAttr "rod_ik_ctrl_guided_srtOffset.ry" "rod_ik_ctrl_srtOffset.ry";
 connectAttr "rod_ik_ctrl_guided_srtOffset.rz" "rod_ik_ctrl_srtOffset.rz";
-connectAttr "rod_ik_ctrl_guided_srtOffset.msg" "rod_ik_ctrl_srtOffset.guideData[0].guide_node"
+connectAttr "rod_ik_ctrl_guided_srtOffset.rz" "rod_ik_ctrl_srtOffset.guide_attr[0]"
 		;
-connectAttr "rod_ik_ctrl_guided_srtOffset.rz" "rod_ik_ctrl_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_ik_ctrl_guided_srtOffset.rx" "rod_ik_ctrl_srtOffset.guide_attr[1]"
 		;
-connectAttr "rod_ik_ctrl_guided_srtOffset.rx" "rod_ik_ctrl_srtOffset.guideData[0].guide_attr[1]"
+connectAttr "rod_ik_ctrl_guided_srtOffset.ry" "rod_ik_ctrl_srtOffset.guide_attr[2]"
 		;
-connectAttr "rod_ik_ctrl_guided_srtOffset.ry" "rod_ik_ctrl_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "rod_ik_ctrl_guided_srtOffset.tz" "rod_ik_ctrl_srtOffset.guide_attr[3]"
 		;
-connectAttr "rod_ik_ctrl_guided_srtOffset.tz" "rod_ik_ctrl_srtOffset.guideData[0].guide_attr[3]"
+connectAttr "rod_ik_ctrl_guided_srtOffset.ty" "rod_ik_ctrl_srtOffset.guide_attr[4]"
 		;
-connectAttr "rod_ik_ctrl_guided_srtOffset.ty" "rod_ik_ctrl_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "rod_ik_ctrl_guided_srtOffset.tx" "rod_ik_ctrl_srtOffset.guideData[0].guide_attr[5]"
+connectAttr "rod_ik_ctrl_guided_srtOffset.tx" "rod_ik_ctrl_srtOffset.guide_attr[5]"
 		;
 connectAttr "rod_pv_ctrl_guided_srtOffset.tx" "rod_pv_ctrl_srtOffset.tx";
 connectAttr "rod_pv_ctrl_guided_srtOffset.ty" "rod_pv_ctrl_srtOffset.ty";
@@ -4811,19 +4741,17 @@ connectAttr "rod_pv_ctrl_guided_srtOffset.tz" "rod_pv_ctrl_srtOffset.tz";
 connectAttr "rod_pv_ctrl_guided_srtOffset.rx" "rod_pv_ctrl_srtOffset.rx";
 connectAttr "rod_pv_ctrl_guided_srtOffset.ry" "rod_pv_ctrl_srtOffset.ry";
 connectAttr "rod_pv_ctrl_guided_srtOffset.rz" "rod_pv_ctrl_srtOffset.rz";
-connectAttr "rod_pv_ctrl_guided_srtOffset.msg" "rod_pv_ctrl_srtOffset.guideData[0].guide_node"
+connectAttr "rod_pv_ctrl_guided_srtOffset.ty" "rod_pv_ctrl_srtOffset.guide_attr[0]"
 		;
-connectAttr "rod_pv_ctrl_guided_srtOffset.ty" "rod_pv_ctrl_srtOffset.guideData[0].guide_attr[0]"
+connectAttr "rod_pv_ctrl_guided_srtOffset.tx" "rod_pv_ctrl_srtOffset.guide_attr[1]"
 		;
-connectAttr "rod_pv_ctrl_guided_srtOffset.tx" "rod_pv_ctrl_srtOffset.guideData[0].guide_attr[1]"
+connectAttr "rod_pv_ctrl_guided_srtOffset.tz" "rod_pv_ctrl_srtOffset.guide_attr[2]"
 		;
-connectAttr "rod_pv_ctrl_guided_srtOffset.tz" "rod_pv_ctrl_srtOffset.guideData[0].guide_attr[2]"
+connectAttr "rod_pv_ctrl_guided_srtOffset.rz" "rod_pv_ctrl_srtOffset.guide_attr[3]"
 		;
-connectAttr "rod_pv_ctrl_guided_srtOffset.rz" "rod_pv_ctrl_srtOffset.guideData[0].guide_attr[3]"
+connectAttr "rod_pv_ctrl_guided_srtOffset.ry" "rod_pv_ctrl_srtOffset.guide_attr[4]"
 		;
-connectAttr "rod_pv_ctrl_guided_srtOffset.ry" "rod_pv_ctrl_srtOffset.guideData[0].guide_attr[4]"
-		;
-connectAttr "rod_pv_ctrl_guided_srtOffset.rx" "rod_pv_ctrl_srtOffset.guideData[0].guide_attr[5]"
+connectAttr "rod_pv_ctrl_guided_srtOffset.rx" "rod_pv_ctrl_srtOffset.guide_attr[5]"
 		;
 connectAttr "foot_srt.t" "foot_guided_srt.t";
 connectAttr "foot_srt.r" "foot_guided_srt.r";

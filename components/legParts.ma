@@ -1,6 +1,6 @@
 //Maya ASCII 2016 scene
 //Name: legParts.ma
-//Last modified: Sat, Jul 07, 2018 03:42:31 PM
+//Last modified: Sun, Jul 08, 2018 12:03:18 PM
 //Codeset: 1252
 requires maya "2016";
 requires -nodeType "decomposeMatrix" -nodeType "composeMatrix" -nodeType "inverseMatrix"
@@ -16,7 +16,7 @@ fileInfo "osv" "Microsoft Windows 7 Business Edition, 64-bit Windows 7 Service P
 createNode transform -s -n "persp";
 	rename -uid "C0EFDD4D-44E1-E52F-9791-1482D903FBCF";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 13.189017561082766 11.563260932478677 25.548585737232322 ;
+	setAttr ".t" -type "double3" 21.493168749266282 13.913904285430499 32.369692424309775 ;
 	setAttr ".r" -type "double3" -12.338349578292515 -7869.4000000006781 -1.2527185219800963e-015 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "01094DA5-418A-91BA-AAEA-C29A88918CEB";
@@ -25,7 +25,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr ".fl" 25.545956075368974;
 	setAttr ".ncp" 0.01;
 	setAttr ".fcp" 1000;
-	setAttr ".coi" 21.161427371548584;
+	setAttr ".coi" 32.161970429301647;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -815,7 +815,7 @@ createNode transform -n "legAxle_srt" -p "deform";
 	rename -uid "818586DC-4642-527C-2DD6-30B32258DB7C";
 	setAttr ".dla" yes;
 createNode transform -n "output" -p "legParts_X_cmpt";
-	rename -uid "5DD7DD9E-49F8-CDD2-7A3D-3BB5E5E5B393";
+	rename -uid "6AE70BC3-4DB7-D801-C077-03BD93BFF235";
 	setAttr -l on -k off ".tx";
 	setAttr -l on -k off ".ty";
 	setAttr -l on -k off ".tz";
@@ -825,30 +825,57 @@ createNode transform -n "output" -p "legParts_X_cmpt";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode transform -n "hipSwivel_srt" -p "output";
-	rename -uid "D4904CEB-492F-BCB7-B611-7EB00D162C70";
-createNode transform -n "hipAxle_srt" -p "output";
-	rename -uid "9E6555CA-40FB-14F7-58D7-C8A759A06ADE";
-createNode transform -n "kneeSwivel_end_srt" -p "output";
-	rename -uid "E260CC77-4906-4210-D71F-DAA3168A53EB";
-createNode transform -n "kneeSwivel_base_srt" -p "output";
-	rename -uid "58A7BA2D-4B3E-6CC1-E98F-9580D9676BCE";
-createNode transform -n "kneeAxle_srt" -p "output";
-	rename -uid "6B0E7275-4BB7-7F64-390A-13ADFD12EB37";
+createNode transform -n "footAxle_srt" -p "output";
+	rename -uid "D47A3A3E-4692-388D-726B-76A724D1471F";
+	setAttr ".dla" yes;
+createNode transform -n "footHinge_srt" -p "output";
+	rename -uid "6C01056A-45E8-3213-6ECB-72944851E653";
+	setAttr ".dla" yes;
+createNode transform -n "footSwivel_srt" -p "output";
+	rename -uid "696231AE-491D-47D3-441C-39AE95D1C8E7";
+	setAttr ".dla" yes;
+createNode transform -n "ankleAxle_srt" -p "output";
+	rename -uid "3D736B2B-47CF-69A5-F8A4-699FD2E21763";
+	setAttr ".dla" yes;
+createNode transform -n "ankleSwivel_srt" -p "output";
+	rename -uid "44BB4CB1-43B1-457F-2FC7-EC9F905DA7B4";
+	setAttr ".dla" yes;
+createNode transform -n "kneeHinge_end_srt" -p "output";
+	rename -uid "6B889A04-4797-5940-6E3B-AA99D7C981CE";
+	setAttr ".dla" yes;
 createNode transform -n "kneeHinge_base_srt" -p "output";
-	rename -uid "972B130A-4F43-0039-1176-AE9372988C3E";
+	rename -uid "F6F1B594-4571-EA88-CBC0-91AA2871A4E0";
+	setAttr ".dla" yes;
+createNode transform -n "kneeAxle_srt" -p "output";
+	rename -uid "348EED04-4413-37FE-5FCA-529759D868BB";
+	setAttr ".dla" yes;
+createNode transform -n "kneeSwivel_end_srt" -p "output";
+	rename -uid "6D03B3FD-45CD-3E4B-2123-BE984BC7E04B";
+	setAttr ".dla" yes;
+createNode transform -n "kneeSwivel_base_srt" -p "output";
+	rename -uid "F1FD42B8-42BA-7725-A2E0-ADB611980637";
+	setAttr ".dla" yes;
+createNode transform -n "hipAxle_srt" -p "output";
+	rename -uid "58527C12-41AA-A3CB-4685-E7BBC9301D2F";
+	setAttr ".dla" yes;
+createNode transform -n "hipSwivel_srt" -p "output";
+	rename -uid "FC1FC661-4541-B7AA-B50C-EF8146CB3484";
+	setAttr ".dla" yes;
+createNode transform -n "hipHinge_srt" -p "output";
+	rename -uid "0DE96A19-49E3-5C4D-6497-E083C02979DB";
+	setAttr ".dla" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "316DCEAC-46F2-9AFD-5097-9C81AE7ACBBE";
+	rename -uid "A47CC7FA-4F8E-631C-4AE6-DF8848843005";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "E5F52763-451D-0F65-0590-D8A7CC627B12";
+	rename -uid "FD7104EE-4348-C92F-1892-8E9D7EB7198B";
+	setAttr ".cdl" 1;
 	setAttr -s 2 ".dli[1]"  1;
-	setAttr -s 2 ".dli";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "922BB33E-4724-CD36-A43D-95B0AB693DE9";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "0DFF68C3-4428-96C3-3751-B8AB26F6683A";
+	rename -uid "7E0F3130-49A2-354C-8DFE-33A8884567C1";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "F625866E-432D-03ED-624F-BB9757A3F342";
 	setAttr ".g" yes;
@@ -878,9 +905,9 @@ createNode script -n "uiConfigurationScriptNode";
 		+ "\t\t\t$editorName = $panelName;\n            modelEditor -e \n                -camera \"persp\" \n                -useInteractiveMode 0\n                -displayLights \"default\" \n                -displayAppearance \"wireframe\" \n                -activeOnly 0\n                -ignorePanZoom 0\n                -wireframeOnShaded 1\n                -headsUpDisplay 1\n                -holdOuts 1\n                -selectionHiliteDisplay 1\n                -useDefaultMaterial 0\n                -bufferMode \"double\" \n                -twoSidedLighting 1\n                -backfaceCulling 0\n                -xray 0\n                -jointXray 0\n                -activeComponentsXray 0\n                -displayTextures 0\n                -smoothWireframe 0\n                -lineWidth 1\n                -textureAnisotropic 0\n                -textureHilight 1\n                -textureSampling 2\n                -textureDisplay \"modulate\" \n                -textureMaxSize 32768\n                -fogging 0\n                -fogSource \"fragment\" \n                -fogMode \"linear\" \n"
 		+ "                -fogStart 0\n                -fogEnd 100\n                -fogDensity 0.1\n                -fogColor 0.5 0.5 0.5 1 \n                -depthOfFieldPreview 1\n                -maxConstantTransparency 1\n                -rendererName \"vp2Renderer\" \n                -objectFilterShowInHUD 1\n                -isFiltered 0\n                -colorResolution 256 256 \n                -bumpResolution 512 512 \n                -textureCompression 0\n                -transparencyAlgorithm \"frontAndBackCull\" \n                -transpInShadows 0\n                -cullingOverride \"none\" \n                -lowQualityLighting 0\n                -maximumNumHardwareLights 1\n                -occlusionCulling 0\n                -shadingModel 0\n                -useBaseRenderer 0\n                -useReducedRenderer 0\n                -smallObjectCulling 0\n                -smallObjectThreshold -1 \n                -interactiveDisableShadows 0\n                -interactiveBackFaceCull 0\n                -sortTransparent 1\n                -nurbsCurves 1\n"
 		+ "                -nurbsSurfaces 1\n                -polymeshes 1\n                -subdivSurfaces 1\n                -planes 1\n                -lights 1\n                -cameras 1\n                -controlVertices 1\n                -hulls 1\n                -grid 0\n                -imagePlane 1\n                -joints 1\n                -ikHandles 1\n                -deformers 1\n                -dynamics 1\n                -particleInstancers 1\n                -fluids 1\n                -hairSystems 1\n                -follicles 1\n                -nCloths 1\n                -nParticles 1\n                -nRigids 1\n                -dynamicConstraints 1\n                -locators 1\n                -manipulators 1\n                -pluginShapes 1\n                -dimensions 1\n                -handles 1\n                -pivots 1\n                -textures 1\n                -strokes 1\n                -motionTrails 1\n                -clipGhosts 1\n                -greasePencils 1\n                -shadows 0\n                -captureSequenceNumber -1\n"
-		+ "                -width 1021\n                -height 841\n                -sceneRenderFilter 0\n                $editorName;\n            modelEditor -e -viewSelected 0 $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tmodelPanel -edit -l (localizedPanelLabel(\"Persp View\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        modelEditor -e \n            -camera \"persp\" \n            -useInteractiveMode 0\n            -displayLights \"default\" \n            -displayAppearance \"wireframe\" \n            -activeOnly 0\n            -ignorePanZoom 0\n            -wireframeOnShaded 1\n            -headsUpDisplay 1\n            -holdOuts 1\n            -selectionHiliteDisplay 1\n            -useDefaultMaterial 0\n            -bufferMode \"double\" \n            -twoSidedLighting 1\n            -backfaceCulling 0\n            -xray 0\n            -jointXray 0\n            -activeComponentsXray 0\n            -displayTextures 0\n            -smoothWireframe 0\n            -lineWidth 1\n            -textureAnisotropic 0\n"
+		+ "                -width 1204\n                -height 841\n                -sceneRenderFilter 0\n                $editorName;\n            modelEditor -e -viewSelected 0 $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\tmodelPanel -edit -l (localizedPanelLabel(\"Persp View\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        modelEditor -e \n            -camera \"persp\" \n            -useInteractiveMode 0\n            -displayLights \"default\" \n            -displayAppearance \"wireframe\" \n            -activeOnly 0\n            -ignorePanZoom 0\n            -wireframeOnShaded 1\n            -headsUpDisplay 1\n            -holdOuts 1\n            -selectionHiliteDisplay 1\n            -useDefaultMaterial 0\n            -bufferMode \"double\" \n            -twoSidedLighting 1\n            -backfaceCulling 0\n            -xray 0\n            -jointXray 0\n            -activeComponentsXray 0\n            -displayTextures 0\n            -smoothWireframe 0\n            -lineWidth 1\n            -textureAnisotropic 0\n"
 		+ "            -textureHilight 1\n            -textureSampling 2\n            -textureDisplay \"modulate\" \n            -textureMaxSize 32768\n            -fogging 0\n            -fogSource \"fragment\" \n            -fogMode \"linear\" \n            -fogStart 0\n            -fogEnd 100\n            -fogDensity 0.1\n            -fogColor 0.5 0.5 0.5 1 \n            -depthOfFieldPreview 1\n            -maxConstantTransparency 1\n            -rendererName \"vp2Renderer\" \n            -objectFilterShowInHUD 1\n            -isFiltered 0\n            -colorResolution 256 256 \n            -bumpResolution 512 512 \n            -textureCompression 0\n            -transparencyAlgorithm \"frontAndBackCull\" \n            -transpInShadows 0\n            -cullingOverride \"none\" \n            -lowQualityLighting 0\n            -maximumNumHardwareLights 1\n            -occlusionCulling 0\n            -shadingModel 0\n            -useBaseRenderer 0\n            -useReducedRenderer 0\n            -smallObjectCulling 0\n            -smallObjectThreshold -1 \n            -interactiveDisableShadows 0\n"
-		+ "            -interactiveBackFaceCull 0\n            -sortTransparent 1\n            -nurbsCurves 1\n            -nurbsSurfaces 1\n            -polymeshes 1\n            -subdivSurfaces 1\n            -planes 1\n            -lights 1\n            -cameras 1\n            -controlVertices 1\n            -hulls 1\n            -grid 0\n            -imagePlane 1\n            -joints 1\n            -ikHandles 1\n            -deformers 1\n            -dynamics 1\n            -particleInstancers 1\n            -fluids 1\n            -hairSystems 1\n            -follicles 1\n            -nCloths 1\n            -nParticles 1\n            -nRigids 1\n            -dynamicConstraints 1\n            -locators 1\n            -manipulators 1\n            -pluginShapes 1\n            -dimensions 1\n            -handles 1\n            -pivots 1\n            -textures 1\n            -strokes 1\n            -motionTrails 1\n            -clipGhosts 1\n            -greasePencils 1\n            -shadows 0\n            -captureSequenceNumber -1\n            -width 1021\n            -height 841\n"
+		+ "            -interactiveBackFaceCull 0\n            -sortTransparent 1\n            -nurbsCurves 1\n            -nurbsSurfaces 1\n            -polymeshes 1\n            -subdivSurfaces 1\n            -planes 1\n            -lights 1\n            -cameras 1\n            -controlVertices 1\n            -hulls 1\n            -grid 0\n            -imagePlane 1\n            -joints 1\n            -ikHandles 1\n            -deformers 1\n            -dynamics 1\n            -particleInstancers 1\n            -fluids 1\n            -hairSystems 1\n            -follicles 1\n            -nCloths 1\n            -nParticles 1\n            -nRigids 1\n            -dynamicConstraints 1\n            -locators 1\n            -manipulators 1\n            -pluginShapes 1\n            -dimensions 1\n            -handles 1\n            -pivots 1\n            -textures 1\n            -strokes 1\n            -motionTrails 1\n            -clipGhosts 1\n            -greasePencils 1\n            -shadows 0\n            -captureSequenceNumber -1\n            -width 1204\n            -height 841\n"
 		+ "            -sceneRenderFilter 0\n            $editorName;\n        modelEditor -e -viewSelected 0 $editorName;\n\t\tif (!$useSceneConfig) {\n\t\t\tpanel -e -l $label $panelName;\n\t\t}\n\t}\n\n\n\t$panelName = `sceneUIReplacement -getNextPanel \"outlinerPanel\" (localizedPanelLabel(\"Outliner\")) `;\n\tif (\"\" == $panelName) {\n\t\tif ($useSceneConfig) {\n\t\t\t$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels `;\n\t\t\t$editorName = $panelName;\n            outlinerEditor -e \n                -docTag \"isolOutln_fromSeln\" \n                -showShapes 0\n                -showReferenceNodes 1\n                -showReferenceMembers 1\n                -showAttributes 0\n                -showConnected 0\n                -showAnimCurvesOnly 0\n                -showMuteInfo 0\n                -organizeByLayer 1\n                -showAnimLayerWeight 1\n                -autoExpandLayers 1\n                -autoExpand 0\n                -showDagOnly 1\n                -showAssets 1\n                -showContainedOnly 1\n                -showPublishedAsConnected 0\n"
 		+ "                -showContainerContents 1\n                -ignoreDagHierarchy 0\n                -expandConnections 0\n                -showUpstreamCurves 1\n                -showUnitlessCurves 1\n                -showCompounds 1\n                -showLeafs 1\n                -showNumericAttrsOnly 0\n                -highlightActive 1\n                -autoSelectNewObjects 0\n                -doNotSelectNewObjects 0\n                -dropIsParent 1\n                -transmitFilters 0\n                -setFilter \"defaultSetFilter\" \n                -showSetMembers 1\n                -allowMultiSelection 1\n                -alwaysToggleSelect 0\n                -directSelect 0\n                -displayMode \"DAG\" \n                -expandObjects 0\n                -setsIgnoreFilters 1\n                -containersIgnoreFilters 0\n                -editAttrName 0\n                -showAttrValues 0\n                -highlightSecondary 0\n                -showUVAttrsOnly 0\n                -showTextureNodesOnly 0\n                -attrAlphaOrder \"default\" \n"
 		+ "                -animLayerFilterOptions \"allAffecting\" \n                -sortOrder \"none\" \n                -longNames 0\n                -niceNames 1\n                -showNamespace 1\n                -showPinIcons 0\n                -mapMotionTrails 0\n                -ignoreHiddenAttribute 0\n                -ignoreOutlinerColor 0\n                $editorName;\n\t\t}\n\t} else {\n\t\t$label = `panel -q -label $panelName`;\n\t\toutlinerPanel -edit -l (localizedPanelLabel(\"Outliner\")) -mbv $menusOkayInPanels  $panelName;\n\t\t$editorName = $panelName;\n        outlinerEditor -e \n            -docTag \"isolOutln_fromSeln\" \n            -showShapes 0\n            -showReferenceNodes 1\n            -showReferenceMembers 1\n            -showAttributes 0\n            -showConnected 0\n            -showAnimCurvesOnly 0\n            -showMuteInfo 0\n            -organizeByLayer 1\n            -showAnimLayerWeight 1\n            -autoExpandLayers 1\n            -autoExpand 0\n            -showDagOnly 1\n            -showAssets 1\n            -showContainedOnly 1\n"
@@ -922,8 +949,8 @@ createNode script -n "uiConfigurationScriptNode";
 		+ "\t\t\t\t\t\"$panelName = `outlinerPanel -unParent -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 1\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
 		+ "\t\t\t\t\t\"outlinerPanel -edit -l (localizedPanelLabel(\\\"Outliner\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\noutlinerEditor -e \\n    -docTag \\\"isolOutln_fromSeln\\\" \\n    -showShapes 0\\n    -showReferenceNodes 1\\n    -showReferenceMembers 1\\n    -showAttributes 0\\n    -showConnected 0\\n    -showAnimCurvesOnly 0\\n    -showMuteInfo 0\\n    -organizeByLayer 1\\n    -showAnimLayerWeight 1\\n    -autoExpandLayers 1\\n    -autoExpand 0\\n    -showDagOnly 1\\n    -showAssets 1\\n    -showContainedOnly 1\\n    -showPublishedAsConnected 0\\n    -showContainerContents 1\\n    -ignoreDagHierarchy 0\\n    -expandConnections 0\\n    -showUpstreamCurves 1\\n    -showUnitlessCurves 1\\n    -showCompounds 1\\n    -showLeafs 1\\n    -showNumericAttrsOnly 0\\n    -highlightActive 1\\n    -autoSelectNewObjects 0\\n    -doNotSelectNewObjects 0\\n    -dropIsParent 1\\n    -transmitFilters 0\\n    -setFilter \\\"defaultSetFilter\\\" \\n    -showSetMembers 1\\n    -allowMultiSelection 1\\n    -alwaysToggleSelect 0\\n    -directSelect 0\\n    -displayMode \\\"DAG\\\" \\n    -expandObjects 0\\n    -setsIgnoreFilters 1\\n    -containersIgnoreFilters 0\\n    -editAttrName 0\\n    -showAttrValues 0\\n    -highlightSecondary 0\\n    -showUVAttrsOnly 0\\n    -showTextureNodesOnly 0\\n    -attrAlphaOrder \\\"default\\\" \\n    -animLayerFilterOptions \\\"allAffecting\\\" \\n    -sortOrder \\\"none\\\" \\n    -longNames 0\\n    -niceNames 1\\n    -showNamespace 1\\n    -showPinIcons 0\\n    -mapMotionTrails 0\\n    -ignoreHiddenAttribute 0\\n    -ignoreOutlinerColor 0\\n    $editorName\"\n"
 		+ "\t\t\t\t-ap false\n\t\t\t\t\t(localizedPanelLabel(\"Persp View\")) \n\t\t\t\t\t\"modelPanel\"\n"
-		+ "\t\t\t\t\t\"$panelName = `modelPanel -unParent -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 0\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 1021\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
-		+ "\t\t\t\t\t\"modelPanel -edit -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 0\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 1021\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
+		+ "\t\t\t\t\t\"$panelName = `modelPanel -unParent -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels `;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 0\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 1204\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
+		+ "\t\t\t\t\t\"modelPanel -edit -l (localizedPanelLabel(\\\"Persp View\\\")) -mbv $menusOkayInPanels  $panelName;\\n$editorName = $panelName;\\nmodelEditor -e \\n    -cam `findStartUpCamera persp` \\n    -useInteractiveMode 0\\n    -displayLights \\\"default\\\" \\n    -displayAppearance \\\"wireframe\\\" \\n    -activeOnly 0\\n    -ignorePanZoom 0\\n    -wireframeOnShaded 1\\n    -headsUpDisplay 1\\n    -holdOuts 1\\n    -selectionHiliteDisplay 1\\n    -useDefaultMaterial 0\\n    -bufferMode \\\"double\\\" \\n    -twoSidedLighting 1\\n    -backfaceCulling 0\\n    -xray 0\\n    -jointXray 0\\n    -activeComponentsXray 0\\n    -displayTextures 0\\n    -smoothWireframe 0\\n    -lineWidth 1\\n    -textureAnisotropic 0\\n    -textureHilight 1\\n    -textureSampling 2\\n    -textureDisplay \\\"modulate\\\" \\n    -textureMaxSize 32768\\n    -fogging 0\\n    -fogSource \\\"fragment\\\" \\n    -fogMode \\\"linear\\\" \\n    -fogStart 0\\n    -fogEnd 100\\n    -fogDensity 0.1\\n    -fogColor 0.5 0.5 0.5 1 \\n    -depthOfFieldPreview 1\\n    -maxConstantTransparency 1\\n    -rendererName \\\"vp2Renderer\\\" \\n    -objectFilterShowInHUD 1\\n    -isFiltered 0\\n    -colorResolution 256 256 \\n    -bumpResolution 512 512 \\n    -textureCompression 0\\n    -transparencyAlgorithm \\\"frontAndBackCull\\\" \\n    -transpInShadows 0\\n    -cullingOverride \\\"none\\\" \\n    -lowQualityLighting 0\\n    -maximumNumHardwareLights 1\\n    -occlusionCulling 0\\n    -shadingModel 0\\n    -useBaseRenderer 0\\n    -useReducedRenderer 0\\n    -smallObjectCulling 0\\n    -smallObjectThreshold -1 \\n    -interactiveDisableShadows 0\\n    -interactiveBackFaceCull 0\\n    -sortTransparent 1\\n    -nurbsCurves 1\\n    -nurbsSurfaces 1\\n    -polymeshes 1\\n    -subdivSurfaces 1\\n    -planes 1\\n    -lights 1\\n    -cameras 1\\n    -controlVertices 1\\n    -hulls 1\\n    -grid 0\\n    -imagePlane 1\\n    -joints 1\\n    -ikHandles 1\\n    -deformers 1\\n    -dynamics 1\\n    -particleInstancers 1\\n    -fluids 1\\n    -hairSystems 1\\n    -follicles 1\\n    -nCloths 1\\n    -nParticles 1\\n    -nRigids 1\\n    -dynamicConstraints 1\\n    -locators 1\\n    -manipulators 1\\n    -pluginShapes 1\\n    -dimensions 1\\n    -handles 1\\n    -pivots 1\\n    -textures 1\\n    -strokes 1\\n    -motionTrails 1\\n    -clipGhosts 1\\n    -greasePencils 1\\n    -shadows 0\\n    -captureSequenceNumber -1\\n    -width 1204\\n    -height 841\\n    -sceneRenderFilter 0\\n    $editorName;\\nmodelEditor -e -viewSelected 0 $editorName\"\n"
 		+ "\t\t\t\t$configName;\n\n            setNamedPanelLayout (localizedPanelLabel(\"Current Layout\"));\n        }\n\n        panelHistory -e -clear mainPanelHistory;\n        setFocus `paneLayout -q -p1 $gMainPane`;\n        sceneUIReplacement -deleteRemaining;\n        sceneUIReplacement -clear;\n\t}\n\n\ngrid -spacing 5 -size 12 -divisions 5 -displayAxes yes -displayGridLines yes -displayDivisionLines yes -displayPerspectiveLabels no -displayOrthographicLabels no -displayAxesBold yes -perspectiveLabelPosition axis -orthographicLabelPosition edge;\nviewManip -drawCompass 0 -compassAngle 0 -frontParameters \"\" -homeParameters \"\" -selectionLockParameters \"\";\n}\n");
 	setAttr ".st" 3;
 createNode script -n "sceneConfigurationScriptNode";
@@ -1054,9 +1081,6 @@ createNode network -n "legParts_X_footAxle_pass";
 	rename -uid "710E22DA-4CF0-D442-2B01-0D9FDA45754B";
 	addAttr -ci true -sn "worldMatrix" -ln "worldMatrix" -dt "matrix";
 	addAttr -ci true -sn "worldInverseMatrix" -ln "worldInverseMatrix" -dt "matrix";
-createNode displayLayer -n "layer1";
-	rename -uid "F505881C-4E39-6430-334C-5EADCD51B12E";
-	setAttr ".do" 1;
 createNode multMatrix -n "legParts_X_ankleAxle_worldMatrix";
 	rename -uid "4C135191-4298-4CB9-1BC1-25946E986A0A";
 	setAttr -s 2 ".i";
@@ -1068,7 +1092,7 @@ createNode decomposeMatrix -n "legParts_X_ankleAxle_srt_inWorld";
 	setAttr ".oqw" 6.123233995736766e-017;
 createNode inverseMatrix -n "ankleAxle_worldInverseMatrix";
 	rename -uid "31AB6E4D-4247-82DD-9A0C-D0811B1A4C2D";
-	setAttr ".omat" -type "matrix" 1 1.1534928975539844e-016 4.255366492981701e-016 0
+	setAttr ".omat" -type "matrix" 1 1.1534928975539844e-016 4.2553664929817014e-016 0
 		 0 -1 1.2246467991473532e-016 0 5.5511151231257827e-017 -5.5511151231257827e-017 -1 0
 		 4.5 4.1558961468789102 15.331573561693826 1;
 createNode network -n "legParts_X_ankleAxle_pass";
@@ -1165,7 +1189,7 @@ createNode multMatrix -n "legParts_X_kneeAxle_matrix_localTo_legBase";
 createNode decomposeMatrix -n "legParts_X_kneeAxle_srt_localTo_legBase";
 	rename -uid "7AB16C5F-4A6E-D4D2-8129-0AABCF24A656";
 	setAttr ".ot" -type "double3" 8.8817841970012523e-016 9.7867107391357422 -1.5218186378478977 ;
-	setAttr ".or" -type "double3" 6.5559993560784272e-016 1.073437204993937e-014 -2.3265757487322594e-014 ;
+	setAttr ".or" -type "double3" 6.5559993560784272e-016 1.0734372049939369e-014 -2.3265757487322594e-014 ;
 	setAttr ".os" -type "double3" 0.99999999999999989 1 1 ;
 	setAttr ".oqw" 1;
 createNode composeMatrix -n "legParts_X_kneeAxle_twist_matrix_localTo_legBase";
@@ -1199,7 +1223,7 @@ createNode composeMatrix -n "legParts_X_kneeHinge_parentMatrix_localTo_legBase";
 createNode decomposeMatrix -n "legParts_X_knee_srt_localTo_legBase";
 	rename -uid "A64D5674-4D36-97DC-158C-2BBDDB5D7182";
 	setAttr ".ot" -type "double3" 8.8817841970012523e-016 9.7867107391357422 -1.5218186378478977 ;
-	setAttr ".or" -type "double3" 6.5559993560784272e-016 1.073437204993937e-014 -2.3265757487322594e-014 ;
+	setAttr ".or" -type "double3" 6.5559993560784272e-016 1.0734372049939369e-014 -2.3265757487322594e-014 ;
 	setAttr ".os" -type "double3" 0.99999999999999989 1 1 ;
 	setAttr ".oqw" 1;
 createNode inverseMatrix -n "legParts_X_kneeHinge_parentInverseMatrix";
@@ -1329,7 +1353,7 @@ createNode multMatrix -n "legParts_X_ankle_matrix_localTo_kneeAxle_parent";
 createNode decomposeMatrix -n "legParts_X_ankle_srt_localTo_kneeAxle_parent";
 	rename -uid "760CCADF-4BD8-E3A4-F4FE-D9A9355CAA09";
 	setAttr ".ot" -type "double3" 8.8817841970012523e-016 0.68739297794088028 -7.0601776399866729 ;
-	setAttr ".or" -type "double3" -6.1377764478772762e-015 0 0 ;
+	setAttr ".or" -type "double3" -6.137776447877277e-015 0 0 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
 createNode composeMatrix -n "legParts_X_ankleSwivel_matrix_localTo_kneeAxle_parent";
@@ -1367,7 +1391,7 @@ createNode multMatrix -n "legParts_X_ankleSwivel_parentMatrix_localTo_kneeAxle";
 createNode decomposeMatrix -n "legParts_X_ankleSwivel_parentSRT_localTo_kneeAxle";
 	rename -uid "518C9280-4E76-FD44-4D1E-EDB64CBEF5FF";
 	setAttr ".ot" -type "double3" 8.8817841970012523e-016 0.68739310921697783 -7.0597549238459258 ;
-	setAttr ".or" -type "double3" -6.1377764478772762e-015 0 0 ;
+	setAttr ".or" -type "double3" -6.137776447877277e-015 0 0 ;
 	setAttr ".os" -type "double3" 1 1 1 ;
 	setAttr ".oqw" 1;
 createNode quatToEuler -n "legParts_X_ankleSwivel_parentRotation_localTo_kneeAxle";
@@ -1569,7 +1593,7 @@ createNode vectorProduct -n "legParts_X_kneeAxle_guided_upVector_normal";
 createNode hyperLayout -n "hyperLayout1";
 	rename -uid "7F29C489-474A-BD13-5FD7-3CB5029DE6D6";
 	setAttr ".ihi" 0;
-	setAttr -s 264 ".hyp";
+	setAttr -s 279 ".hyp";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
 	rename -uid "E7829749-4763-FFEE-7AB1-D6994E7C813A";
 	setAttr -s 12 ".tgi";
@@ -2777,24 +2801,42 @@ connectAttr "legParts_X_ankleOffsetByFoot_pass.worldMatrix" "legParts_X_footHing
 		;
 connectAttr "footHinge_srtOffset.upVector" "legParts_X_footHinge_aimConstraint.u"
 		;
-connectAttr "legParts_X_footAxle_srt_inWorld.ot" "footAxle_srt.t";
-connectAttr "legParts_X_footAxle_srt_inWorld.or" "footAxle_srt.r";
-connectAttr "legParts_X_footAxle_srt_inWorld.os" "footAxle_srt.s";
-connectAttr "legParts_X_footHinge_srt_inWorld.ot" "footHinge_srt.t";
-connectAttr "legParts_X_footHinge_srt_inWorld.or" "footHinge_srt.r";
-connectAttr "legParts_X_footHinge_srt_inWorld.os" "footHinge_srt.s";
-connectAttr "legParts_X_footSwivel_srt_inWorld.ot" "footSwivel_srt.t";
-connectAttr "legParts_X_footSwivel_srt_inWorld.or" "footSwivel_srt.r";
-connectAttr "legParts_X_footSwivel_srt_inWorld.os" "footSwivel_srt.s";
-connectAttr "legParts_X_ankleAxle_srt_inWorld.ot" "ankleAxle_srt.t";
-connectAttr "legParts_X_ankleAxle_srt_inWorld.or" "ankleAxle_srt.r";
-connectAttr "legParts_X_ankleAxle_srt_inWorld.os" "ankleAxle_srt.s";
-connectAttr "legParts_X_ankleSwivel_srt_inWorld.ot" "ankleSwivel_srt.t";
-connectAttr "legParts_X_ankleSwivel_srt_inWorld.or" "ankleSwivel_srt.r";
-connectAttr "legParts_X_ankleSwivel_srt_inWorld.os" "ankleSwivel_srt.s";
-connectAttr "legParts_X_kneeHinge_end_srt_inWorld.ot" "kneeHinge_end_srt.t";
-connectAttr "legParts_X_kneeHinge_end_srt_inWorld.or" "kneeHinge_end_srt.r";
-connectAttr "legParts_X_kneeHinge_end_srt_inWorld.os" "kneeHinge_end_srt.s";
+connectAttr "legParts_X_footAxle_srt_inWorld.ot" "|legParts_X_cmpt|deform|footAxle_srt.t"
+		;
+connectAttr "legParts_X_footAxle_srt_inWorld.or" "|legParts_X_cmpt|deform|footAxle_srt.r"
+		;
+connectAttr "legParts_X_footAxle_srt_inWorld.os" "|legParts_X_cmpt|deform|footAxle_srt.s"
+		;
+connectAttr "legParts_X_footHinge_srt_inWorld.ot" "|legParts_X_cmpt|deform|footHinge_srt.t"
+		;
+connectAttr "legParts_X_footHinge_srt_inWorld.or" "|legParts_X_cmpt|deform|footHinge_srt.r"
+		;
+connectAttr "legParts_X_footHinge_srt_inWorld.os" "|legParts_X_cmpt|deform|footHinge_srt.s"
+		;
+connectAttr "legParts_X_footSwivel_srt_inWorld.ot" "|legParts_X_cmpt|deform|footSwivel_srt.t"
+		;
+connectAttr "legParts_X_footSwivel_srt_inWorld.or" "|legParts_X_cmpt|deform|footSwivel_srt.r"
+		;
+connectAttr "legParts_X_footSwivel_srt_inWorld.os" "|legParts_X_cmpt|deform|footSwivel_srt.s"
+		;
+connectAttr "legParts_X_ankleAxle_srt_inWorld.ot" "|legParts_X_cmpt|deform|ankleAxle_srt.t"
+		;
+connectAttr "legParts_X_ankleAxle_srt_inWorld.or" "|legParts_X_cmpt|deform|ankleAxle_srt.r"
+		;
+connectAttr "legParts_X_ankleAxle_srt_inWorld.os" "|legParts_X_cmpt|deform|ankleAxle_srt.s"
+		;
+connectAttr "legParts_X_ankleSwivel_srt_inWorld.ot" "|legParts_X_cmpt|deform|ankleSwivel_srt.t"
+		;
+connectAttr "legParts_X_ankleSwivel_srt_inWorld.or" "|legParts_X_cmpt|deform|ankleSwivel_srt.r"
+		;
+connectAttr "legParts_X_ankleSwivel_srt_inWorld.os" "|legParts_X_cmpt|deform|ankleSwivel_srt.s"
+		;
+connectAttr "legParts_X_kneeHinge_end_srt_inWorld.ot" "|legParts_X_cmpt|deform|kneeHinge_end_srt.t"
+		;
+connectAttr "legParts_X_kneeHinge_end_srt_inWorld.or" "|legParts_X_cmpt|deform|kneeHinge_end_srt.r"
+		;
+connectAttr "legParts_X_kneeHinge_end_srt_inWorld.os" "|legParts_X_cmpt|deform|kneeHinge_end_srt.s"
+		;
 connectAttr "legParts_X_kneeHinge_base_srt_inWorld.ot" "|legParts_X_cmpt|deform|kneeHinge_base_srt.t"
 		;
 connectAttr "legParts_X_kneeHinge_base_srt_inWorld.or" "|legParts_X_cmpt|deform|kneeHinge_base_srt.r"
@@ -2831,23 +2873,62 @@ connectAttr "legParts_X_hipSwivel_srt_inWorld.or" "|legParts_X_cmpt|deform|hipSw
 		;
 connectAttr "legParts_X_hipSwivel_srt_inWorld.os" "|legParts_X_cmpt|deform|hipSwivel_srt.s"
 		;
-connectAttr "legParts_X_hipHinge_srt_inWorld.ot" "hipHinge_srt.t";
-connectAttr "legParts_X_hipHinge_srt_inWorld.or" "hipHinge_srt.r";
-connectAttr "legParts_X_hipHinge_srt_inWorld.os" "hipHinge_srt.s";
+connectAttr "legParts_X_hipHinge_srt_inWorld.ot" "|legParts_X_cmpt|deform|hipHinge_srt.t"
+		;
+connectAttr "legParts_X_hipHinge_srt_inWorld.or" "|legParts_X_cmpt|deform|hipHinge_srt.r"
+		;
+connectAttr "legParts_X_hipHinge_srt_inWorld.os" "|legParts_X_cmpt|deform|hipHinge_srt.s"
+		;
 connectAttr "shoulder_srt.t" "legAxle_srt.t";
 connectAttr "shoulder_srt.r" "legAxle_srt.r";
 connectAttr "shoulder_srt.s" "legAxle_srt.s";
-connectAttr "legParts_X_hipSwivel_srt_inWorld.ot" "|legParts_X_cmpt|output|hipSwivel_srt.t"
+connectAttr "legParts_X_footAxle_srt_inWorld.ot" "|legParts_X_cmpt|output|footAxle_srt.t"
 		;
-connectAttr "legParts_X_hipSwivel_srt_inWorld.or" "|legParts_X_cmpt|output|hipSwivel_srt.r"
+connectAttr "legParts_X_footAxle_srt_inWorld.or" "|legParts_X_cmpt|output|footAxle_srt.r"
 		;
-connectAttr "legParts_X_hipSwivel_srt_inWorld.os" "|legParts_X_cmpt|output|hipSwivel_srt.s"
+connectAttr "legParts_X_footAxle_srt_inWorld.os" "|legParts_X_cmpt|output|footAxle_srt.s"
 		;
-connectAttr "legParts_X_hipAxle_srt_inWorld.ot" "|legParts_X_cmpt|output|hipAxle_srt.t"
+connectAttr "legParts_X_footHinge_srt_inWorld.ot" "|legParts_X_cmpt|output|footHinge_srt.t"
 		;
-connectAttr "legParts_X_hipAxle_srt_inWorld.or" "|legParts_X_cmpt|output|hipAxle_srt.r"
+connectAttr "legParts_X_footHinge_srt_inWorld.or" "|legParts_X_cmpt|output|footHinge_srt.r"
 		;
-connectAttr "legParts_X_hipAxle_srt_inWorld.os" "|legParts_X_cmpt|output|hipAxle_srt.s"
+connectAttr "legParts_X_footHinge_srt_inWorld.os" "|legParts_X_cmpt|output|footHinge_srt.s"
+		;
+connectAttr "legParts_X_footSwivel_srt_inWorld.ot" "|legParts_X_cmpt|output|footSwivel_srt.t"
+		;
+connectAttr "legParts_X_footSwivel_srt_inWorld.or" "|legParts_X_cmpt|output|footSwivel_srt.r"
+		;
+connectAttr "legParts_X_footSwivel_srt_inWorld.os" "|legParts_X_cmpt|output|footSwivel_srt.s"
+		;
+connectAttr "legParts_X_ankleAxle_srt_inWorld.ot" "|legParts_X_cmpt|output|ankleAxle_srt.t"
+		;
+connectAttr "legParts_X_ankleAxle_srt_inWorld.or" "|legParts_X_cmpt|output|ankleAxle_srt.r"
+		;
+connectAttr "legParts_X_ankleAxle_srt_inWorld.os" "|legParts_X_cmpt|output|ankleAxle_srt.s"
+		;
+connectAttr "legParts_X_ankleSwivel_srt_inWorld.ot" "|legParts_X_cmpt|output|ankleSwivel_srt.t"
+		;
+connectAttr "legParts_X_ankleSwivel_srt_inWorld.or" "|legParts_X_cmpt|output|ankleSwivel_srt.r"
+		;
+connectAttr "legParts_X_ankleSwivel_srt_inWorld.os" "|legParts_X_cmpt|output|ankleSwivel_srt.s"
+		;
+connectAttr "legParts_X_kneeHinge_end_srt_inWorld.ot" "|legParts_X_cmpt|output|kneeHinge_end_srt.t"
+		;
+connectAttr "legParts_X_kneeHinge_end_srt_inWorld.or" "|legParts_X_cmpt|output|kneeHinge_end_srt.r"
+		;
+connectAttr "legParts_X_kneeHinge_end_srt_inWorld.os" "|legParts_X_cmpt|output|kneeHinge_end_srt.s"
+		;
+connectAttr "legParts_X_kneeHinge_base_srt_inWorld.ot" "|legParts_X_cmpt|output|kneeHinge_base_srt.t"
+		;
+connectAttr "legParts_X_kneeHinge_base_srt_inWorld.or" "|legParts_X_cmpt|output|kneeHinge_base_srt.r"
+		;
+connectAttr "legParts_X_kneeHinge_base_srt_inWorld.os" "|legParts_X_cmpt|output|kneeHinge_base_srt.s"
+		;
+connectAttr "legParts_X_kneeAxle_srt_inWorld.ot" "|legParts_X_cmpt|output|kneeAxle_srt.t"
+		;
+connectAttr "legParts_X_kneeAxle_srt_inWorld.or" "|legParts_X_cmpt|output|kneeAxle_srt.r"
+		;
+connectAttr "legParts_X_kneeAxle_srt_inWorld.os" "|legParts_X_cmpt|output|kneeAxle_srt.s"
 		;
 connectAttr "legParts_X_kneeSwivel_end_srt_inWorld.ot" "|legParts_X_cmpt|output|kneeSwivel_end_srt.t"
 		;
@@ -2861,17 +2942,23 @@ connectAttr "legParts_X_kneeSwivel_base_srt_inWorld.or" "|legParts_X_cmpt|output
 		;
 connectAttr "legParts_X_kneeSwivel_base_srt_inWorld.os" "|legParts_X_cmpt|output|kneeSwivel_base_srt.s"
 		;
-connectAttr "legParts_X_kneeAxle_srt_inWorld.ot" "|legParts_X_cmpt|output|kneeAxle_srt.t"
+connectAttr "legParts_X_hipAxle_srt_inWorld.ot" "|legParts_X_cmpt|output|hipAxle_srt.t"
 		;
-connectAttr "legParts_X_kneeAxle_srt_inWorld.or" "|legParts_X_cmpt|output|kneeAxle_srt.r"
+connectAttr "legParts_X_hipAxle_srt_inWorld.or" "|legParts_X_cmpt|output|hipAxle_srt.r"
 		;
-connectAttr "legParts_X_kneeAxle_srt_inWorld.os" "|legParts_X_cmpt|output|kneeAxle_srt.s"
+connectAttr "legParts_X_hipAxle_srt_inWorld.os" "|legParts_X_cmpt|output|hipAxle_srt.s"
 		;
-connectAttr "legParts_X_kneeHinge_base_srt_inWorld.ot" "|legParts_X_cmpt|output|kneeHinge_base_srt.t"
+connectAttr "legParts_X_hipSwivel_srt_inWorld.ot" "|legParts_X_cmpt|output|hipSwivel_srt.t"
 		;
-connectAttr "legParts_X_kneeHinge_base_srt_inWorld.or" "|legParts_X_cmpt|output|kneeHinge_base_srt.r"
+connectAttr "legParts_X_hipSwivel_srt_inWorld.or" "|legParts_X_cmpt|output|hipSwivel_srt.r"
 		;
-connectAttr "legParts_X_kneeHinge_base_srt_inWorld.os" "|legParts_X_cmpt|output|kneeHinge_base_srt.s"
+connectAttr "legParts_X_hipSwivel_srt_inWorld.os" "|legParts_X_cmpt|output|hipSwivel_srt.s"
+		;
+connectAttr "legParts_X_hipHinge_srt_inWorld.ot" "|legParts_X_cmpt|output|hipHinge_srt.t"
+		;
+connectAttr "legParts_X_hipHinge_srt_inWorld.or" "|legParts_X_cmpt|output|hipHinge_srt.r"
+		;
+connectAttr "legParts_X_hipHinge_srt_inWorld.os" "|legParts_X_cmpt|output|hipHinge_srt.s"
 		;
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
@@ -2963,7 +3050,6 @@ connectAttr "legParts_X_footAxle_worldMatrix.o" "legParts_X_footAxle_pass.worldM
 		;
 connectAttr "footAxle_worldInverseMatrix.omat" "legParts_X_footAxle_pass.worldInverseMatrix"
 		;
-connectAttr "layerManager.dli[1]" "layer1.id";
 connectAttr "legParts_X_ankleAxle_matrix_localTo_foot.o" "legParts_X_ankleAxle_worldMatrix.i[1]"
 		;
 connectAttr "legParts_X_footHinge_pass.worldMatrix" "legParts_X_ankleAxle_worldMatrix.i[2]"
@@ -3482,12 +3568,18 @@ connectAttr "legParts_X_kneeSwivel_aimConstraint.msg" "hyperLayout1.hyp[70].dn";
 connectAttr "legParts_X_footAxle_aimConstraint.msg" "hyperLayout1.hyp[71].dn";
 connectAttr "legParts_X_footHinge_aimConstraint.msg" "hyperLayout1.hyp[72].dn";
 connectAttr "deform.msg" "hyperLayout1.hyp[73].dn";
-connectAttr "footAxle_srt.msg" "hyperLayout1.hyp[74].dn";
-connectAttr "footHinge_srt.msg" "hyperLayout1.hyp[75].dn";
-connectAttr "footSwivel_srt.msg" "hyperLayout1.hyp[76].dn";
-connectAttr "ankleAxle_srt.msg" "hyperLayout1.hyp[77].dn";
-connectAttr "ankleSwivel_srt.msg" "hyperLayout1.hyp[78].dn";
-connectAttr "kneeHinge_end_srt.msg" "hyperLayout1.hyp[79].dn";
+connectAttr "|legParts_X_cmpt|deform|footAxle_srt.msg" "hyperLayout1.hyp[74].dn"
+		;
+connectAttr "|legParts_X_cmpt|deform|footHinge_srt.msg" "hyperLayout1.hyp[75].dn"
+		;
+connectAttr "|legParts_X_cmpt|deform|footSwivel_srt.msg" "hyperLayout1.hyp[76].dn"
+		;
+connectAttr "|legParts_X_cmpt|deform|ankleAxle_srt.msg" "hyperLayout1.hyp[77].dn"
+		;
+connectAttr "|legParts_X_cmpt|deform|ankleSwivel_srt.msg" "hyperLayout1.hyp[78].dn"
+		;
+connectAttr "|legParts_X_cmpt|deform|kneeHinge_end_srt.msg" "hyperLayout1.hyp[79].dn"
+		;
 connectAttr "|legParts_X_cmpt|deform|kneeHinge_base_srt.msg" "hyperLayout1.hyp[80].dn"
 		;
 connectAttr "|legParts_X_cmpt|deform|kneeAxle_srt.msg" "hyperLayout1.hyp[81].dn"
@@ -3499,20 +3591,9 @@ connectAttr "|legParts_X_cmpt|deform|kneeSwivel_base_srt.msg" "hyperLayout1.hyp[
 connectAttr "|legParts_X_cmpt|deform|hipAxle_srt.msg" "hyperLayout1.hyp[84].dn";
 connectAttr "|legParts_X_cmpt|deform|hipSwivel_srt.msg" "hyperLayout1.hyp[85].dn"
 		;
-connectAttr "hipHinge_srt.msg" "hyperLayout1.hyp[86].dn";
+connectAttr "|legParts_X_cmpt|deform|hipHinge_srt.msg" "hyperLayout1.hyp[86].dn"
+		;
 connectAttr "legAxle_srt.msg" "hyperLayout1.hyp[87].dn";
-connectAttr "output.msg" "hyperLayout1.hyp[88].dn";
-connectAttr "|legParts_X_cmpt|output|hipSwivel_srt.msg" "hyperLayout1.hyp[89].dn"
-		;
-connectAttr "|legParts_X_cmpt|output|hipAxle_srt.msg" "hyperLayout1.hyp[90].dn";
-connectAttr "|legParts_X_cmpt|output|kneeSwivel_end_srt.msg" "hyperLayout1.hyp[91].dn"
-		;
-connectAttr "|legParts_X_cmpt|output|kneeSwivel_base_srt.msg" "hyperLayout1.hyp[92].dn"
-		;
-connectAttr "|legParts_X_cmpt|output|kneeAxle_srt.msg" "hyperLayout1.hyp[93].dn"
-		;
-connectAttr "|legParts_X_cmpt|output|kneeHinge_base_srt.msg" "hyperLayout1.hyp[94].dn"
-		;
 connectAttr "legParts_X_kneeAxle_guided_upVector_normal.msg" "hyperLayout1.hyp[95].dn"
 		;
 connectAttr "legParts_X_kneeAxle_guided_upVector.msg" "hyperLayout1.hyp[96].dn";
@@ -3788,6 +3869,33 @@ connectAttr "kneeHinge_base_worldInverseMatrix.msg" "hyperLayout1.hyp[260].dn";
 connectAttr "legEnd_worldInverseMatrix.msg" "hyperLayout1.hyp[261].dn";
 connectAttr "hipHinge_pass.msg" "hyperLayout1.hyp[262].dn";
 connectAttr "kneeHinge_pass.msg" "hyperLayout1.hyp[263].dn";
+connectAttr "output.msg" "hyperLayout1.hyp[264].dn";
+connectAttr "|legParts_X_cmpt|output|footAxle_srt.msg" "hyperLayout1.hyp[265].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|footHinge_srt.msg" "hyperLayout1.hyp[266].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|footSwivel_srt.msg" "hyperLayout1.hyp[267].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|ankleAxle_srt.msg" "hyperLayout1.hyp[268].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|ankleSwivel_srt.msg" "hyperLayout1.hyp[269].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|kneeHinge_end_srt.msg" "hyperLayout1.hyp[270].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|kneeHinge_base_srt.msg" "hyperLayout1.hyp[271].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|kneeAxle_srt.msg" "hyperLayout1.hyp[272].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|kneeSwivel_end_srt.msg" "hyperLayout1.hyp[273].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|kneeSwivel_base_srt.msg" "hyperLayout1.hyp[274].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|hipAxle_srt.msg" "hyperLayout1.hyp[275].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|hipSwivel_srt.msg" "hyperLayout1.hyp[276].dn"
+		;
+connectAttr "|legParts_X_cmpt|output|hipHinge_srt.msg" "hyperLayout1.hyp[277].dn"
+		;
 connectAttr "legParts_X_hipSwivel_guide_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
 connectAttr "kneeSwivel_end_guided_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
@@ -3940,7 +4048,8 @@ connectAttr "footAxle_worldInverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[2
 		;
 connectAttr "footAxle_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
 		;
-connectAttr "footAxle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "|legParts_X_cmpt|deform|footAxle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+		;
 connectAttr "foot_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
 connectAttr "legParts_X_ankleOffsetByFoot_pass.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn"
 		;
@@ -3962,10 +4071,12 @@ connectAttr "legParts_X_footHinge_aim_targetTranslate.msg" "MayaNodeEditorSavedT
 		;
 connectAttr "legParts_X_footHinge_worldMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
 		;
-connectAttr "footSwivel_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "|legParts_X_cmpt|deform|footSwivel_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn"
+		;
 connectAttr "legParts_X_footHinge_matrix_localTo_footAxle.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
 		;
-connectAttr "footHinge_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "|legParts_X_cmpt|deform|footHinge_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn"
+		;
 connectAttr "footHinge_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
 		;
 connectAttr "legParts_X_footHinge_pass.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
@@ -3986,8 +4097,6 @@ connectAttr "legParts_X_knee_matrix_localTo_hip.msg" "MayaNodeEditorSavedTabsInf
 		;
 connectAttr "hip_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
 connectAttr "legParts_X_kneeAxle_parent_pass.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn"
-		;
-connectAttr "|legParts_X_cmpt|output|kneeAxle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
 		;
 connectAttr "legParts_X_ankle_rotation_localTo_kneeAxle_parent.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn"
 		;
@@ -4031,7 +4140,8 @@ connectAttr "legParts_X_kneeAxle_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.t
 		;
 connectAttr "legParts_X_kneeAxle_pass.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[25].dn"
 		;
-connectAttr "ankleAxle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn";
+connectAttr "|legParts_X_cmpt|deform|ankleAxle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn"
+		;
 connectAttr "legParts_X_ankleAxle_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn"
 		;
 connectAttr "legParts_X_ankleAxle_matrix_localTo_foot.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn"
@@ -4094,7 +4204,7 @@ connectAttr "legEnd_worldInverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].
 		;
 connectAttr "legParts_X_ankleSwivel_stable_aim_rotation.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[16].dn"
 		;
-connectAttr "ankleSwivel_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[17].dn"
+connectAttr "|legParts_X_cmpt|deform|ankleSwivel_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[17].dn"
 		;
 connectAttr "ankleSwivel_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[18].dn"
 		;
@@ -4149,8 +4259,6 @@ connectAttr "legParts_X_kneeHinge_parentMatrix.msg" "MayaNodeEditorSavedTabsInfo
 connectAttr "legParts_X_legEnd_distance_to_knee.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[13].dn"
 		;
 connectAttr "kneeHinge_pass.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[14].dn";
-connectAttr "|legParts_X_cmpt|output|kneeHinge_base_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[15].dn"
-		;
 connectAttr "legParts_X_kneeHinge_base_translateZ_isNegative.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[16].dn"
 		;
 connectAttr "legParts_X_kneeHinge_rotation_matrix_localTo_knee.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[17].dn"
@@ -4165,7 +4273,7 @@ connectAttr "legParts_X_kneeHinge_end_srt_inWorld.msg" "MayaNodeEditorSavedTabsI
 		;
 connectAttr "legParts_X_legEnd_pass.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[22].dn"
 		;
-connectAttr "kneeHinge_end_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[23].dn"
+connectAttr "|legParts_X_cmpt|deform|kneeHinge_end_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[23].dn"
 		;
 connectAttr "legParts_X_knee_srt_localTo_legBase.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[24].dn"
 		;
@@ -4256,8 +4364,6 @@ connectAttr "legParts_X_hipAxle_srt_inWorld.msg" "MayaNodeEditorSavedTabsInfo.tg
 		;
 connectAttr "|legParts_X_cmpt|deform|kneeSwivel_base_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[10].ni[5].dn"
 		;
-connectAttr "|legParts_X_cmpt|output|hipAxle_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[10].ni[6].dn"
-		;
 connectAttr "kneeSwivel_base_srtOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[10].ni[7].dn"
 		;
 connectAttr "legParts_X_hipAxle_srtOffset_localTo_kneeSwivel_end.msg" "MayaNodeEditorSavedTabsInfo.tgi[10].ni[8].dn"
@@ -4295,7 +4401,8 @@ connectAttr "legParts_X_legBase_worldInverseMatrix.msg" "MayaNodeEditorSavedTabs
 connectAttr "shoulder_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[11].ni[11].dn";
 connectAttr "hipHinge_worldInverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[11].ni[12].dn"
 		;
-connectAttr "hipHinge_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[11].ni[13].dn";
+connectAttr "|legParts_X_cmpt|deform|hipHinge_srt.msg" "MayaNodeEditorSavedTabsInfo.tgi[11].ni[13].dn"
+		;
 connectAttr "legParts_X_hipHinge_srt_localTo_shoulderEnd.msg" ":defaultRenderUtilityList1.u"
 		 -na;
 connectAttr "legParts_X_hipHinge_worldMatrix.msg" ":defaultRenderUtilityList1.u"
