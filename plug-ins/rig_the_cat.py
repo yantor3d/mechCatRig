@@ -7,6 +7,12 @@ import sys
 from maya import cmds
 from maya.api import OpenMaya
 
+import maya_api_utils
+
+
+YELLOW = OpenMaya.MColor((1.0, 1.0, 0.0))
+BLACK  = OpenMaya.MColor((0.0, 0.0, 0.0))
+
 
 def maya_useNewAPI():
     pass
@@ -62,7 +68,7 @@ def iter_asset(container):
 
     # maya.api.OpenMaya.MFnContainerNode is missing in 2016
 
-    asset_name = node_long_name(container)
+    asset_name = maya_api_utils.node_long_name(container)
     component_nodes = cmds.container(asset_name, query=True, nodeList=True)
 
     sel = OpenMaya.MSelectionList()
@@ -98,106 +104,39 @@ def find_cmpt_node(cmpt, node_name):
     for i in xrange(fn_dag.childCount()):
         child = fn_dag.child(i)
 
-        if node_short_name(child) == node_name:
+        if maya_api_utils.node_short_name(child) == node_name:
             result = child
             break
 
     return result
 
 
-def get_cmpt_by_name(cmpt_name):
-    """Return the component top node.
+def set_template(node, value):
+    node_fn = OpenMaya.MFnDependencyNode(node)
 
-    Parameters
-    ----------
-        cmpt_name : str
-            Name of the rig component or its container
-
-    Returns
-    -------
-        maya.api.OpenMaya.MObject
-            Rig component top node
-    """
-
-    sel = OpenMaya.MSelectionList()
-
-    try:
-        sel.add(cmpt_name)
-    except RuntimeError:
-        result = OpenMaya.MObject.kNullObj
-    else:
-        result = sel.getDependNode(0)
-
-    return result
+    template_plug = node_fn.findPlug('template', True)
+    template_plug.setBool(value)
 
 
-def node_short_name(node):
-    """Return the short name of the given node.
+def set_outliner_color(node, use_outliner_color, color=OpenMaya.MColor()):
+    node_fn = OpenMaya.MFnDependencyNode(node)
 
-    Parameters
-    ----------
-    node : maya.api.OpenMaya.MObject
-        A DAG or DG node in the current scene.
+    use_outliner_color_plug = node_fn.findPlug("useOutlinerColor", True)
+    outliner_color_plug = node_fn.findPlug("outlinerColor", True)
+    colorR_attr = node_fn.findPlug("outlinerColorR", True).attribute()
+    colorG_attr = node_fn.findPlug("outlinerColorG", True).attribute()
+    colorB_attr = node_fn.findPlug("outlinerColorB", True).attribute()
 
-    Returns
-    -------
-    str
-        Name of the node.
-    """
+    use_outliner_color_plug.setBool(use_outliner_color)
 
-    if node.isNull():
-        return ''
-
-    if node.hasFn(OpenMaya.MFn.kDagNode):
-        return OpenMaya.MFnDagNode(node).name()
-    else:
-        return OpenMaya.MFnDependencyNode(node).name()
+    outliner_color_plug.child(colorR_attr).setFloat(color.r)
+    outliner_color_plug.child(colorG_attr).setFloat(color.g)
+    outliner_color_plug.child(colorB_attr).setFloat(color.b)
 
 
-def node_long_name(node):
-    """Return the full name of the given node.
-
-    Parameters
-    ----------
-    node : maya.api.OpenMaya.MObject
-        A DAG or DG node in the current scene.
-
-    Returns
-    -------
-    str
-        Long name of the node.
-    """
-
-    if node.isNull():
-        return ''
-
-    if node.hasFn(OpenMaya.MFn.kDagNode):
-        return OpenMaya.MDagPath.getAPathTo(node).fullPathName()
-    else:
-        return OpenMaya.MFnDependencyNode(node).name()
-
-
-def plug_long_name(plug, **kwargs):
-    """Return the full name of the plug.
-
-    Parameters
-    ----------
-    plug : maya.api.OpenMaya.MPlug
-        An attribute in the current scene.
-
-    Returns
-    -------
-    str
-        Long name of the plug.
-    """
-
-    if plug.isNull:
-        return ''
-
-    return '{}.{}'.format(
-        node_long_name(plug.node()),
-        plug.partialName(**kwargs)
-    )
+def refresh_outliner():
+    if cmds.outlinerEditor("outlinerPanel1", query=True, exists=True):
+        cmds.outlinerEditor("outlinerPanel1", edit=True, refresh=True)
 
 
 class ParseArgumentError(RuntimeError):
@@ -370,21 +309,13 @@ class BaseComponentGuidesCommand(OpenMaya.MPxCommand):
 
         self.redoIt()
 
-    def redoIt(self):
-        for cmpt in self.selected_components:
-            for node in iter_dag(find_cmpt_node(cmpt, 'input')):
-                connections = self.workIt(node)
+    def do_attrs_work(self, src_attr, dest_attr):
+        pass
 
-                if connections:
-                    self.connections.extend(connections)
-
-    def doWork(self, src_attr, dest_attr):
-        return None
-
-    def workIt(self, input_mObj):
+    def do_input_work(self, input_):
         connections = []
 
-        input_fnNode = OpenMaya.MFnDependencyNode(input_mObj)
+        input_fnNode = OpenMaya.MFnDependencyNode(input_)
 
         if not input_fnNode.hasAttribute('guideData'):
             return connections
@@ -406,29 +337,42 @@ class BaseComponentGuidesCommand(OpenMaya.MPxCommand):
                 continue
 
             guide_attr = guide_plug.attribute()
-            attr_name =  OpenMaya.MFnAttribute(guide_attr).name
+            attr_name = OpenMaya.MFnAttribute(guide_attr).name
 
             if not input_fnNode.hasAttribute(attr_name):
                 continue
 
             input_plug = input_fnNode.findPlug(attr_name, True)
 
-            src_attr = plug_long_name(guide_plug)
-            dest_attr = plug_long_name(input_plug)
+            src_attr = maya_api_utils.plug_long_name(guide_plug)
+            dest_attr = maya_api_utils.plug_long_name(input_plug)
 
-            conn = self.doWork(src_attr, dest_attr)
+            conn = self.do_attrs_work(src_attr, dest_attr)
 
             if conn:
                 connections.append(conn)
 
         return connections
 
-    def undoWork(self, src_attr, dest_attr):
+    def do_cmpt_work(self, cmpt):
+        for node in iter_dag(find_cmpt_node(cmpt, 'input')):
+            connections = self.do_input_work(node)
+
+            if connections:
+                self.connections.extend(connections)
+
+    def redoIt(self):
+        for cmpt in self.selected_components:
+            self.do_cmpt_work(cmpt)
+
+        refresh_outliner()
+
+    def undo_attrs_work(self, src_attr, dest_attr):
         pass
 
     def undoIt(self):
         for src_attr, dest_attr in self.connections:
-            self.undoWork(src_attr, dest_attr)
+            self.undo_attrs_work(src_attr, dest_attr)
 
 
 class AttachComponentGuidesCommand(BaseComponentGuidesCommand):
@@ -445,14 +389,24 @@ class AttachComponentGuidesCommand(BaseComponentGuidesCommand):
     def create():
         return AttachComponentGuidesCommand()
 
-    def doWork(self, src_attr, dest_attr):
+    def do_attrs_work(self, src_attr, dest_attr):
         if not cmds.isConnected(src_attr, dest_attr):
             cmds.connectAttr(src_attr, dest_attr, force=True)
             return src_attr, dest_attr
 
         return None
 
-    def undoWork(self, src_attr, dest_attr):
+    def do_cmpt_work(self, cmpt):
+        super(AttachComponentGuidesCommand, self).do_cmpt_work(cmpt)
+
+        set_outliner_color(cmpt, True, YELLOW)
+
+        controls = find_cmpt_node(cmpt, 'control')
+
+        if not controls.isNull():
+            set_template(controls, True)
+
+    def undo_attrs_work(self, src_attr, dest_attr):
         if cmds.isConnected(src_attr, dest_attr):
             cmds.disconnectAttr(src_attr, dest_attr)
 
@@ -471,7 +425,7 @@ class DetachComponentGuidesCommand(BaseComponentGuidesCommand):
     def create():
         return DetachComponentGuidesCommand()
 
-    def doWork(self, src_attr, dest_attr):
+    def do_attrs_work(self, src_attr, dest_attr):
         result = None
 
         if cmds.isConnected(src_attr, dest_attr):
@@ -481,7 +435,17 @@ class DetachComponentGuidesCommand(BaseComponentGuidesCommand):
 
         return result
 
-    def undoWork(self, src_attr, dest_attr):
+    def do_cmpt_work(self, cmpt):
+        super(DetachComponentGuidesCommand, self).do_cmpt_work(cmpt)
+
+        set_outliner_color(cmpt, False, BLACK)
+
+        controls = find_cmpt_node(cmpt, 'control')
+
+        if not controls.isNull():
+            set_template(controls, False)
+
+    def undo_attrs_work(self, src_attr, dest_attr):
         if not cmds.isConnected(src_attr, dest_attr):
             cmds.connectAttr(src_attr, dest_attr, force=True)
 
@@ -620,7 +584,7 @@ class RenameRigComponentCommand(OpenMaya.MPxCommand):
         self.redoIt()
 
     def get_name(self, obj, old_prefix):
-        name = node_short_name(obj)
+        name = maya_api_utils.node_short_name(obj)
 
         if name in [
             'about',
@@ -635,7 +599,7 @@ class RenameRigComponentCommand(OpenMaya.MPxCommand):
         ]:
             return name
 
-        full_path = node_long_name(obj)
+        full_path = maya_api_utils.node_long_name(obj)
         path_parts = full_path.split('|')
 
         if (
@@ -677,13 +641,13 @@ class RenameRigComponentCommand(OpenMaya.MPxCommand):
     def redoIt(self):
         cmpt_dag = OpenMaya.MDagPath.getAPathTo(self.selected_component)
 
-        old_prefix = node_short_name(cmpt_dag.node())
+        old_prefix = maya_api_utils.node_short_name(cmpt_dag.node())
         old_prefix = '_'.join(old_prefix.split('_')[:-1])
 
         new_name = self.get_name(self.selected_component, old_prefix)
 
         if cmds.objExists(new_name):
-            other_cmpt = get_cmpt_by_name(new_name)
+            other_cmpt = maya_api_utils.find_node_by_name(new_name)
 
             if self.selected_component != other_cmpt:
                 self.displayError("A component name '%s' already exists." % new_name)
@@ -692,7 +656,7 @@ class RenameRigComponentCommand(OpenMaya.MPxCommand):
         for each in iter_asset(self.selected_component):
             self.nameIt(each, old_prefix)
 
-        result = node_short_name(self.selected_component)
+        result = maya_api_utils.node_short_name(self.selected_component)
 
         self.setResult(result)
 
@@ -725,6 +689,9 @@ class MirrorComponentGuidesCommand(OpenMaya.MPxCommand):
 
         self.mirror_position_matrix = OpenMaya.MMatrix()
         self.mirror_orientation_matrix = OpenMaya.MMatrix()
+        self.mirror_direction_matrix = OpenMaya.MMatrix(
+            [-1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1]
+        )
 
         self.undo_data = []
 
@@ -808,58 +775,6 @@ class MirrorComponentGuidesCommand(OpenMaya.MPxCommand):
             self.displayError(err_msg)
             return
 
-        self.redoIt()
-
-    def mirror_name(self, name):
-        result = name
-
-        if self.search_replace:
-            lhs, rhs = self.search_replace
-
-            name_parts = name.split('_')
-
-            try:
-                idx = name_parts.index(lhs)
-                name_parts[idx] = rhs
-            except ValueError:
-                pass
-
-            result = '_'.join(name_parts)
-
-        return result
-
-    def workIt(self, guide_data):
-        mirrored_data = {}
-
-        for guide_name, attr_data in guide_data.iteritems():
-            mirrored_name = self.mirror_name(guide_name)
-
-            x = attr_data['translateX']
-            y = attr_data['translateY']
-            z = attr_data['translateZ']
-
-            m = OpenMaya.MMatrix([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, z, 1])
-
-            name_parts = mirrored_name.split('_')
-
-            if 'aim' in name_parts or 'up' in name_parts:
-                mm = m * self.mirror_orientation_matrix
-            else:
-                mm = m * self.mirror_position_matrix
-
-            mx = mm.getElement(3, 0)
-            my = mm.getElement(3, 1)
-            mz = mm.getElement(3, 2)
-
-            mirrored_data[mirrored_name] = {
-                'translateX': mx,
-                'translateY': my,
-                'translateZ': mz
-            }
-
-        return mirrored_data
-
-    def redoIt(self):
         if self.mirror_across == 'XY':
             self.mirror_position_matrix = OpenMaya.MMatrix(
                 [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1]
@@ -885,14 +800,89 @@ class MirrorComponentGuidesCommand(OpenMaya.MPxCommand):
                 [-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1]
             )
 
+        self.redoIt()
+
+    def mirror_name(self, name):
+        result = name
+
+        if self.search_replace:
+            lhs, rhs = self.search_replace
+
+            name_parts = name.split('_')
+
+            try:
+                idx = name_parts.index(lhs)
+                name_parts[idx] = rhs
+            except ValueError:
+                pass
+
+            result = '_'.join(name_parts)
+
+        return result
+
+    def getMirrorMatrix(self, guide_name):
+        guide = maya_api_utils.find_node_by_name(guide_name)
+
+        guide_type = ''
+
+        if not guide.isNull():
+            guide_fn = OpenMaya.MFnDependencyNode(guide)
+
+            if guide_fn.hasAttribute("guideData"):
+                guide_data_plug = guide_fn.findPlug("guideData", True)
+                guide_type_attr = guide_fn.findPlug('guide_type', True).attribute()
+                guide_type_plug = guide_data_plug.child(guide_type_attr)
+
+                guide_type = guide_type_plug.asString() or guide_type
+
+        if guide_type == 'position':
+            result = self.mirror_position_matrix
+        elif guide_type == 'orientation':
+            result = self.mirror_orientation_matrix
+        elif guide_type == 'direction':
+            result = self.mirror_direction_matrix
+        else:
+            result = self.mirror_position_matrix
+
+        return result
+
+    def workIt(self, guide_data):
+        mirrored_data = {}
+
+        for guide_name, attr_data in guide_data.iteritems():
+            mirrored_name = self.mirror_name(guide_name)
+
+            x = attr_data['translateX']
+            y = attr_data['translateY']
+            z = attr_data['translateZ']
+
+            m = OpenMaya.MMatrix([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, z, 1])
+
+            mm = self.getMirrorMatrix(mirrored_name)
+
+            m *= mm
+
+            mx = m.getElement(3, 0)
+            my = m.getElement(3, 1)
+            mz = m.getElement(3, 2)
+
+            mirrored_data[mirrored_name] = {
+                'translateX': mx,
+                'translateY': my,
+                'translateZ': mz
+            }
+
+        return mirrored_data
+
+    def redoIt(self):
         for cmpt in self.selected_components:
-            cmpt_name = node_short_name(cmpt)
+            cmpt_name = maya_api_utils.node_short_name(cmpt)
             other_name = self.mirror_name(cmpt_name)
 
             if cmpt_name == other_name:
                 other_cmpt = cmpt
             else:
-                other_cmpt = get_cmpt_by_name(other_name)
+                other_cmpt = maya_api_utils.find_node_by_name(other_name)
 
             if other_cmpt.isNull():
                 continue
@@ -1006,7 +996,7 @@ class LoadComponentGuidesCommand(BaseComponentIOCommand):
         undo_data = []
 
         for guide in iter_dag(find_cmpt_node(cmpt, 'guides')):
-            guide_name = node_short_name(guide)
+            guide_name = maya_api_utils.node_short_name(guide)
 
             try:
                 guide_data = cmpt_data[guide_name]
@@ -1035,7 +1025,7 @@ class LoadComponentGuidesCommand(BaseComponentIOCommand):
             data = json.load(fp)
 
         for cmpt in self.selected_components:
-            cmpt_name = node_short_name(cmpt)
+            cmpt_name = maya_api_utils.node_short_name(cmpt)
 
             try:
                 cmpt_data = data[cmpt_name]
@@ -1081,11 +1071,11 @@ class SaveComponentGuidesCommand(BaseComponentIOCommand):
             ]:
                 data[attr] = node_fn.findPlug(attr, True).asDouble()
 
-            yield node_short_name(node), data
+            yield maya_api_utils.node_short_name(node), data
 
     def redoIt(self):
         data = {
-            node_short_name(cmpt): dict(self.workIt(cmpt))
+            maya_api_utils.node_short_name(cmpt): dict(self.workIt(cmpt))
             for cmpt in self.selected_components
         }
 
@@ -1134,7 +1124,7 @@ class LoadComponentInputsCommand(BaseComponentIOCommand):
 
                 cmpt_name, output_name = data
 
-                cmpt = get_cmpt_by_name(cmpt_name)
+                cmpt = maya_api_utils.find_node_by_name(cmpt_name)
 
                 if cmpt.isNull():
                     continue
@@ -1157,8 +1147,8 @@ class LoadComponentInputsCommand(BaseComponentIOCommand):
                 src_plug = output_fn.findPlug(attr, True)
                 dest_plug = input_fn.findPlug(attr, True)
 
-                src_attr = plug_long_name(src_plug)
-                dest_attr = plug_long_name(dest_plug)
+                src_attr = maya_api_utils.plug_long_name(src_plug)
+                dest_attr = maya_api_utils.plug_long_name(dest_plug)
 
                 if cmds.isConnected(src_attr, dest_attr):
                     continue
@@ -1172,7 +1162,7 @@ class LoadComponentInputsCommand(BaseComponentIOCommand):
             data = json.load(fp)
 
         for cmpt in self.selected_components:
-            cmpt_name = node_short_name(cmpt)
+            cmpt_name = maya_api_utils.node_short_name(cmpt)
 
             try:
                 cmpt_data = data[cmpt_name]
@@ -1218,21 +1208,21 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
 
         driver_container = cmds.container(
             query=True,
-            findContainer=node_long_name(driver.node())
+            findContainer= maya_api_utils.node_long_name(driver.node())
         )
 
         if not driver_container:
             raise err
 
-        driver_cmpt = get_cmpt_by_name(driver_container)
+        driver_cmpt = maya_api_utils.find_node_by_name(driver_container)
 
         driver_fn = OpenMaya.MFnDagNode(driver.node())
 
         if not driver_fn.isChildOf(find_cmpt_node(driver_cmpt, 'output')):
             raise err
 
-        cmpt_name = node_short_name(driver_cmpt)
-        driver_name = node_short_name(driver.node())
+        cmpt_name = maya_api_utils.node_short_name(driver_cmpt)
+        driver_name = maya_api_utils.node_short_name(driver.node())
 
         return cmpt_name, driver_name
 
@@ -1241,7 +1231,7 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
         for node in iter_dag(find_cmpt_node(cmpt, 'input')):
             data = {}
 
-            input_name = node_short_name(node)
+            input_name = maya_api_utils.node_short_name(node)
 
             if not input_name.endswith('srt'):
                 continue
@@ -1261,7 +1251,7 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
                     if callable(displayWarning):
                         displayWarning(
                             "Could not save '{}' input '{}' - {}".format(
-                                node_short_name(cmpt),
+                              maya_api_utils.node_short_name(cmpt),
                                 plug.name(),
                                 str(e)
                             )
@@ -1274,7 +1264,7 @@ class SaveComponentInputsCommand(BaseComponentIOCommand):
 
     def redoIt(self):
         data = {
-            node_short_name(cmpt): dict(self.workIt(cmpt, self.displayWarning))
+          maya_api_utils.node_short_name(cmpt): dict(self.workIt(cmpt, self.displayWarning))
             for cmpt in self.selected_components
         }
 
@@ -1406,14 +1396,14 @@ class MirrorComponentInputsCommand(OpenMaya.MPxCommand):
 
     def redoIt(self):
         for cmpt in self.selected_components:
-            cmpt_name = node_short_name(cmpt)
+            cmpt_name = maya_api_utils.node_short_name(cmpt)
 
             other_cmpt_name = self.mirror_name(cmpt_name)
 
             if cmpt_name == other_cmpt_name:
                 continue
 
-            other_cmpt = get_cmpt_by_name(other_cmpt_name)
+            other_cmpt = maya_api_utils.find_node_by_name(other_cmpt_name)
 
             cmpt_data = dict(SaveComponentInputsCommand.workIt(cmpt))
             mirrored_data = self.workIt(cmpt_data)
@@ -1468,14 +1458,27 @@ class LoadComponentOutputsCommand(BaseComponentIOCommand):
                 if not node_fn.hasAttribute(attr):
                     continue
 
-                src_attr = plug_long_name(node_fn.findPlug(attr, True))
+                src_attr = maya_api_utils.plug_long_name(node_fn.findPlug(attr, True))
 
                 for dest_attr in output_data[attr]:
                     if not cmds.objExists(dest_attr):
                         continue
 
                     if not cmds.isConnected(src_attr, dest_attr):
+                        dest_plug = OpenMaya.MSelectionList().add(dest_attr).getPlug(0)
+                        dest_node = dest_plug.node()
+                        dest_fn = OpenMaya.MFnDagNode(dest_node)
+
+                        children = [dest_fn.child(i) for i in range(dest_fn.childCount())]
+                        children = [child for child in children if child.hasFn(OpenMaya.MFn.kTransform)]
+
+                        children = [maya_api_utils.node_long_name(child) for child in children]
+                        children = {child: cmds.xform(child, q=True, ws=True, m=True) for child in children}
+
                         cmds.connectAttr(src_attr, dest_attr, force=True)
+
+                        for child, matrix in children.iteritems():
+                            cmds.xform(child, ws=True, m=matrix)
 
                         yield src_attr, dest_attr
 
@@ -1484,7 +1487,7 @@ class LoadComponentOutputsCommand(BaseComponentIOCommand):
             data = json.load(fp)
 
         for cmpt in self.selected_components:
-            cmpt_name = node_short_name(cmpt)
+            cmpt_name = maya_api_utils.node_short_name(cmpt)
 
             try:
                 cmpt_data = data[cmpt_name]
@@ -1538,13 +1541,13 @@ class SaveComponentOutputsCommand(BaseComponentIOCommand):
                     data[attr] = driven
 
             if data:
-                result[node_short_name(node)] = data
+                result[maya_api_utils.node_short_name(node)] = data
 
         return result
 
     def redoIt(self):
         data = {
-            node_short_name(cmpt): dict(self.workIt(cmpt))
+          maya_api_utils.node_short_name(cmpt): dict(self.workIt(cmpt))
             for cmpt in self.selected_components
         }
 
@@ -1670,14 +1673,14 @@ class MirrorComponentOutputsCommand(OpenMaya.MPxCommand):
 
     def redoIt(self):
         for cmpt in self.selected_components:
-            cmpt_name = node_short_name(cmpt)
+            cmpt_name = maya_api_utils.node_short_name(cmpt)
 
             other_cmpt_name = self.mirror_name(cmpt_name)
 
             if cmpt_name == other_cmpt_name:
                 continue
 
-            other_cmpt = get_cmpt_by_name(other_cmpt_name)
+            other_cmpt = maya_api_utils.find_node_by_name(other_cmpt_name)
 
             cmpt_data = dict(SaveComponentOutputsCommand.workIt(cmpt))
             mirrored_data = self.workIt(cmpt_data)
